@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+@theme {
+  --radius-3xl: 28px;
+  --font-manrope: "Manrope", sans-serif;
+}
+
+:root {
+  /* Твои переменные из App.tsx */
+  --max-ui-bg-primary: #050510;
+  --max-ui-text-primary: #ffffff;
+  --max-ui-accent: #c026d3;
+}
+
+@layer base {
+  body {
+    background:
+            radial-gradient(circle at 0% 0%, rgba(192, 38, 211, 0.08) 0%, transparent 50%),
+            radial-gradient(circle at 100% 100%, rgba(67, 56, 202, 0.08) 0%, transparent 50%),
+            var(--max-ui-bg-primary);
+    color: var(--max-ui-text-primary);
+    margin: 0;
+    min-height: 100vh;
+    font-family: "Manrope", sans-serif;
+  }
+}
