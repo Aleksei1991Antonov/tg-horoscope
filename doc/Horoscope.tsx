@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { Heart, Sparkles, Wallet, Zap, ChevronDown, Star, Users, Clock, ChevronLeft, ChevronRight } from 'lucide-react';
-import { generateDailyHoroscope, getPowerHour, getDailyMatch, type ZodiacSign } from '../core/engine';
+import { generateDailyHoroscope, getPowerHour, getDailyMatch, type ZodiacSign } from '../src/core/engine';
 
 const ZODIAC_SIGNS: { sign: ZodiacSign; icon: string; label: string }[] = [
     { sign: 'Aries', icon: '♈', label: 'Овен' }, { sign: 'Taurus', icon: '♉', label: 'Телец' },

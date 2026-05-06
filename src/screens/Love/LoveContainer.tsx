@@ -1,11 +1,28 @@
 import React from 'react';
 import { LoveView } from './LoveView';
 
-export const LoveContainer: React.FC = () => {
-    // В будущем здесь будет логика выбора партнера и расчет процентов
-    return <LoveView userZodiac={''} synergyPercent={0} onShowRecommendation={function(): void {
-        throw new Error('Function not implemented.');
-    } } onSelectPartner={function(): void {
-        throw new Error('Function not implemented.');
-    } } />;
+// Добавляем интерфейс для пропсов
+interface LoveContainerProps {
+    zodiacName: string;
+}
+
+export const LoveContainer: React.FC<LoveContainerProps> = ({ zodiacName }) => {
+    // Здесь будет логика расчета (пока передаем zodiacName как userZodiac)
+
+    const handleShowRecommendation = () => {
+        console.log("Show recommendation clicked");
+    };
+
+    const handleSelectPartner = () => {
+        console.log("Select partner clicked");
+    };
+
+    return (
+        <LoveView
+            userZodiac={zodiacName}
+            synergyPercent={0}
+            onShowRecommendation={handleShowRecommendation}
+            onSelectPartner={handleSelectPartner}
+        />
+    );
 };

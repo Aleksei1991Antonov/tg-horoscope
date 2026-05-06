@@ -1,7 +1,7 @@
 import { useState, useMemo, useRef } from 'react';
 import { Moon, Calendar, ChevronRight, ChevronLeft, CalendarDays, Activity, Target } from 'lucide-react';
-import { getLunarData, getMoonZodiac } from '../core/astro';
-import { calculateUpcomingEvents } from '../core/horoscope';
+import { getLunarData, getMoonZodiac } from '../src/core/astro';
+import { calculateUpcomingEvents } from '../src/core/horoscope';
 
 export default function SpaceWeatherScreen() {
     const [viewDate, setViewDate] = useState(() => {

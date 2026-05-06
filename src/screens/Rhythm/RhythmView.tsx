@@ -1,5 +1,5 @@
 import React from 'react';
-import { Clock, Zap, Heart, Sparkles, ChevronRight } from 'lucide-react';
+import { Clock, MoonStar, Heart, Sparkles, ChevronRight } from 'lucide-react';
 
 interface RhythmViewProps {
     userName: string;
@@ -11,16 +11,17 @@ interface RhythmViewProps {
         name: string;
         percent: number;
     };
+    onOpenPrediction: () => void; // Добавлено
 }
 
 export const RhythmView: React.FC<RhythmViewProps> = ({
                                                           luckyHour,
                                                           luckyPercent,
-                                                          synergyZodiac
+                                                          synergyZodiac,
+                                                          onOpenPrediction // Добавлено
                                                       }) => {
     return (
-        /* Убрали pt-12, оставили минимальный p-4 для плотности */
-        <div className="relative w-full bg-[#050510] text-white p-4 overflow-hidden flex flex-col">
+        <div className="relative w-full text-white p-4 overflow-hidden flex flex-col">
 
             {/* Фоновые эффекты */}
             <div className="fixed inset-0 pointer-events-none">
@@ -30,7 +31,7 @@ export const RhythmView: React.FC<RhythmViewProps> = ({
 
             <div className="relative z-10 flex flex-col max-w-md mx-auto w-full gap-3">
 
-                {/* Заголовок - максимально компактный */}
+                {/* Заголовок */}
                 <header className="px-1 mt-2">
                     <div className="flex items-center gap-2 opacity-30">
                         <Sparkles size={10} />
@@ -88,38 +89,70 @@ export const RhythmView: React.FC<RhythmViewProps> = ({
                     </div>
                 </div>
 
-                {/* 3. Кнопка-Виджет: Прогноз (Теперь такого же размера) */}
-                <button className="group relative w-full bg-gradient-to-br from-fuchsia-600 to-indigo-700
-                         rounded-[28px] p-5 flex flex-col justify-between min-h-[120px]
-                         overflow-hidden shadow-2xl active:scale-[0.96] transition-all text-left">
+                {/* 3. Кнопка-Виджет: Прогноз */}
+                <button
+                    onClick={onOpenPrediction}
+                    className="group relative w-full bg-gradient-to-br from-fuchsia-600 to-indigo-700
+         rounded-[32px] p-6 flex flex-col justify-between min-h-[130px]
+         overflow-hidden shadow-2xl active:scale-[0.97] transition-all text-left"
+                >
+                    {/* Декоративное свечение справа */}
+                    <div className="absolute -right-4 -bottom-4 w-24 h-24 bg-white/10 rounded-full blur-2xl group-hover:bg-white/20 transition-colors duration-500" />
 
-                    <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform">
-                        <Zap size={60} fill="currentColor" />
+                    {/* Фоновая иконка Луны: большая и атмосферная */}
+                    <div className="absolute -right-4 -top-2 p-2 opacity-[0.08] group-hover:scale-110 group-hover:-rotate-12 transition-transform duration-700 ease-out">
+                        <MoonStar size={130} fill="currentColor" />
                     </div>
 
                     <div className="relative z-10 flex items-start justify-between">
-                        <div className="p-2.5 bg-white/10 rounded-xl text-white">
-                            <Zap size={22} fill="white" />
+                        {/* Маленькая иконка в рамке */}
+                        <div className="p-3 bg-white/10 backdrop-blur-md rounded-2xl text-white shadow-inner border border-white/10">
+                            <MoonStar size={20} fill="white" className="group-hover:rotate-12 transition-transform" />
                         </div>
                         <div className="text-right">
-                            <div className="text-[9px] font-bold uppercase tracking-[2px] text-white/50">Дневной прогноз</div>
+                            <div className="text-[10px] font-black uppercase tracking-[2px] text-white/40 group-hover:text-white/70 transition-colors">
+                                Индивидуальный расчет
+                            </div>
                         </div>
                     </div>
 
-                    <div className="relative z-10 flex items-end justify-between mt-4">
-                        <h2 className="text-xl font-black tracking-tight text-white leading-none">
-                            Прогноз для <span className="text-fuchsia-200">{synergyZodiac.name}</span>
-                        </h2>
-                        <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center">
-                            <ChevronRight size={18} />
+                    <div className="relative z-10 mt-auto flex justify-between items-end">
+                        <div className="space-y-1.5">
+                            <h2 className="text-[26px] font-black tracking-tight text-white leading-none">
+                                Твой <span className="text-fuchsia-200">гороскоп</span>
+                            </h2>
+                            <div className="flex items-center gap-2">
+                                <div className="flex gap-0.5">
+                                    {/* Зеленый индикатор "Live" */}
+                                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.5)]" />
+                                </div>
+                                <span className="text-[10px] font-bold text-white/60 uppercase tracking-widest">
+                    Актуально на сегодня
+                </span>
+                            </div>
                         </div>
+
+                        {/* Изящная стрелка-указатель */}
+                        <ChevronRight
+                            size={24}
+                            className="text-white/30 group-hover:text-white group-hover:translate-x-1 transition-all duration-300"
+                            strokeWidth={3}
+                        />
                     </div>
 
-                    <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                    {/* Эффект стеклянного блеска (shimmer) */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] transition-transform" />
                 </button>
 
+                {/* Стили для анимации блеска */}
+                <style dangerouslySetInnerHTML={{ __html: `
+  @keyframes shimmer {
+    100% { transform: translateX(100%); }
+  }
+`}} />
+
                 <p className="text-center text-[8px] font-bold uppercase tracking-[0.4em] opacity-20 mt-2">
-                    Обновлено звездами • 2024
+                    Обновлено звездами • 2026
                 </p>
 
             </div>

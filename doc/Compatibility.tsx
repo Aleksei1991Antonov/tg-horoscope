@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { ChevronLeft, ChevronRight, Heart, Users, Flame, Calendar as CalendarIcon, ChevronDown, Sparkles } from 'lucide-react';
-import { type ZodiacSign } from '../core/engine';
+import { type ZodiacSign } from '../src/core/engine';
 
 const ZODIAC_SIGNS: { sign: ZodiacSign; icon: string; label: string }[] = [
     { sign: 'Aries', icon: '♈', label: 'Овен' }, { sign: 'Taurus', icon: '♉', label: 'Телец' },
