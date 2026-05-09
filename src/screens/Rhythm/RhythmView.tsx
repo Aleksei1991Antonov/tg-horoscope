@@ -21,7 +21,7 @@ export const RhythmView: React.FC<RhythmViewProps> = ({
                                                           onOpenPrediction // Добавлено
                                                       }) => {
     return (
-        <div className="relative w-full text-white p-4 overflow-hidden flex flex-col">
+        <div className="relative w-full text-white">
 
             {/* Фоновые эффекты */}
             <div className="fixed inset-0 pointer-events-none">

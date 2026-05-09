@@ -1,32 +1,30 @@
-/**
- * CORE ENGINE: PowerHour
- * VERSION: 1.1
- * DESCRIPTION: Расширенный расчет Часа Силы с таймингом и типами активностей.
- */
-
-import { ZODIAC_MASTERS, CHALDEAN_ORDER, DAY_MASTERS } from '../constants/astro';
+import { ZODIAC_MASTERS, CHALDEAN_ORDER, DAY_MASTERS, ZODIAC_ELEMENTS } from '../constants/astro';
+import { LunarEngine } from './LunarEngine';
 
 export interface PowerHourMetrics {
-    luckyHour: string;       // ЧЧ:ММ начала
-    luckyPercent: number;    // 0-100%
-    masterPlanet: string;    // Планета-управитель
-    isLive: boolean;         // Идет ли час сейчас
-    actionType: string;      // Рекомендация (Власть, Любовь, Интеллект...)
-    minutesToNext: number;   // Сколько минут до начала/конца
+    luckyHour: string;
+    luckyPercent: number;
+    masterPlanet: string;
+    isLive: boolean;
+    actionType: string;
+    minutesToNext: number;
+    lunarVibe: string;
 }
 
-// Справочник энергий планет
 const PLANET_ACTIONS: Record<string, string> = {
     "Солнце": "Проявление воли и лидерство",
     "Луна": "Интуиция и внутренний покой",
     "Марс": "Активное действие и спорт",
-    "Меркурий": "Переговоры и обучение",
+    "Меркурий": "Переговоры, коммуникация и обучение",
     "Юпитер": "Масштабирование и удача",
-    "Венера": "Творчество и созидание",
+    "Венера": "Творчество, отношения и удовольствие",
     "Сатурн": "Дисциплина и планирование"
 };
 
 export const PowerHourEngine = {
+    /**
+     * Основной расчет Часа Силы
+     */
     calculate(sign: string): PowerHourMetrics {
         const now = new Date();
         const currentHour = now.getHours();
@@ -34,49 +32,97 @@ export const PowerHourEngine = {
         const dayOfWeek = now.getDay();
 
         const masterPlanet = ZODIAC_MASTERS[sign] || "Солнце";
-
-        // Сетка планет на сегодня
         const firstPlanet = DAY_MASTERS[dayOfWeek];
         const startIndex = CHALDEAN_ORDER.indexOf(firstPlanet);
-        const dayGrid = Array.from({ length: 24 }, (_, i) => CHALDEAN_ORDER[(startIndex + i) % 7]);
 
-        // Поиск всех часов силы
+        // 1. Строим сетку планетарных часов (24 часа)
+        const dayGrid = Array.from({ length: 24 }, (_, i) =>
+            CHALDEAN_ORDER[(startIndex + i) % 7]
+        );
+
+        // 2. Находим все часы, управляемые планетой знака
         const powerHours = dayGrid
-            .map((p, h) => (p === masterPlanet ? h : -1))
+            .map((planet, hour) => planet === masterPlanet ? hour : -1)
             .filter(h => h !== -1);
 
-        // Находим текущий или следующий час
+        if (powerHours.length === 0) return this.getFallback(masterPlanet);
+
+        // 3. Определяем целевой час (текущий или следующий)
         let targetHour = powerHours.find(h => h >= currentHour);
-        let isLive = targetHour === currentHour;
+        let isLive = false;
 
-        // Если на сегодня часы закончились, берем первый час завтрашнего дня (упрощенно)
         if (targetHour === undefined) {
-            targetHour = powerHours[0];
-            isLive = false;
+            targetHour = powerHours[0]; // Если сегодня прошли, берем первый завтрашний
+        } else if (targetHour === currentHour) {
+            isLive = true;
         }
 
-        // Расчет минут до события
-        let minutesToNext = 0;
+        // 4. ИНТЕГРАЦИЯ С LUNAR ENGINE
+        const lunarData = LunarEngine.getLunarData(now);
+        const moonZodiac = LunarEngine.getMoonZodiac(now);
+
+        let luckyPercent = isLive ? 82 : 48;
+
+        // Влияние фазы (амплитуда ±9%)
+        luckyPercent += (lunarData.illumination - 50) * 0.18;
+
+        // Бонусы резонанса
+        if (moonZodiac.name === sign) {
+            luckyPercent += 14; // Луна в знаке пользователя
+        } else if (ZODIAC_ELEMENTS[moonZodiac.name] === ZODIAC_ELEMENTS[sign]) {
+            luckyPercent += 7; // Луна в той же стихии
+        }
+
+        // Специальный бонус для "лунных" знаков (Рак)
+        if (masterPlanet === "Луна" && lunarData.illumination > 65) {
+            luckyPercent += 9;
+        }
+
+        // 5. Расчет минут до события (Исправлено для ESLint)
+        let minutesToNext: number;
         if (isLive) {
-            minutesToNext = 60 - currentMinutes; // До конца часа
+            minutesToNext = 60 - currentMinutes;
         } else {
-            const diffHours = targetHour > currentHour
-                ? targetHour - currentHour
-                : (24 - currentHour) + targetHour;
-            minutesToNext = (diffHours * 60) - currentMinutes;
+            let diff = targetHour - currentHour;
+            if (diff < 0) diff += 24;
+            minutesToNext = (diff * 60) - currentMinutes;
         }
 
-        // Расчет интенсивности (плавное нарастание)
-        const diff = Math.abs(currentHour - targetHour);
-        const luckyPercent = isLive ? 100 : Math.max(10, 100 - (diff * 10));
+        // 6. Формируем Лунное описание (Vibe)
+        let lunarVibe = "Нейтральный фон";
+        if (moonZodiac.name === sign) {
+            lunarVibe = "Луна в твоём знаке — максимальная сила";
+        } else if (ZODIAC_ELEMENTS[moonZodiac.name] === ZODIAC_ELEMENTS[sign]) {
+            lunarVibe = "Луна в твоей стихии — хороший резонанс";
+        } else if (lunarData.illumination > 85) {
+            lunarVibe = "Пик лунной энергии";
+        } else if (lunarData.illumination < 20) {
+            lunarVibe = "Луна на спаде";
+        }
 
         return {
             luckyHour: `${targetHour.toString().padStart(2, '0')}:00`,
-            luckyPercent,
+            luckyPercent: Math.min(98, Math.max(15, Math.round(luckyPercent))),
             masterPlanet,
             isLive,
             actionType: PLANET_ACTIONS[masterPlanet] || "Гармонизация",
-            minutesToNext
+            minutesToNext: Math.max(0, minutesToNext),
+            lunarVibe
+        };
+    },
+
+    /**
+     * Запасной вариант на случай ошибок данных
+     */
+    getFallback(masterPlanet: string): PowerHourMetrics {
+        return {
+            luckyHour: "12:00",
+            luckyPercent: 50,
+            masterPlanet,
+            isLive: false,
+            actionType: PLANET_ACTIONS[masterPlanet] || "Гармонизация",
+            minutesToNext: 0,
+            lunarVibe: "Ожидание планетарного цикла"
         };
     }
 };

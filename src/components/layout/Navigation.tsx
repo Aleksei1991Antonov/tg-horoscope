@@ -1,11 +1,10 @@
 import React from 'react';
-import { Activity, Heart, Sparkles, Calendar } from 'lucide-react';
+import { Activity, Heart, Sparkles } from 'lucide-react';
 
 const NAV_ITEMS = [
     { id: 'rhythm', label: 'Ритм', icon: Activity },
     { id: 'love', label: 'Любовь', icon: Heart },
     { id: 'beauty', label: 'Красота', icon: Sparkles },
-    { id: 'calendar', label: 'Календарь', icon: Calendar },
 ];
 
 interface NavigationProps {
@@ -50,8 +49,8 @@ export const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }
                             <span className={`relative z-10 text-[9px] uppercase tracking-[0.2em] transition-all duration-300 ${
                                 isActive ? 'text-white font-black opacity-100' : 'text-white/40 font-bold opacity-60'
                             }`}>
-                {item.label}
-              </span>
+                                {item.label}
+                            </span>
 
                             {/* Индикатор-полоска снизу */}
                             <div className={`absolute -bottom-1 w-5 h-0.5 rounded-full transition-all duration-500 ${

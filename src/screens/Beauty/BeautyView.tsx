@@ -1,86 +1,90 @@
 import React from 'react';
-import { Scissors, Sparkles, Droplets, Moon, ChevronRight } from 'lucide-react';
+import { Scissors, Sparkles, Waves, Zap, Moon, ChevronRight } from 'lucide-react';
 
-interface BeautyItemProps {
-    icon: React.ReactNode;
+interface Recommendation {
+    id: string;
     title: string;
-    status: 'благоприятно' | 'нейтрально' | 'нежелательно';
-    colorClass: string;
+    desc: string;
+    status: string;
+    color: string;
 }
 
-const BeautyCard: React.FC<BeautyItemProps> = ({ icon, title, status, colorClass }) => {
-    const statusColors = {
-        'благоприятно': 'text-emerald-400 bg-emerald-500/10',
-        'нейтрально': 'text-amber-400 bg-amber-500/10',
-        'нежелательно': 'text-rose-400 bg-rose-500/10'
+interface BeautyViewProps {
+    zodiacName: string;
+    recommendations: Recommendation[];
+    lunarInfo: {
+        phaseName: string;
+        illumination: number;
+        moonZodiacName: string;
+        moonZodiacIcon: string;
     };
+}
 
-    return (
-        <div className="bg-white/[0.03] backdrop-blur-3xl border border-white/10 rounded-[28px] p-5 flex items-center justify-between active:scale-[0.98] transition-all shadow-lg">
-            <div className="flex items-center gap-4">
-                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${colorClass} bg-opacity-10 shadow-inner`}>
-                    {icon}
-                </div>
-                <div>
-                    <div className="font-bold text-[16px] text-white/90 tracking-tight">{title}</div>
-                    <div className={`text-[9px] font-black uppercase tracking-widest mt-1.5 px-2.5 py-1 rounded-full w-fit ${statusColors[status]}`}>
-                        {status}
-                    </div>
-                </div>
-            </div>
-            <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center">
-                <ChevronRight size={16} className="text-white/20" />
-            </div>
-        </div>
-    );
+const iconMap: Record<string, React.ReactElement> = {
+    hair: <Scissors size={20} />,
+    skin: <Sparkles size={20} />,
+    detox: <Waves size={20} />,
+    complex: <Zap size={20} />
 };
 
-export const BeautyView: React.FC = () => {
+export const BeautyView: React.FC<BeautyViewProps> = ({ zodiacName, recommendations, lunarInfo }) => {
     return (
-        <div className="relative w-full bg-[#050510] text-white p-4 overflow-hidden flex flex-col min-h-screen">
-
-            {/* Фоновые эффекты */}
-            <div className="fixed inset-0 pointer-events-none">
-                <div className="absolute top-[10%] left-[-10%] w-[100%] h-[30%] rounded-full bg-indigo-900/10 blur-[120px]" />
-                <div className="absolute bottom-[20%] right-[-10%] w-[80%] h-[40%] rounded-full bg-fuchsia-900/5 blur-[120px]" />
-            </div>
-
-            <div className="relative z-10 flex flex-col max-w-md mx-auto w-full gap-4 pt-2">
-
-                {/* Заголовок */}
-                <header className="px-1">
-                    <div className="flex items-center gap-2 opacity-30 mb-1">
-                        <Moon size={10} className="text-indigo-400" fill="currentColor" />
-                        <span className="text-[9px] font-black uppercase tracking-[0.3em]">Лунный календарь</span>
+        /* pb-32 для скролла над навигацией */
+        <div className="w-full text-white pb-32 px-1">
+            <header className="mb-5 px-1">
+                <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                    <div className="flex items-center gap-2">
+                        <div className="p-1.5 bg-indigo-500/20 rounded-lg">
+                            <Moon size={12} className="text-indigo-400" fill="currentColor" />
+                        </div>
+                        <span className="text-[9px] font-black tracking-widest text-white/30 uppercase">
+                            {lunarInfo.phaseName} • {lunarInfo.illumination}%
+                        </span>
                     </div>
-                    <h1 className="text-2xl font-black tracking-tight">Красота и уход</h1>
-                </header>
-
-                {/* Сетка процедур - Bento Style */}
-                <div className="flex flex-col gap-3.5">
-                    <BeautyCard
-                        icon={<Scissors size={24} className="text-amber-400" />}
-                        title="Стрижка и окрашивание"
-                        status="благоприятно"
-                        colorClass="bg-amber-400"
-                    />
-                    <BeautyCard
-                        icon={<Sparkles size={24} className="text-fuchsia-400" />}
-                        title="Уход за кожей лица"
-                        status="нейтрально"
-                        colorClass="bg-fuchsia-400"
-                    />
-                    <BeautyCard
-                        icon={<Droplets size={24} className="text-sky-400" />}
-                        title="Тело и детокс"
-                        status="благоприятно"
-                        colorClass="bg-sky-400"
-                    />
+                    <div className="text-[9px] font-bold text-indigo-300 bg-indigo-500/10 px-2 py-0.5 rounded-md border border-indigo-500/20 uppercase whitespace-nowrap">
+                        Луна в {lunarInfo.moonZodiacName} {lunarInfo.moonZodiacIcon}
+                    </div>
                 </div>
+                <h1 className="text-2xl font-black tracking-tighter mb-1 bg-gradient-to-r from-white via-cyan-100 to-cyan-400 bg-clip-text text-transparent">
+                    Красота и уход
+                </h1>
+                <p className="text-xs text-white/40 font-medium tracking-wide">Для знака {zodiacName}</p>
+            </header>
 
-                <p className="text-center text-[8px] font-bold uppercase tracking-[0.4em] opacity-20 mt-8">
-                    Beauty Rhythm Engine • 2024
-                </p>
+            <div className="flex flex-col gap-2.5">
+                {recommendations.map((item) => (
+                    <div
+                        key={item.id}
+                        className="relative bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-[24px] p-3.5 flex items-center gap-3 w-full"
+                    >
+                        {/* Иконка: чуть меньше размер для узких экранов */}
+                        <div className={`flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center bg-${item.color}-500/10 text-${item.color}-400 shadow-inner`}>
+                            {iconMap[item.id]}
+                        </div>
+
+                        {/* Контент: предотвращаем распирание через min-w-0 */}
+                        <div className="flex-1 min-w-0">
+                            <h3 className="font-bold text-sm text-white tracking-tight truncate">
+                                {item.title}
+                            </h3>
+                            <p className="text-[10px] text-white/40 leading-tight line-clamp-2">
+                                {item.desc}
+                            </p>
+                        </div>
+
+                        {/* Статус и стрелка */}
+                        <div className="flex flex-col items-end gap-2 flex-shrink-0">
+                            <div className={`text-[8px] font-black tracking-tighter px-2 py-0.5 rounded-md border ${
+                                item.status === 'благоприятно'
+                                    ? 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20'
+                                    : 'text-amber-400 bg-amber-500/10 border-amber-500/20'
+                            }`}>
+                                {item.status.toUpperCase()}
+                            </div>
+                            <ChevronRight size={12} className="text-white/10" />
+                        </div>
+                    </div>
+                ))}
             </div>
         </div>
     );

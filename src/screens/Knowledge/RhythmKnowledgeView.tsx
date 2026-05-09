@@ -1,5 +1,5 @@
 import React from 'react';
-import { BookOpen, Zap, Users, ShieldCheck, Info, MoonStar, type LucideIcon } from 'lucide-react';
+import { BookOpen, Zap, Users, ShieldCheck, Info, MoonStar, Sparkles, Heart, type LucideIcon } from 'lucide-react';
 
 interface Section {
     Icon: LucideIcon;
@@ -15,29 +15,43 @@ export const RhythmKnowledgeView: React.FC = () => {
             Icon: Zap,
             title: "Час Силы",
             color: "text-yellow-400",
-            description: "Алгоритм рассчитывает динамические Планетарные часы. Мы делим световой день от рассвета до заката на 12 равных интервалов. Каждым периодом управляет планета-септенер. Когда энергия текущего часа входит в резонанс с вашим знаком — наступает пик вашей личной эффективности.",
-            fact: "Используется Халдейский ряд управителей: от Сатурна до Луны."
+            description: "Алгоритм вычисляет время, когда ваша планета-покровитель максимально активна в небе. В этот час ваш уровень личной удачи достигает пика. Это лучший момент для того, чтобы проявить инициативу, принять важное решение или начать новое дело.",
+            fact: "Расчет объединяет древнюю систему планетарных часов и текущую фазу Луны."
+        },
+        {
+            Icon: Heart,
+            title: "Любовный радар",
+            color: "text-rose-400",
+            description: "Система анализирует совместимость вашей стихии и стихии партнера. Мы строим график на неделю, учитывая естественные энергетические циклы. Это помогает заранее увидеть дни, когда ваши чувства будут в полном резонансе, а когда стоит проявить больше чуткости.",
+            fact: "Учитываются особые кармические пары и природные колебания энергии в отношениях."
         },
         {
             Icon: Users,
-            title: "Синергия",
+            title: "Синергия дня",
             color: "text-fuchsia-400",
-            description: "Расчет строится на математической модели синастрии. Мы анализируем угловые расстояния (аспекты) между знаками. Гармоничные связи (Тригоны 120° и Секстили 60°) формируют высокий процент совместимости, а напряженные аспекты указывают на зоны возможного трения.",
-            fact: "Алгоритм учитывает ежедневное смещение Солнца на 1 градус."
+            description: "Ежедневный расчет притяжения со всеми знаками Зодиака. Мы смотрим, в каком знаке сейчас находится Луна и как она влияет на ваш контакт с окружающими. Если Луна входит в стихию другого человека — ваше взаимопонимание усиливается.",
+            fact: "Добавляется фактор случайности, чтобы отразить непредсказуемость живого общения."
+        },
+        {
+            Icon: Sparkles,
+            title: "Красота и уход",
+            color: "text-amber-400",
+            description: "Рекомендации по уходу за собой на основе лунных ритмов. Система подскажет идеальное время для стрижки, чтобы волосы росли быстрее, или лучший период для очищения кожи. Мы сопоставляем вашу стихию с положением Луны для лучшего результата.",
+            fact: "Для знаков Воды эффект от очищения организма удваивается в определенные фазы."
         },
         {
             Icon: MoonStar,
-            title: "Прогноз",
+            title: "Личный прогноз",
             color: "text-indigo-400",
-            description: "Ваш гороскоп — это не случайный текст. Система анализирует текущие транзиты планет относительно вашего знака. Мы сопоставляем положение Луны в знаках и фазах с вашей стихией, выявляя наиболее вероятные событийные тренды на ближайшие 24 часа.",
-            fact: "Обновление данных происходит в 00:00 по вашему местному времени."
+            description: "Это математический расчет связи вашего знака с текущим положением планет. Мы переводим сложные астрологические данные в понятный уровень энергии дня: от спокойного режима накопления сил до максимального драйва и успеха.",
+            fact: "Анализируется геометрия неба: от гармоничных связей до напряженных моментов."
         },
         {
             Icon: ShieldCheck,
-            title: "Приватность",
+            title: "Безопасность",
             color: "text-emerald-400",
-            description: "AstroApp работает по принципу Edge Computing: все расчеты производятся непосредственно на вашем устройстве. Мы не передаем ваш знак зодиака на внешние сервера. Данные хранятся в зашифрованном облаке Telegram, доступ к которому есть только у вас.",
-            fact: "Ваш цифровой след в приложении полностью анонимен."
+            description: "Все расчеты происходят только на вашем устройстве. Ваши личные данные, даты и выбранные знаки не передаются в интернет и не хранятся на серверах. Ваша астрологическая карта остается полностью анонимной и доступной только вам.",
+            fact: "Ваша приватность защищена технологиями MAX и локальной обработкой данных."
         }
     ];
 
@@ -49,10 +63,10 @@ export const RhythmKnowledgeView: React.FC = () => {
                     <div className="w-10 h-10 rounded-2xl bg-fuchsia-500/20 flex items-center justify-center border border-fuchsia-500/30">
                         <BookOpen className="text-fuchsia-400" size={20} />
                     </div>
-                    <h1 className="text-3xl font-black text-white tracking-tighter uppercase">База знаний</h1>
+                    <h1 className="text-3xl font-black text-white tracking-tighter uppercase italic">База знаний</h1>
                 </div>
                 <p className="text-white/40 text-sm leading-relaxed">
-                    Узнайте, как классическая астрология соединяется с современными алгоритмами в нашем приложении.
+                    Узнайте, как мы объединяем классическую астрологию и современные алгоритмы.
                 </p>
             </div>
 
@@ -74,14 +88,14 @@ export const RhythmKnowledgeView: React.FC = () => {
                                 <div className="p-2 rounded-xl bg-white/5 border border-white/10">
                                     <Icon className={section.color} size={20} />
                                 </div>
-                                <h2 className="text-lg font-bold text-white uppercase tracking-wider">{section.title}</h2>
+                                <h2 className="text-lg font-bold text-white uppercase tracking-wider italic">{section.title}</h2>
                             </div>
 
                             <p className="text-white/60 text-sm leading-relaxed mb-4 relative z-10">
                                 {section.description}
                             </p>
 
-                            <div className="flex items-start gap-2 p-3 bg-white/5 rounded-2xl border border-white/5 relative z-10">
+                            <div className="flex items-start gap-2 p-3 bg-black/40 rounded-2xl border border-white/5 relative z-10">
                                 <Info size={14} className={`${section.color} mt-0.5 shrink-0 opacity-80`} />
                                 <span className="text-[11px] font-medium text-white/40 leading-tight italic">
                                     {section.fact}
@@ -95,8 +109,8 @@ export const RhythmKnowledgeView: React.FC = () => {
             {/* Футер */}
             <div className="px-8 mt-12 text-center">
                 <p className="text-[10px] text-white/20 uppercase tracking-[0.2em] leading-relaxed">
-                    Алгоритмы Astro-App носят рекомендательный характер <br />
-                    и основаны на классической западной школе астрологии.
+                    Алгоритмы приложения носят рекомендательный характер <br />
+                    и основаны на математических моделях западной школы астрологии.
                 </p>
             </div>
         </div>
