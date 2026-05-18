@@ -22,9 +22,6 @@ const PLANET_ACTIONS: Record<string, string> = {
 };
 
 export const PowerHourEngine = {
-    /**
-     * Основной расчет Часа Силы
-     */
     calculate(sign: string): PowerHourMetrics {
         const now = new Date();
         const currentHour = now.getHours();
@@ -35,50 +32,49 @@ export const PowerHourEngine = {
         const firstPlanet = DAY_MASTERS[dayOfWeek];
         const startIndex = CHALDEAN_ORDER.indexOf(firstPlanet);
 
-        // 1. Строим сетку планетарных часов (24 часа)
+        // 1. Сетка планетарных часов (упрощенная 60-минутная модель)
         const dayGrid = Array.from({ length: 24 }, (_, i) =>
             CHALDEAN_ORDER[(startIndex + i) % 7]
         );
 
-        // 2. Находим все часы, управляемые планетой знака
         const powerHours = dayGrid
             .map((planet, hour) => planet === masterPlanet ? hour : -1)
             .filter(h => h !== -1);
 
         if (powerHours.length === 0) return this.getFallback(masterPlanet);
 
-        // 3. Определяем целевой час (текущий или следующий)
+        // 2. Поиск целевого часа
         let targetHour = powerHours.find(h => h >= currentHour);
         let isLive = false;
 
         if (targetHour === undefined) {
-            targetHour = powerHours[0]; // Если сегодня прошли, берем первый завтрашний
+            targetHour = powerHours[0]; // Завтра
         } else if (targetHour === currentHour) {
             isLive = true;
         }
 
-        // 4. ИНТЕГРАЦИЯ С LUNAR ENGINE
+        // 3. Интеграция с новым LunarEngine
         const lunarData = LunarEngine.getLunarData(now);
         const moonZodiac = LunarEngine.getMoonZodiac(now);
 
         let luckyPercent = isLive ? 82 : 48;
 
-        // Влияние фазы (амплитуда ±9%)
-        luckyPercent += (lunarData.illumination - 50) * 0.18;
+        // ИСПРАВЛЕНО: illumination теперь 0...1 (например 0.41)
+        // (0.41 - 0.5) * 18 даст корректную поправку ±9%
+        luckyPercent += (lunarData.illumination - 0.5) * 18;
 
-        // Бонусы резонанса
         if (moonZodiac.name === sign) {
-            luckyPercent += 14; // Луна в знаке пользователя
+            luckyPercent += 14;
         } else if (ZODIAC_ELEMENTS[moonZodiac.name] === ZODIAC_ELEMENTS[sign]) {
-            luckyPercent += 7; // Луна в той же стихии
+            luckyPercent += 7;
         }
 
-        // Специальный бонус для "лунных" знаков (Рак)
-        if (masterPlanet === "Луна" && lunarData.illumination > 65) {
+        // ИСПРАВЛЕНО: сравнение с 0.65 вместо 65
+        if (masterPlanet === "Луна" && lunarData.illumination > 0.65) {
             luckyPercent += 9;
         }
 
-        // 5. Расчет минут до события (Исправлено для ESLint)
+        // 4. Расчет времени до начала
         let minutesToNext: number;
         if (isLive) {
             minutesToNext = 60 - currentMinutes;
@@ -88,15 +84,15 @@ export const PowerHourEngine = {
             minutesToNext = (diff * 60) - currentMinutes;
         }
 
-        // 6. Формируем Лунное описание (Vibe)
+        // 5. Лунный вайб (ИСПРАВЛЕНО сравнение с 0.85 и 0.20)
         let lunarVibe = "Нейтральный фон";
         if (moonZodiac.name === sign) {
             lunarVibe = "Луна в твоём знаке — максимальная сила";
         } else if (ZODIAC_ELEMENTS[moonZodiac.name] === ZODIAC_ELEMENTS[sign]) {
             lunarVibe = "Луна в твоей стихии — хороший резонанс";
-        } else if (lunarData.illumination > 85) {
+        } else if (lunarData.illumination > 0.85) {
             lunarVibe = "Пик лунной энергии";
-        } else if (lunarData.illumination < 20) {
+        } else if (lunarData.illumination < 0.20) {
             lunarVibe = "Луна на спаде";
         }
 
@@ -111,9 +107,6 @@ export const PowerHourEngine = {
         };
     },
 
-    /**
-     * Запасной вариант на случай ошибок данных
-     */
     getFallback(masterPlanet: string): PowerHourMetrics {
         return {
             luckyHour: "12:00",

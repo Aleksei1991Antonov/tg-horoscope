@@ -62,7 +62,7 @@ export const LoveView: React.FC<LoveViewProps> = ({
                             <div className="text-4xl font-black text-pink-500 leading-none drop-shadow-[0_0_15px_rgba(236,72,153,0.4)]">
                                 {synergyPercent}%
                             </div>
-                            <div className="text-[8px] font-black uppercase tracking-[0.2em] text-pink-200/40 mt-3">Притяжение</div>
+                            <div className="text-[8px] font-black uppercase tracking-[0.2em] text-pink-200/40 mt-3">Химия</div>
                         </div>
 
                         <div className="flex flex-col items-center gap-3">
@@ -116,10 +116,9 @@ export const LoveView: React.FC<LoveViewProps> = ({
                                             }}
                                         />
                                     </div>
-                                    <span className={`text-[9px] font-bold uppercase mt-2 transition-all ${
-                                        isToday ? 'text-pink-500 scale-110' : 'opacity-20'
-                                    }`}>
-                                        {item.day}
+                                    <span className={`text-[9px] font-black uppercase mt-2 transition-colors ${
+                                        isToday ? 'text-pink-500 opacity-100' : 'text-white opacity-20'}`
+                                    }>{item.day}
                                     </span>
                                 </div>
                             );

@@ -11,17 +11,17 @@ interface RhythmViewProps {
         name: string;
         percent: number;
     };
-    onOpenPrediction: () => void; // Добавлено
+    onOpenPrediction: () => void;
 }
 
 export const RhythmView: React.FC<RhythmViewProps> = ({
                                                           luckyHour,
                                                           luckyPercent,
                                                           synergyZodiac,
-                                                          onOpenPrediction // Добавлено
+                                                          onOpenPrediction
                                                       }) => {
     return (
-        <div className="relative w-full text-white">
+        <div className="relative w-full text-white pb-24">
 
             {/* Фоновые эффекты */}
             <div className="fixed inset-0 pointer-events-none">
@@ -59,7 +59,11 @@ export const RhythmView: React.FC<RhythmViewProps> = ({
                             <span className="text-amber-500">{luckyPercent}%</span>
                         </div>
                         <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
-                            <div className="h-full bg-amber-500 rounded-full shadow-[0_0_10px_#f59e0b]" style={{ width: `${luckyPercent}%` }} />
+                            {/* Анимированная полоска */}
+                            <div
+                                className="h-full bg-amber-500 rounded-full shadow-[0_0_10px_#f59e0b] transition-all duration-1000 ease-out"
+                                style={{ width: `${luckyPercent}%` }}
+                            />
                         </div>
                     </div>
                 </div>
@@ -84,7 +88,11 @@ export const RhythmView: React.FC<RhythmViewProps> = ({
                             <span className="text-xs font-black text-pink-200">{synergyZodiac.sign} {synergyZodiac.name}</span>
                         </div>
                         <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
-                            <div className="h-full bg-pink-500 rounded-full shadow-[0_0_10px_#ec4899]" style={{ width: `${synergyZodiac.percent}%` }} />
+                            {/* Анимированная полоска */}
+                            <div
+                                className="h-full bg-pink-500 rounded-full shadow-[0_0_10px_#ec4899] transition-all duration-1000 ease-out"
+                                style={{ width: `${synergyZodiac.percent}%` }}
+                            />
                         </div>
                     </div>
                 </div>
@@ -96,16 +104,13 @@ export const RhythmView: React.FC<RhythmViewProps> = ({
          rounded-[32px] p-6 flex flex-col justify-between min-h-[130px]
          overflow-hidden shadow-2xl active:scale-[0.97] transition-all text-left"
                 >
-                    {/* Декоративное свечение справа */}
                     <div className="absolute -right-4 -bottom-4 w-24 h-24 bg-white/10 rounded-full blur-2xl group-hover:bg-white/20 transition-colors duration-500" />
 
-                    {/* Фоновая иконка Луны: большая и атмосферная */}
                     <div className="absolute -right-4 -top-2 p-2 opacity-[0.08] group-hover:scale-110 group-hover:-rotate-12 transition-transform duration-700 ease-out">
                         <MoonStar size={130} fill="currentColor" />
                     </div>
 
                     <div className="relative z-10 flex items-start justify-between">
-                        {/* Маленькая иконка в рамке */}
                         <div className="p-3 bg-white/10 backdrop-blur-md rounded-2xl text-white shadow-inner border border-white/10">
                             <MoonStar size={20} fill="white" className="group-hover:rotate-12 transition-transform" />
                         </div>
@@ -123,7 +128,6 @@ export const RhythmView: React.FC<RhythmViewProps> = ({
                             </h2>
                             <div className="flex items-center gap-2">
                                 <div className="flex gap-0.5">
-                                    {/* Зеленый индикатор "Live" */}
                                     <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.5)]" />
                                 </div>
                                 <span className="text-[10px] font-bold text-white/60 uppercase tracking-widest">
@@ -132,7 +136,6 @@ export const RhythmView: React.FC<RhythmViewProps> = ({
                             </div>
                         </div>
 
-                        {/* Изящная стрелка-указатель */}
                         <ChevronRight
                             size={24}
                             className="text-white/30 group-hover:text-white group-hover:translate-x-1 transition-all duration-300"
@@ -140,16 +143,14 @@ export const RhythmView: React.FC<RhythmViewProps> = ({
                         />
                     </div>
 
-                    {/* Эффект стеклянного блеска (shimmer) */}
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] transition-transform" />
                 </button>
 
-                {/* Стили для анимации блеска */}
                 <style dangerouslySetInnerHTML={{ __html: `
-  @keyframes shimmer {
-    100% { transform: translateX(100%); }
-  }
-`}} />
+                  @keyframes shimmer {
+                    100% { transform: translateX(100%); }
+                  }
+                `}} />
 
                 <p className="text-center text-[8px] font-bold uppercase tracking-[0.4em] opacity-20 mt-2">
                     Обновлено звездами • 2026

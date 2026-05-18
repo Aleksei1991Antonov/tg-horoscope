@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
+import { X } from 'lucide-react';
 import { LoveView } from './LoveView';
 import { LoveEngine } from '../../core/engines/LoveEngine';
 
@@ -19,14 +20,12 @@ const ZODIAC_EMOJI: Record<string, string> = {
 };
 
 export const LoveContainer: React.FC<LoveContainerProps> = ({ zodiacName }) => {
-    // 1. Пытаемся достать сохраненного партнера при первой загрузке
     const [partnerName, setPartnerName] = useState<string | undefined>(() => {
         return localStorage.getItem('user_partner_choice') || undefined;
     });
 
     const [isSelecting, setIsSelecting] = useState(false);
 
-    // 2. Сохраняем выбор в память, когда он меняется
     useEffect(() => {
         if (partnerName) {
             localStorage.setItem('user_partner_choice', partnerName);
@@ -43,6 +42,10 @@ export const LoveContainer: React.FC<LoveContainerProps> = ({ zodiacName }) => {
     }, [zodiacName, partnerName]);
 
     const handleSelectPartner = (name: string) => {
+        // Используем void для игнорирования Promise (ублажаем ESLint)
+        if (window.WebApp?.HapticFeedback) {
+            void window.WebApp.HapticFeedback.impactOccurred('medium');
+        }
         setPartnerName(name);
         setIsSelecting(false);
     };
@@ -54,36 +57,57 @@ export const LoveContainer: React.FC<LoveContainerProps> = ({ zodiacName }) => {
                 partnerZodiac={partnerName ? ZODIAC_EMOJI[partnerName] : undefined}
                 synergyPercent={data.synergyPercent}
                 weeklyForecast={data.weeklyForecast}
-                onSelectPartner={() => setIsSelecting(true)}
+                onSelectPartner={() => {
+                    if (window.WebApp?.HapticFeedback) {
+                        void window.WebApp.HapticFeedback.selectionChanged();
+                    }
+                    setIsSelecting(true);
+                }}
             />
 
-            {/* Модалка выбора партнера */}
+            {/* Окно выбора знака */}
             {isSelecting && (
-                <div className="fixed inset-0 z-[100] flex items-end justify-center px-4 pb-10 animate-in fade-in duration-300">
+                <div className="fixed inset-0 z-[1000] flex items-end justify-center px-4 pb-10">
                     <div
-                        className="absolute inset-0 bg-[#050510]/90 backdrop-blur-md"
+                        className="absolute inset-0 bg-[#050510]/80 backdrop-blur-xl animate-in fade-in duration-300"
                         onClick={() => setIsSelecting(false)}
                     />
-                    <div className="relative w-full max-w-md bg-white/[0.05] border border-white/10 rounded-[32px] p-6 backdrop-blur-2xl shadow-2xl animate-in slide-in-from-bottom-10">
-                        <h3 className="text-center text-xs font-black uppercase tracking-[0.3em] text-pink-400 mb-6">Выберите знак партнера</h3>
-                        <div className="grid grid-cols-4 gap-3">
-                            {ALL_ZODIAC.map(name => (
+
+                    <div className="relative w-full max-w-md bg-[#0a0a1a] border border-white/10 rounded-[32px] p-6 shadow-[0_-20px_50px_rgba(0,0,0,0.5)] animate-in slide-in-from-bottom-10 duration-300">
+                        <div className="flex justify-between items-center mb-8">
+                            <div className="flex flex-col">
+                                <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-pink-500">ЛЮБОВНЫЙ РИТМ</span>
+                                <h3 className="text-2xl font-black text-white tracking-tighter uppercase">Выбор знака</h3>
+                            </div>
+                            <button
+                                onClick={() => setIsSelecting(false)}
+                                className="w-10 h-10 flex items-center justify-center rounded-2xl bg-white/5 border border-white/10 text-white/50 active:scale-90 transition-all"
+                            >
+                                <X size={20} />
+                            </button>
+                        </div>
+
+                        <div className="grid grid-cols-3 gap-3">
+                            {ALL_ZODIAC.map((name) => (
                                 <button
                                     key={name}
                                     onClick={() => handleSelectPartner(name)}
-                                    className="flex flex-col items-center gap-1 p-2 rounded-2xl hover:bg-white/5 transition-colors"
+                                    className={`
+                                        flex flex-col items-center p-5 rounded-[24px] border transition-all active:scale-95
+                                        ${name === partnerName
+                                        ? 'bg-pink-600/20 border-pink-500/50 shadow-[0_0_20px_rgba(236,72,153,0.1)]'
+                                        : 'bg-white/[0.03] border-white/5 hover:border-white/10'}
+                                    `}
                                 >
-                                    <span className="text-2xl">{ZODIAC_EMOJI[name]}</span>
-                                    <span className="text-[8px] font-bold opacity-40 uppercase">{name}</span>
+                                    <span className={`text-3xl mb-2 drop-shadow-md ${name === partnerName ? 'scale-110' : 'grayscale-[0.5]'}`}>
+                                        {ZODIAC_EMOJI[name]}
+                                    </span>
+                                    <span className={`text-[9px] font-bold uppercase tracking-tight ${name === partnerName ? 'text-white' : 'text-white/40'}`}>
+                                        {name}
+                                    </span>
                                 </button>
                             ))}
                         </div>
-                        <button
-                            onClick={() => setIsSelecting(false)}
-                            className="w-full mt-6 py-3 text-[10px] font-black uppercase tracking-widest text-white/20"
-                        >
-                            Закрыть
-                        </button>
                     </div>
                 </div>
             )}

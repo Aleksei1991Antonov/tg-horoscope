@@ -57,18 +57,19 @@ export class HoroscopeEngine {
         let mainEmoji: string;
 
         if (intensity > 82) {
-            mainEmoji = "👑";
-            status = "Королевский уровень";
+            mainEmoji = "✨";
+            status = "Абсолютное сияние";
         } else if (intensity > 65) {
-            mainEmoji = "🔥";
-            status = "Высокий драйв";
+            mainEmoji = "💃";
+            status = "Энергия расцвета";
         } else if (intensity > 45) {
-            mainEmoji = "⚡️";
-            status = "Стабильный заряд";
+            mainEmoji = "🌊";
+            status = "Гармония потока";
         } else {
-            mainEmoji = "💤";
-            status = "Режим накопления";
+            mainEmoji = "☁️";
+            status = "Время нежности"; // Вместо Режима накопления
         }
+
 
         // === Выбор контента ===
 

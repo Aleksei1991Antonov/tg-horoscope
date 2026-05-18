@@ -42,7 +42,7 @@ export const BeautyView: React.FC<BeautyViewProps> = ({ zodiacName, recommendati
                         </span>
                     </div>
                     <div className="text-[9px] font-bold text-indigo-300 bg-indigo-500/10 px-2 py-0.5 rounded-md border border-indigo-500/20 uppercase whitespace-nowrap">
-                        Луна в {lunarInfo.moonZodiacName} {lunarInfo.moonZodiacIcon}
+                        Луна в знаке {lunarInfo.moonZodiacName} {lunarInfo.moonZodiacIcon}
                     </div>
                 </div>
                 <h1 className="text-2xl font-black tracking-tighter mb-1 bg-gradient-to-r from-white via-cyan-100 to-cyan-400 bg-clip-text text-transparent">

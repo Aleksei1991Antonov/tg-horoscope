@@ -10,9 +10,17 @@
   --max-ui-bg-primary: #050510;
   --max-ui-text-primary: #ffffff;
   --max-ui-accent: #c026d3;
+
+  /* Принудительно сообщаем системе, что у нас темная тема */
+  color-scheme: dark;
 }
 
 @layer base {
+  html {
+    /* Отключаем автоматическое изменение цветов браузером */
+    -webkit-text-size-adjust: 100%;
+  }
+
   body {
     background:
             radial-gradient(circle at 0% 0%, rgba(192, 38, 211, 0.08) 0%, transparent 50%),
@@ -22,5 +30,17 @@
     margin: 0;
     min-height: 100vh;
     font-family: "Manrope", sans-serif;
+
+    /* Улучшаем рендеринг шрифтов на темном фоне */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Глобальный фикс для градиентного текста */
+  .bg-clip-text {
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    /* Это свойство гарантирует, что прозрачность не будет перебита темой */
+    -webkit-text-fill-color: transparent;
   }
 }

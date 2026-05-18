@@ -8,7 +8,7 @@ interface WelcomeScreenProps {
 }
 
 // Константы конфигурации
-const LOGO_PATH = "logo.webp?v=1";
+const LOGO_PATH = "logo.webp?v=2";
 
 // Статичные звезды для чистоты рендера
 const STATIC_STARS = Array.from({ length: 20 }).map((_, i) => ({
