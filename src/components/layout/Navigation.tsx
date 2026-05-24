@@ -5,7 +5,7 @@ import { triggerSelectionHaptic } from '../../utils/haptics';
 const NAV_ITEMS = [
     { id: 'rhythm', label: 'Ритм', icon: Activity },
     { id: 'love', label: 'Любовь', icon: Heart },
-    { id: 'beauty', label: 'Красота', icon: Sparkles },
+    { id: 'karma', label: 'Карма', icon: Sparkles },
 ];
 
 interface NavigationProps {

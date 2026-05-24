@@ -11,7 +11,7 @@ import { TextSettingsView } from './components/layout/Header/Menu/TextSettingsVi
 
 import { RhythmContainer } from './screens/Rhythm/RhythmContainer';
 import { LoveContainer } from './screens/Love/LoveContainer';
-import { BeautyContainer } from './screens/Beauty/BeautyContainer';
+import { KarmaContainer } from './screens/Karma/KarmaContainer';
 
 // ИМПОРТИРУЕМ РАБОЧИЕ УТИЛИТЫ
 import { triggerSuccessHaptic, triggerSelectionHaptic } from './utils/haptics';
@@ -253,7 +253,7 @@ const App: React.FC = () => {
                     <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 pb-6 h-full">
                         {activeTab === 'rhythm' && <RhythmContainer zodiacName={selectedZodiac} fontScale={fontScale} />}
                         {activeTab === 'love' && <LoveContainer zodiacName={selectedZodiac} fontScale={fontScale} />}
-                        {activeTab === 'beauty' && <BeautyContainer zodiacName={selectedZodiac} fontScale={fontScale} />}
+                        {activeTab === 'karma' && <KarmaContainer zodiacName={selectedZodiac} fontScale={fontScale} />}
                     </div>
                 </PageLayout>
             </div>
