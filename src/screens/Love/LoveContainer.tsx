@@ -28,6 +28,8 @@ export const LoveContainer: React.FC<LoveContainerProps> = ({ zodiacName, fontSc
 
     const [isSelecting, setIsSelecting] = useState(false);
 
+    const [yearOffset, setYearOffset] = useState(0);
+
     useEffect(() => {
         if (partnerName) {
             localStorage.setItem('user_partner_choice', partnerName);
@@ -35,14 +37,21 @@ export const LoveContainer: React.FC<LoveContainerProps> = ({ zodiacName, fontSc
         }
     }, [partnerName]);
 
+    const currentYear = new Date().getFullYear() + yearOffset;
+
     const data = useMemo(() => {
         const weeklyForecast = LoveEngine.getWeeklyForecast(zodiacName, partnerName);
+        const monthlyForecast = LoveEngine.getMonthlyForecast(zodiacName, partnerName);
+        const yearlyForecast = LoveEngine.getYearlyForecast(zodiacName, partnerName, yearOffset);
         const synergyPercent = partnerName
             ? LoveEngine.getBaseSynergy(zodiacName, partnerName)
             : 0;
 
-        return { weeklyForecast, synergyPercent };
-    }, [zodiacName, partnerName]);
+        return { weeklyForecast, monthlyForecast, yearlyForecast, synergyPercent };
+    }, [zodiacName, partnerName, yearOffset]);
+
+    const handleYearPrev = () => setYearOffset(o => Math.max(-20, o - 1));
+    const handleYearNext = () => setYearOffset(o => Math.min(20, o + 1));
 
     const handleSelectPartner = (name: string) => {
         void triggerSuccessHaptic();
@@ -62,6 +71,11 @@ export const LoveContainer: React.FC<LoveContainerProps> = ({ zodiacName, fontSc
                 partnerZodiac={partnerName ? ZODIAC_EMOJI[partnerName] : undefined}
                 synergyPercent={data.synergyPercent}
                 weeklyForecast={data.weeklyForecast}
+                monthlyForecast={data.monthlyForecast}
+                yearlyForecast={data.yearlyForecast}
+                currentYear={currentYear}
+                onYearPrev={handleYearPrev}
+                onYearNext={handleYearNext}
                 onSelectPartner={() => {
                     void triggerSuccessHaptic();
                     setIsSelecting(true);

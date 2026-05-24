@@ -1,5 +1,5 @@
 import React, { useMemo, useCallback } from 'react';
-import { Heart, Plus, BarChart3, User, Users } from 'lucide-react';
+import { Heart, Plus, BarChart3, User, Users, ChevronLeft, ChevronRight } from 'lucide-react';
 import { triggerSuccessHaptic } from '../../utils/haptics';
 
 interface LoveForecast {
@@ -12,18 +12,28 @@ interface LoveViewProps {
     partnerZodiac?: string;
     synergyPercent?: number;
     weeklyForecast?: LoveForecast[];
+    monthlyForecast?: LoveForecast[];
+    yearlyForecast?: LoveForecast[];
+    currentYear?: number;
+    onYearPrev?: () => void;
+    onYearNext?: () => void;
     onSelectPartner: () => void;
     fontScale: 'small' | 'medium' | 'large';
 }
 
 export const LoveView: React.FC<LoveViewProps> = ({
                                                       userZodiac,
-                                                      partnerZodiac,
-                                                      synergyPercent = 0,
-                                                      weeklyForecast = [],
-                                                      onSelectPartner,
-                                                      fontScale
-                                                  }) => {
+                                                       partnerZodiac,
+                                                       synergyPercent = 0,
+                                                       weeklyForecast = [],
+                                                       monthlyForecast = [],
+                                                       yearlyForecast = [],
+                                                       currentYear,
+                                                       onYearPrev,
+                                                       onYearNext,
+                                                       onSelectPartner,
+                                                       fontScale
+                                                   }) => {
 
     const safeForecast = useMemo(() => {
         if (weeklyForecast && weeklyForecast.length > 0) return weeklyForecast;
@@ -39,6 +49,16 @@ export const LoveView: React.FC<LoveViewProps> = ({
         void triggerSuccessHaptic();
         onSelectPartner();
     }, [onSelectPartner]);
+
+    const bestWorst = useMemo(() => {
+        if (!yearlyForecast || yearlyForecast.length < 2) return { bestIdx: -1, worstIdx: -1 };
+        let bestIdx = 0, worstIdx = 0;
+        yearlyForecast.forEach((d, i) => {
+            if (d.score > yearlyForecast[bestIdx].score) bestIdx = i;
+            if (d.score < yearlyForecast[worstIdx].score) worstIdx = i;
+        });
+        return { bestIdx, worstIdx };
+    }, [yearlyForecast]);
 
     const headerSize = fontScale === 'large' ? 'text-[2.4rem]' : fontScale === 'small' ? 'text-[2rem]' : 'text-[2.2rem]';
     const labelSize = fontScale === 'large' ? 'text-[0.8125rem]' : 'text-[0.625rem]';
@@ -134,7 +154,245 @@ export const LoveView: React.FC<LoveViewProps> = ({
                         })}
                     </div>
                 </div>
+
+                <div className={`bg-white/[0.03] backdrop-blur-2xl border border-white/10 rounded-[32px] mx-1 ${widgetPadding}`}>
+                    <div className="flex items-center gap-2 mb-6">
+                        <BarChart3 size={fontScale === 'large' ? 14 : 12} className="text-pink-400" />
+                        <h3 className={`${headerLabelSize} font-black uppercase tracking-widest text-white/50`}>Прогноз на месяц</h3>
+                    </div>
+                    <LineChart data={monthlyForecast} fontScale={fontScale} color="#ec4899" gradientId="loveFill" />
+                </div>
+
+                <div className={`bg-white/[0.03] backdrop-blur-2xl border border-white/10 rounded-[32px] mx-1 ${widgetPadding}`}>
+                    <div className="flex items-center gap-2 mb-6">
+                        <BarChart3 size={fontScale === 'large' ? 14 : 12} className="text-pink-400" />
+                        <h3 className={`${headerLabelSize} font-black uppercase tracking-widest text-white/50`}>Прогноз на год</h3>
+                    </div>
+                    <div className="flex items-center justify-center gap-4 mb-5">
+                        <button
+                            onClick={onYearPrev}
+                            className="w-8 h-8 flex items-center justify-center rounded-xl bg-white/5 border border-white/10 text-white/40 hover:text-white active:scale-90 transition-all disabled:opacity-20"
+                        >
+                            <ChevronLeft size={16} />
+                        </button>
+                        <span className={`${fontScale === 'large' ? 'text-[1.2rem]' : 'text-[1rem]'} font-black tracking-tight text-white`}>
+                            {currentYear}
+                        </span>
+                        <button
+                            onClick={onYearNext}
+                            className="w-8 h-8 flex items-center justify-center rounded-xl bg-white/5 border border-white/10 text-white/40 hover:text-white active:scale-90 transition-all disabled:opacity-20"
+                        >
+                            <ChevronRight size={16} />
+                        </button>
+                    </div>
+                    <LineChart data={yearlyForecast} fontScale={fontScale} color="#a78bfa" gradientId="yearFill" labelSuffix="месяцев" showAllLabels bestIdx={bestWorst.bestIdx} worstIdx={bestWorst.worstIdx} />
+                </div>
             </div>
         </div>
     );
 };
+
+function LineChart({
+    data,
+    fontScale,
+    color,
+    gradientId,
+    labelSuffix = 'дней',
+    showAllLabels = false,
+    bestIdx = -1,
+    worstIdx = -1,
+}: {
+    data: LoveForecast[];
+    fontScale: 'small' | 'medium' | 'large';
+    color: string;
+    gradientId: string;
+    labelSuffix?: string;
+    showAllLabels?: boolean;
+    bestIdx?: number;
+    worstIdx?: number;
+}) {
+    const chartData = useMemo(() => {
+        if (!data || data.length === 0) return [];
+        return data;
+    }, [data]);
+
+    if (chartData.length < 2) return null;
+
+    const todayNum = new Date().getDate();
+    const currentMonth = new Date().getMonth();
+    const todayIdx = showAllLabels
+        ? (currentMonth < chartData.length ? currentMonth : 0)
+        : chartData.findIndex(d => Number(d.day) === todayNum);
+
+    const hasHighlights = showAllLabels && bestIdx >= 0 && worstIdx >= 0;
+
+    const svgId = showAllLabels ? 'yearly-chart-svg' : undefined;
+
+    const width = showAllLabels ? 700 : 1000;
+    const height = 280;
+    const pad = { top: 15, right: 10, bottom: 45, left: 48 };
+    const chartW = width - pad.left - pad.right;
+    const chartH = height - pad.top - pad.bottom;
+    const minVal = 20;
+    const maxVal = 100;
+
+    const toY = (val: number) =>
+        pad.top + chartH - ((val - minVal) / (maxVal - minVal)) * chartH;
+
+    const PCS = [100, 80, 60, 40, 20];
+
+    const stepX = chartW / (chartData.length - 1);
+
+    const points = chartData.map((d, i) => ({
+        x: pad.left + i * stepX,
+        y: toY(d.score),
+        score: d.score,
+    }));
+
+    const lineD = points.map((p, i) => `${i === 0 ? 'M' : 'L'}${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
+    const fillD = `M${points[0].x.toFixed(1)},${height - pad.bottom} ${lineD.slice(1)} L${points[points.length - 1].x.toFixed(1)},${height - pad.bottom} Z`;
+
+    return (
+        <div className="w-full">
+            <svg id={svgId} viewBox={`0 0 ${width} ${height}`} className="w-full h-auto" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor={color} stopOpacity="0.35" />
+                        <stop offset="100%" stopColor={color} stopOpacity="0" />
+                    </linearGradient>
+                </defs>
+
+                {PCS.map(pct => {
+                    const y = toY(pct);
+                    return (
+                        <g key={pct}>
+                            <line
+                                x1={pad.left} y1={y}
+                                x2={width - pad.right} y2={y}
+                                stroke="#ffffff" strokeOpacity="0.06" strokeDasharray="3,3"
+                            />
+                            <text
+                                x={pad.left - 6} y={y}
+                                textAnchor="end" dominantBaseline="middle"
+                                fill="#ffffff" opacity="0.3"
+                                fontSize={fontScale === 'large' ? 10 : 8}
+                                fontFamily="inherit" fontWeight="800"
+                            >
+                                {pct}%
+                            </text>
+                        </g>
+                    );
+                })}
+
+                <path d={fillD} fill={`url(#${gradientId})`} />
+                <path d={lineD} fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+
+                {points.map((p, i) => {
+                    const isBest = hasHighlights && i === bestIdx;
+                    const isWorst = hasHighlights && i === worstIdx;
+                    const isSpecial = isBest || isWorst;
+                    return (
+                        <circle
+                            key={i}
+                            cx={p.x}
+                            cy={p.y}
+                            r={isBest ? 7 : isWorst ? 6 : i === todayIdx ? 5 : 2.5}
+                            fill={isBest ? '#22c55e' : isWorst ? '#ef4444' : i === todayIdx ? color : '#ffffff'}
+                            stroke={i === todayIdx || isSpecial ? '#ffffff' : 'none'}
+                            strokeWidth={i === todayIdx || isSpecial ? 2.5 : 0}
+                            className={(i === todayIdx || isSpecial) ? 'drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]' : ''}
+                        />
+                    );
+                })}
+
+                {hasHighlights && (
+                    <>
+                        <text
+                            x={points[bestIdx].x}
+                            y={points[bestIdx].y - 12}
+                            textAnchor="middle"
+                            fill="#22c55e"
+                            fontSize={fontScale === 'large' ? 9 : 7}
+                            fontFamily="inherit" fontWeight="800"
+                            opacity="0.9"
+                        >
+                            ПИК
+                        </text>
+                        <text
+                            x={points[worstIdx].x}
+                            y={points[worstIdx].y - 12}
+                            textAnchor="middle"
+                            fill="#ef4444"
+                            fontSize={fontScale === 'large' ? 9 : 7}
+                            fontFamily="inherit" fontWeight="800"
+                            opacity="0.9"
+                        >
+                            СПАД
+                        </text>
+                    </>
+                )}
+
+                {chartData.map((d, i) => {
+                    if (!showAllLabels && i !== 0 && i !== chartData.length - 1 && i % 5 !== 0) return null;
+                    const isToday = i === todayIdx;
+                    return (
+                        <text
+                            key={i}
+                            x={points[i].x}
+                            y={height - 10}
+                            textAnchor="middle"
+                            fill={isToday ? color : '#ffffff'}
+                            opacity={isToday ? 1 : 0.3}
+                            fontSize={fontScale === 'large' ? (showAllLabels ? 11 : 13) : (showAllLabels ? 8 : 10)}
+                            fontFamily="inherit" fontWeight="800"
+                        >
+                            {d.day}
+                        </text>
+                    );
+                })}
+
+                {todayIdx >= 0 && (
+                    <text
+                        x={points[todayIdx].x}
+                        y={height - 10}
+                        textAnchor="middle"
+                        fill={color}
+                        fontSize={fontScale === 'large' ? (showAllLabels ? 9 : 10) : (showAllLabels ? 7 : 8)}
+                        fontFamily="inherit" fontWeight="700"
+                        dy={showAllLabels ? '11' : '13'}
+                        opacity="0.6"
+                    >
+                        {showAllLabels ? 'СЕЙЧАС' : 'СЕГОДНЯ'}
+                    </text>
+                )}
+            </svg>
+            {hasHighlights && (
+                <div className="flex items-center justify-center gap-4 mt-3">
+                    <div className="flex items-center gap-1.5">
+                        <div className="w-2 h-2 rounded-full bg-green-500" />
+                        <span className={`${fontScale === 'large' ? 'text-[0.6875rem]' : 'text-[0.5625rem]'} font-black uppercase tracking-widest text-green-400/60`}>
+                            {chartData[bestIdx].day} — {chartData[bestIdx].score}%
+                        </span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                        <div className="w-2 h-2 rounded-full bg-red-500" />
+                        <span className={`${fontScale === 'large' ? 'text-[0.6875rem]' : 'text-[0.5625rem]'} font-black uppercase tracking-widest text-red-400/60`}>
+                            {chartData[worstIdx].day} — {chartData[worstIdx].score}%
+                        </span>
+                    </div>
+                </div>
+            )}
+            <div className="flex justify-between items-center mt-3 px-2">
+                <span className={`${fontScale === 'large' ? 'text-[0.6875rem]' : 'text-[0.5625rem]'} font-black uppercase tracking-widest text-white/20`}>
+                    {chartData[0].score}%
+                </span>
+                <span className={`${fontScale === 'large' ? 'text-[0.6875rem]' : 'text-[0.5625rem]'} font-black uppercase tracking-[0.15em] text-white/30`}>
+                    {chartData.length} {labelSuffix}
+                </span>
+                <span className={`${fontScale === 'large' ? 'text-[0.6875rem]' : 'text-[0.5625rem]'} font-black uppercase tracking-widest text-white/20`}>
+                    {chartData[chartData.length - 1].score}%
+                </span>
+            </div>
+        </div>
+    );
+}

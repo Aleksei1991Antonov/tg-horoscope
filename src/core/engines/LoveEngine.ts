@@ -49,6 +49,53 @@ export class LoveEngine {
     }
 
     /**
+     * Генерирует график на месяц (от 28 до 31 дня)
+     */
+    static getMonthlyForecast(userZodiac: string, partnerZodiac: string | undefined): LoveForecast[] {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = now.getMonth();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+        const base = partnerZodiac
+            ? this.getBaseSynergy(userZodiac, partnerZodiac)
+            : 60;
+
+        return Array.from({ length: daysInMonth }, (_, i) => {
+            const seed = userZodiac.length + (partnerZodiac?.length || 0) + i * 7;
+            const wave = Math.sin(seed * 0.8) * 12;
+            const noise = Math.cos(seed * 2) * 5;
+
+            let score = base + wave + noise;
+            score = Math.min(98, Math.max(30, score));
+
+            return { day: String(i + 1), score: Math.round(score) };
+        });
+    }
+
+    /**
+     * Генерирует график на 12 месяцев
+     */
+    static getYearlyForecast(userZodiac: string, partnerZodiac: string | undefined, yearOffset = 0): LoveForecast[] {
+        const months = ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'];
+
+        const base = partnerZodiac
+            ? this.getBaseSynergy(userZodiac, partnerZodiac)
+            : 60;
+
+        return months.map((month, i) => {
+            const seed = userZodiac.length + (partnerZodiac?.length || 0) + i * 31 + (yearOffset + 2) * 1000;
+            const wave = Math.sin(seed * 0.7) * 10;
+            const noise = Math.cos(seed * 2.5) * 4;
+
+            let score = base + wave + noise;
+            score = Math.min(95, Math.max(35, score));
+
+            return { day: month, score: Math.round(score) };
+        });
+    }
+
+    /**
      * Генерирует график на 7 дней, который колеблется вокруг базового значения
      */
     static getWeeklyForecast(userZodiac: string, partnerZodiac: string | undefined): LoveForecast[] {
