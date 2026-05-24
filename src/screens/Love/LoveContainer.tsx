@@ -50,8 +50,8 @@ export const LoveContainer: React.FC<LoveContainerProps> = ({ zodiacName, fontSc
         return { weeklyForecast, monthlyForecast, yearlyForecast, synergyPercent };
     }, [zodiacName, partnerName, yearOffset]);
 
-    const handleYearPrev = () => setYearOffset(o => Math.max(-20, o - 1));
-    const handleYearNext = () => setYearOffset(o => Math.min(20, o + 1));
+    const handleYearPrev = () => setYearOffset(o => o - 1);
+    const handleYearNext = () => setYearOffset(o => o + 1);
 
     const handleSelectPartner = (name: string) => {
         void triggerSuccessHaptic();
