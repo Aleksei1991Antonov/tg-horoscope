@@ -6,10 +6,12 @@
 }
 
 :root {
-  /* Твои переменные из App.tsx */
+  /* Цвета */
   --max-ui-bg-primary: #050510;
   --max-ui-text-primary: #ffffff;
   --max-ui-accent: #c026d3;
+
+  /* УБРАЛИ transition: font-size — теперь переключение мгновенное и без лагов */
 
   /* Принудительно сообщаем системе, что у нас темная тема */
   color-scheme: dark;
@@ -17,8 +19,9 @@
 
 @layer base {
   html {
-    /* Отключаем автоматическое изменение цветов браузером */
     -webkit-text-size-adjust: 100%;
+    /* Устанавливаем базовый размер, от которого считаются все rem */
+    font-size: 16px;
   }
 
   body {
@@ -31,16 +34,26 @@
     min-height: 100vh;
     font-family: "Manrope", sans-serif;
 
-    /* Улучшаем рендеринг шрифтов на темном фоне */
+    /* Улучшаем рендеринг шрифтов */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+
+    line-height: 1.5;
   }
 
   /* Глобальный фикс для градиентного текста */
   .bg-clip-text {
     -webkit-background-clip: text !important;
     background-clip: text !important;
-    /* Это свойство гарантирует, что прозрачность не будет перебита темой */
     -webkit-text-fill-color: transparent;
+  }
+}
+
+/* Утилита для скрытия скроллбара */
+@utility no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
   }
 }

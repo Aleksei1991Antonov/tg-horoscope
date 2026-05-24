@@ -1,9 +1,19 @@
 // src/types/max-bridge.d.ts
 
 export interface WebAppHapticFeedback {
-    impactOccurred: (style: 'light' | 'medium' | 'heavy' | 'rigid' | 'soft') => Promise<{ status: string }>;
-    notificationOccurred: (type: 'error' | 'success' | 'warning') => Promise<{ status: string }>;
-    selectionChanged: () => Promise<{ status: string }>;
+    impactOccurred: (
+        style: 'light' | 'medium' | 'heavy' | 'rigid' | 'soft',
+        disableVibrationFallback?: boolean
+    ) => Promise<{ status: string }>;
+
+    notificationOccurred: (
+        type: 'error' | 'success' | 'warning',
+        disableVibrationFallback?: boolean
+    ) => Promise<{ status: string }>;
+
+    selectionChanged: (
+        disableVibrationFallback?: boolean
+    ) => Promise<{ status: string }>;
 }
 
 export interface WebAppBackButton {
@@ -12,6 +22,12 @@ export interface WebAppBackButton {
     onClick: (callback: () => void) => void;
     offClick: (callback: () => void) => void;
     isVisible: boolean;
+}
+
+export interface WebAppDeviceStorage {
+    // Изменяем на Promise-style, чтобы работал await и возвращался объект с value
+    setItem: (key: string, value: string) => Promise<{ status: string }>;
+    getItem: (key: string) => Promise<{ status: string; value: string | null }>;
 }
 
 declare global {

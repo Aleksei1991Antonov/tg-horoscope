@@ -2,14 +2,24 @@ import React, { useMemo, useState } from 'react';
 import { HeaderView } from './HeaderView';
 import { MenuContainer } from './Menu/MenuContainer';
 import { ZodiacModal } from './ZodiacModal';
-import { ZODIAC_LIST } from './constants'; // Импортируем из нового файла
+import { ZODIAC_LIST } from './constants';
+import { triggerSuccessHaptic } from '../../../utils/haptics';
 
 interface HeaderContainerProps {
     onZodiacChange: (name: string) => void;
     currentZodiacName: string;
+    fontScale: 'small' | 'medium' | 'large';
+    setFontScale: (scale: 'small' | 'medium' | 'large') => void;
+    onOpenTextSettings: () => void; // Добавляем новый пропс
 }
 
-export const HeaderContainer: React.FC<HeaderContainerProps> = ({ onZodiacChange, currentZodiacName }) => {
+export const HeaderContainer: React.FC<HeaderContainerProps> = ({
+                                                                    onZodiacChange,
+                                                                    currentZodiacName,
+                                                                    fontScale,
+                                                                    setFontScale,
+                                                                    onOpenTextSettings // Принимаем его
+                                                                }) => {
     const [userName] = useState(() => {
         const user = window.WebApp?.initDataUnsafe?.user;
         if (user) {
@@ -21,7 +31,6 @@ export const HeaderContainer: React.FC<HeaderContainerProps> = ({ onZodiacChange
     const [isZodiacModalOpen, setIsZodiacModalOpen] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    // Добавили тип { name: string } для параметра z
     const zodiacIndex = useMemo(() => {
         const index = ZODIAC_LIST.findIndex((z: { name: string }) => z.name === currentZodiacName);
         return index !== -1 ? index : null;
@@ -38,10 +47,6 @@ export const HeaderContainer: React.FC<HeaderContainerProps> = ({ onZodiacChange
         const selected = ZODIAC_LIST[index];
         setIsZodiacModalOpen(false);
         onZodiacChange(selected.name);
-
-        if (window.WebApp?.HapticFeedback) {
-            void window.WebApp.HapticFeedback.impactOccurred('medium');
-        }
     };
 
     const displayZodiac = zodiacIndex !== null
@@ -56,16 +61,24 @@ export const HeaderContainer: React.FC<HeaderContainerProps> = ({ onZodiacChange
                 zodiacName={displayZodiac.name}
                 formattedDate={formattedDate}
                 onMenuClick={() => {
-                    void window.WebApp?.HapticFeedback?.selectionChanged();
+                    void triggerSuccessHaptic();
                     setIsMenuOpen(true);
                 }}
                 onZodiacClick={() => {
-                    void window.WebApp?.HapticFeedback?.selectionChanged();
+                    void triggerSuccessHaptic();
                     setIsZodiacModalOpen(true);
                 }}
+                fontScale={fontScale}
             />
 
-            <MenuContainer isOpen={isMenuOpen} setIsOpen={setIsMenuOpen} />
+            <MenuContainer
+                isOpen={isMenuOpen}
+                setIsOpen={setIsMenuOpen}
+                fontScale={fontScale}
+                setFontScale={setFontScale}
+                // Передаем функцию открытия настроек в MenuContainer
+                onOpenTextSettings={onOpenTextSettings}
+            />
 
             <ZodiacModal
                 isOpen={isZodiacModalOpen}
@@ -73,6 +86,7 @@ export const HeaderContainer: React.FC<HeaderContainerProps> = ({ onZodiacChange
                 onSelect={selectZodiac}
                 currentIndex={zodiacIndex}
                 isFirstLaunch={false}
+                fontScale={fontScale}
             />
         </>
     );

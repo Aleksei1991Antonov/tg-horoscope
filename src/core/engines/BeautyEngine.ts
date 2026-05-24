@@ -37,7 +37,7 @@ export class BeautyEngine {
         const moonElement = ZODIAC_ELEMENTS[moonSign];
 
         // РЕЗОНАНС СТИХИЙ (Персонализация)
-        const isHarmonious = userElement === moonElement;
+        const isHarmonious = !!userElement && !!moonElement && userElement === moonElement;
         const resonanceBonus = isHarmonious ? 0.3 : 0;
 
         // 1. СТРИЖКА (Используем let, так как есть модификация через if)

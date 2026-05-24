@@ -1,5 +1,5 @@
 import React from 'react';
-import { BookOpen, Zap, Users, ShieldCheck, Info, MoonStar, Sparkles, Heart, type LucideIcon } from 'lucide-react';
+import { Zap, Users, ShieldCheck, Info, MoonStar, Sparkles, Heart, type LucideIcon } from 'lucide-react';
 
 interface Section {
     Icon: LucideIcon;
@@ -9,7 +9,11 @@ interface Section {
     color: string;
 }
 
-export const RhythmKnowledgeView: React.FC = () => {
+interface Props {
+    fontScale?: 'small' | 'medium' | 'large';
+}
+
+export const RhythmKnowledgeView: React.FC<Props> = ({ fontScale = 'medium' }) => {
     const sections: Section[] = [
         {
             Icon: Zap,
@@ -55,63 +59,65 @@ export const RhythmKnowledgeView: React.FC = () => {
         }
     ];
 
+    const titleSize = fontScale === 'large' ? 'text-3xl' : 'text-2xl';
+    const bodySize = fontScale === 'large' ? 'text-base' : 'text-sm';
+
     return (
-        <div className="flex flex-col pb-24 animate-in fade-in slide-in-from-bottom-4 duration-700">
-            {/* Заголовок */}
-            <div className="px-6 pt-4 mb-8">
-                <div className="flex items-center gap-3 mb-2">
-                    <div className="w-10 h-10 rounded-2xl bg-fuchsia-500/20 flex items-center justify-center border border-fuchsia-500/30">
-                        <BookOpen className="text-fuchsia-400" size={20} />
-                    </div>
-                    <h1 className="text-3xl font-black text-white tracking-tighter uppercase italic">База знаний</h1>
+        <div className="flex flex-col bg-black">
+            <div className="max-w-2xl mx-auto w-full">
+                {/* Заголовок контента */}
+                <div className="px-6 pt-8 mb-8">
+                    <h1 className={`${titleSize} font-black text-white tracking-tighter uppercase italic leading-none mb-3`}>
+                        База знаний
+                    </h1>
+                    <p className="text-white/40 text-sm leading-relaxed max-w-[300px]">
+                        Узнайте, как ваш персональный ритм синхронизируется с движением планет.
+                    </p>
                 </div>
-                <p className="text-white/40 text-sm leading-relaxed">
-                    Узнайте, как мы объединяем классическую астрологию и современные алгоритмы.
-                </p>
-            </div>
 
-            {/* Секции */}
-            <div className="px-4 space-y-4">
-                {sections.map((section, idx) => {
-                    const Icon = section.Icon;
-                    return (
-                        <div
-                            key={idx}
-                            className="bg-white/[0.03] border border-white/10 rounded-[32px] p-6 overflow-hidden relative group transition-all duration-500 hover:bg-white/[0.05]"
-                        >
-                            {/* Фоновая декоративная иконка */}
-                            <div className={`absolute -right-4 -top-4 p-4 opacity-[0.03] group-hover:opacity-[0.07] transition-all duration-700 rotate-12 group-hover:rotate-0 ${section.color}`}>
-                                <Icon size={120} />
-                            </div>
-
-                            <div className="flex items-center gap-3 mb-4">
-                                <div className="p-2 rounded-xl bg-white/5 border border-white/10">
-                                    <Icon className={section.color} size={20} />
+                {/* Секции */}
+                <div className="px-4 space-y-4 pb-32">
+                    {sections.map((section, idx) => {
+                        const Icon = section.Icon;
+                        return (
+                            <div
+                                key={idx}
+                                className="bg-white/[0.03] border border-white/10 rounded-[32px] p-6 overflow-hidden relative"
+                            >
+                                {/* Декор */}
+                                <div className={`absolute -right-4 -top-4 p-4 opacity-[0.02] rotate-12 ${section.color}`}>
+                                    <Icon size={140} />
                                 </div>
-                                <h2 className="text-lg font-bold text-white uppercase tracking-wider italic">{section.title}</h2>
+
+                                <div className="flex items-center gap-3 mb-4 relative z-10">
+                                    <div className="p-2.5 rounded-2xl bg-white/5 border border-white/10 shadow-inner">
+                                        <Icon className={section.color} size={22} />
+                                    </div>
+                                    <h2 className="text-lg font-bold text-white uppercase tracking-wider italic">{section.title}</h2>
+                                </div>
+
+                                <p className={`${bodySize} text-white/60 leading-relaxed mb-5 relative z-10 font-medium`}>
+                                    {section.description}
+                                </p>
+
+                                <div className="flex items-start gap-3 p-4 bg-black/40 rounded-2xl border border-white/5 relative z-10">
+                                    <Info size={16} className={`${section.color} mt-0.5 shrink-0 opacity-80`} />
+                                    <span className="text-[0.6875rem] font-medium text-white/40 leading-snug italic">
+                                        {section.fact}
+                                    </span>
+                                </div>
                             </div>
+                        );
+                    })}
 
-                            <p className="text-white/60 text-sm leading-relaxed mb-4 relative z-10">
-                                {section.description}
-                            </p>
-
-                            <div className="flex items-start gap-2 p-3 bg-black/40 rounded-2xl border border-white/5 relative z-10">
-                                <Info size={14} className={`${section.color} mt-0.5 shrink-0 opacity-80`} />
-                                <span className="text-[11px] font-medium text-white/40 leading-tight italic">
-                                    {section.fact}
-                                </span>
-                            </div>
-                        </div>
-                    );
-                })}
-            </div>
-
-            {/* Футер */}
-            <div className="px-8 mt-12 text-center">
-                <p className="text-[10px] text-white/20 uppercase tracking-[0.2em] leading-relaxed">
-                    Алгоритмы приложения носят рекомендательный характер <br />
-                    и основаны на математических моделях западной школы астрологии.
-                </p>
+                    {/* Футер */}
+                    <div className="px-8 mt-12 text-center opacity-30">
+                        <p className="text-[0.5625rem] text-white uppercase tracking-[0.2em] leading-relaxed">
+                            Алгоритмы приложения основаны на математических моделях <br />
+                            и носят рекомендательный характер.
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     );

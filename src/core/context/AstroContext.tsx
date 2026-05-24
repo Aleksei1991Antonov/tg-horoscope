@@ -1,6 +1,8 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+/* eslint-disable react-refresh/only-export-components */
+import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
 
-interface AstroContextType {
+// Интерфейс вынесен вверх
+export interface AstroContextType {
     userName: string;
     zodiacIndex: number | null;
     setZodiacIndex: (index: number) => void;
@@ -27,30 +29,45 @@ export const AstroProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         const app = window.WebApp;
         if (!app) return;
 
-        if (app.initDataUnsafe?.user?.first_name) {
-            setUserName(app.initDataUnsafe.user.first_name.toUpperCase());
+        // Исправляем каскадный рендер через setTimeout(0)
+        // Это выносит обновление стейта из синхронного цикла эффекта
+        const firstName = app.initDataUnsafe?.user?.first_name?.toUpperCase();
+        if (firstName) {
+            setTimeout(() => {
+                setUserName(firstName);
+            }, 0);
         }
 
         const loadStorage = async () => {
-            try {
-                const res = await app.DeviceStorage.getItem('user_zodiac_index');
-                if (res.value) {
-                    const idx = parseInt(res.value, 10);
-                    if (!isNaN(idx)) setZodiacIndexState(idx);
+            if (app.DeviceStorage) {
+                try {
+                    const res = await app.DeviceStorage.getItem('user_zodiac_index');
+                    if (res && res.value) {
+                        const idx = parseInt(res.value, 10);
+                        if (!isNaN(idx)) {
+                            setTimeout(() => setZodiacIndexState(idx), 0);
+                        }
+                    }
+                } catch (e) {
+                    console.error('MAX Storage error:', e);
                 }
-            } catch (e) { console.error(e); }
+            }
         };
-        loadStorage();
+        void loadStorage();
     }, []);
 
     const setZodiacIndex = (index: number) => {
         setZodiacIndexState(index);
-        window.WebApp?.DeviceStorage.setItem('user_zodiac_index', index.toString());
+        if (window.WebApp?.DeviceStorage) {
+            void window.WebApp.DeviceStorage.setItem('user_zodiac_index', index.toString());
+        }
     };
 
-    const currentZodiac = zodiacIndex !== null
-        ? ZODIAC_LIST[zodiacIndex]
-        : { sign: "✧", name: "ВЫБРАТЬ" };
+    const currentZodiac = useMemo(() => {
+        return zodiacIndex !== null
+            ? ZODIAC_LIST[zodiacIndex]
+            : { sign: "✧", name: "ВЫБРАТЬ" };
+    }, [zodiacIndex]);
 
     return (
         <AstroContext.Provider value={{
@@ -67,6 +84,8 @@ export const AstroProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
 export const useAstro = () => {
     const context = useContext(AstroContext);
-    if (!context) throw new Error('useAstro must be used within AstroProvider');
+    if (!context) {
+        throw new Error('useAstro must be used within AstroProvider');
+    }
     return context;
 };

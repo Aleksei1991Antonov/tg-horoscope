@@ -5,9 +5,11 @@ import {BeautyEngine} from '../../core/engines/BeautyEngine';
 
 interface BeautyContainerProps {
     zodiacName: string;
+    // Добавляем проп масштаба, который приходит из App.tsx
+    fontScale: 'small' | 'medium' | 'large';
 }
 
-export const BeautyContainer: React.FC<BeautyContainerProps> = ({zodiacName}) => {
+export const BeautyContainer: React.FC<BeautyContainerProps> = ({zodiacName, fontScale}) => {
     // Состояние времени для точности расчетов
     const [currentTime, setCurrentTime] = useState(() => new Date());
 
@@ -49,6 +51,7 @@ export const BeautyContainer: React.FC<BeautyContainerProps> = ({zodiacName}) =>
             zodiacName={zodiacName}
             recommendations={data.recommendations}
             lunarInfo={data.lunarInfo}
+            fontScale={fontScale} // Прокидываем масштаб в View
         />
     );
 };

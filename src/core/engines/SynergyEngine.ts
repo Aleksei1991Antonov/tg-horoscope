@@ -35,7 +35,7 @@ export const SynergyEngine = {
             hash = ((hash << 5) - hash) + str.charCodeAt(i);
             hash |= 0;
         }
-        return Math.abs(hash);
+        return Math.abs(hash) >>> 0;
     },
 
     /**

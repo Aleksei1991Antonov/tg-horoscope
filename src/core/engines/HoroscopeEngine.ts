@@ -9,7 +9,6 @@ const ZODIAC_ORDER: ZodiacSign[] = [
 ];
 
 export class HoroscopeEngine {
-
     private static getElement(sign: string): string {
         const fire = ["Овен", "Лев", "Стрелец"];
         const earth = ["Телец", "Дева", "Козерог"];
@@ -20,9 +19,6 @@ export class HoroscopeEngine {
         return "Water";
     }
 
-    /**
-     * Генерирует ежедневный персональный прогноз
-     */
     static generateDailyForecast(userSign: string): string {
         const date = new Date();
         const lunar = LunarEngine.getLunarData(date);
@@ -32,30 +28,27 @@ export class HoroscopeEngine {
 
         if (userIdx === -1) return "Знак не определён";
 
-        // Seed для повторяемости в течение дня (уникальный для каждого знака)
         const seed = date.getDate() + userIdx + (date.getMonth() * 31);
-
         const diff = Math.abs(userIdx - moonIdx);
         const distance = diff > 6 ? 12 - diff : diff;
 
-        // === Расчет энергии ===
         let personalBonus: number;
         switch (distance) {
-            case 0: personalBonus = 28; break;  // Соединение
-            case 4: personalBonus = 22; break;  // Трин
-            case 2: personalBonus = 16; break;  // Секстиль
-            case 6: personalBonus = -12; break; // Оппозиция
-            case 3: personalBonus = -16; break; // Квадратура
+            case 0: personalBonus = 28; break;
+            case 4: personalBonus = 22; break;
+            case 2: personalBonus = 16; break;
+            case 6: personalBonus = -12; break;
+            case 3: personalBonus = -16; break;
             default: personalBonus = 5;
         }
 
         let intensity = Math.round((lunar.illumination * 0.5) + 42 + personalBonus);
         intensity = Math.max(15, Math.min(100, intensity));
 
-        // === Определение статуса и иконки ===
         let status: string;
         let mainEmoji: string;
 
+        // Процент используем только внутри логики для выбора статуса
         if (intensity > 82) {
             mainEmoji = "✨";
             status = "Абсолютное сияние";
@@ -67,17 +60,12 @@ export class HoroscopeEngine {
             status = "Гармония потока";
         } else {
             mainEmoji = "☁️";
-            status = "Время нежности"; // Вместо Режима накопления
+            status = "Время нежности";
         }
 
-
-        // === Выбор контента ===
-
-        // 1. Блок Стихии
         const element = this.getElement(userSign);
         const elementText = ELEMENT_ADVICE[element][seed % ELEMENT_ADVICE[element].length];
 
-        // 2. Блок Фазы
         let phaseKey: string;
         if (lunar.phase < 0.03 || lunar.phase > 0.97) phaseKey = "Новолуние";
         else if (lunar.phase > 0.47 && lunar.phase < 0.53) phaseKey = "Полнолуние";
@@ -86,8 +74,8 @@ export class HoroscopeEngine {
 
         const phaseText = PHASE_ADVICE[phaseKey][seed % PHASE_ADVICE[phaseKey].length];
 
-        // === СТРУКТУРА ВЫВОДА ===
-        return `${mainEmoji} ${status}: ${intensity}%\n\n` +
+        // УБРАЛИ % ИЗ ВЫВОДА. Теперь это выглядит как чистое послание.
+        return `${mainEmoji} ${status}\n\n` +
             `🌙 ${phaseText}\n\n` +
             `💎 ${elementText}`;
     }
