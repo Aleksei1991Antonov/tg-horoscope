@@ -253,7 +253,7 @@ const App: React.FC = () => {
                     <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 pb-6 h-full">
                         {activeTab === 'rhythm' && <RhythmContainer zodiacName={selectedZodiac} fontScale={fontScale} />}
                         {activeTab === 'love' && <LoveContainer zodiacName={selectedZodiac} fontScale={fontScale} />}
-                        {activeTab === 'karma' && <KarmaContainer zodiacName={selectedZodiac} fontScale={fontScale} />}
+                        {activeTab === 'karma' && <KarmaContainer fontScale={fontScale} />}
                     </div>
                 </PageLayout>
             </div>

@@ -2,19 +2,23 @@ import React, { useState, useMemo, useCallback } from 'react';
 import { KarmaView } from './KarmaView';
 import { triggerSuccessHaptic } from '../../utils/haptics';
 
+const REFERRAL_URL = 'https://max.ru/id760407796785_biz';
+
 interface KarmaContainerProps {
-    zodiacName: string;
+    zodiacName?: string;
     fontScale: 'small' | 'medium' | 'large';
 }
 
-export const KarmaContainer: React.FC<KarmaContainerProps> = ({ zodiacName, fontScale }) => {
+export const KarmaContainer: React.FC<KarmaContainerProps> = ({ fontScale }) => {
     const userData = useMemo(() => {
         const data = window.WebApp?.initDataUnsafe?.user;
+        const firstName = data?.first_name || '';
+        const lastName = data?.last_name || '';
         return {
-            name: data?.first_name || zodiacName,
+            name: [firstName, lastName].filter(Boolean).join(' '),
             photoUrl: data?.photo_url || undefined,
         };
-    }, [zodiacName]);
+    }, []);
 
     const [inviteCount, setInviteCount] = useState(() => {
         const saved = localStorage.getItem('user_karma_invites');
@@ -22,7 +26,7 @@ export const KarmaContainer: React.FC<KarmaContainerProps> = ({ zodiacName, font
     });
 
     const handleInvite = useCallback(() => {
-        const shareText = '✨ Присоединяйся! Гороскоп: совместимость, ритм, карма и красота по знаку зодиака.';
+        const shareText = `✨ Присоединяйся к гороскопу! ${REFERRAL_URL}`;
 
         const onShared = () => {
             const newCount = inviteCount + 1;
@@ -40,10 +44,8 @@ export const KarmaContainer: React.FC<KarmaContainerProps> = ({ zodiacName, font
                 .then(() => onShared())
                 .catch(() => {});
         } else {
-            void navigator.clipboard.writeText(shareText)
-                .then(() => {
-                    onShared();
-                })
+            void navigator.clipboard.writeText(REFERRAL_URL)
+                .then(() => onShared())
                 .catch(() => {});
         }
     }, [inviteCount]);
@@ -54,6 +56,7 @@ export const KarmaContainer: React.FC<KarmaContainerProps> = ({ zodiacName, font
             userPhotoUrl={userData.photoUrl}
             inviteCount={inviteCount}
             onInvite={handleInvite}
+            referralUrl={REFERRAL_URL}
             fontScale={fontScale}
         />
     );
