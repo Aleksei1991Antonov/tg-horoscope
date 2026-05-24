@@ -59,7 +59,7 @@ export const BeautyView: React.FC<BeautyViewProps> = ({ zodiacName, recommendati
                     </div>
                 </div>
 
-                <h1 className={`${headerTitleSize} font-black tracking-tighter mb-1 bg-gradient-to-r from-white via-cyan-100 to-cyan-400 bg-clip-text text-transparent leading-tight`}>
+                <h1 className={`${headerTitleSize} font-black tracking-normal mb-1 bg-gradient-to-r from-white via-cyan-100 to-cyan-400 bg-clip-text text-transparent leading-tight`}>
                     Красота и уход
                 </h1>
                 <p className={`${fontScale === 'large' ? 'text-[0.75rem]' : 'text-[0.625rem]'} text-white/40 font-bold uppercase tracking-[0.2em]`}>

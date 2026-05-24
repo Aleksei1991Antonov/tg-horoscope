@@ -75,7 +75,7 @@ export const LoveView: React.FC<LoveViewProps> = ({
                     <Heart size={fontScale === 'large' ? 14 : 12} className="text-pink-500" fill="currentColor" />
                     <span className={`${headerLabelSize} font-black uppercase tracking-[0.2em]`}>Любовный радар</span>
                 </div>
-                <h1 className={`${headerSize} font-black tracking-tighter bg-gradient-to-r from-white via-pink-100 to-pink-500 bg-clip-text text-transparent leading-tight`}>
+                <h1 className={`${headerSize} font-black tracking-normal bg-gradient-to-r from-white via-pink-100 to-pink-500 bg-clip-text text-transparent leading-tight`}>
                     Совместимость
                 </h1>
             </header>
