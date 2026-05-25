@@ -73,7 +73,7 @@ export const LoveView: React.FC<LoveViewProps> = ({
                     <Heart size={fontScale === 'large' ? 14 : 12} className="text-[var(--c-primary)]" fill="currentColor" />
                     <span className={`${headerLabelSize} font-black uppercase tracking-[0.2em]`}>Любовный радар</span>
                 </div>
-                <h1 className={`${headerSize} font-black tracking-normal text-[var(--c-text-90)] leading-tight`}>
+                <h1 className={`${headerSize} font-black tracking-normal text-[var(--c-text-90)] leading-tight break-words hyphens-auto`}>
                     Совместимость
                 </h1>
             </header>
@@ -105,7 +105,7 @@ export const LoveView: React.FC<LoveViewProps> = ({
                                 }`}
                             >
                                 {partnerZodiac
-                                    ? <Heart size={fontScale === 'large' ? 32 : 24} className="text-[var(--c-primary)]" fill="currentColor" />
+                                    ? <span className={fontScale === 'large' ? 'text-[2rem]' : 'text-[1.5rem]'}>{partnerZodiac}</span>
                                     : <Plus size={24} className="text-[var(--c-primary-40)]" />
                                 }
                             </button>

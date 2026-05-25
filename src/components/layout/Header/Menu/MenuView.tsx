@@ -161,7 +161,7 @@ export const MenuView: React.FC<MenuViewProps> = ({
                                                         <img src={photoPath} alt="Founder" className="w-full h-full object-cover opacity-80" />
                                                     </div>
                                                     <div>
-                                                        <div className="text-[0.65rem] font-black text-[var(--c-text)] uppercase tracking-tight italic">Антонов Алексей Олегович</div>
+                                                        <div className="text-[0.65rem] font-black text-[var(--c-text)] uppercase tracking-tight">Антонов Алексей Олегович</div>
                                                         <div className="text-[0.5rem] text-[var(--c-primary-60)] uppercase font-bold">Автор</div>
                                                     </div>
                                                 </div>
@@ -239,11 +239,11 @@ export const MenuView: React.FC<MenuViewProps> = ({
             </div>
 
             {isPhotoModalOpen && (
-                <div className="fixed inset-0 z-[2000] bg-[var(--c-bg-90)] flex items-center justify-center p-[1.5rem]" onClick={() => setIsPhotoModalOpen(false)}>
-                    <div className="relative w-full max-w-[20rem] aspect-square border border-[var(--c-primary-20)] p-[0.25rem] bg-[var(--c-surface-elevated)]">
-                        <img src={photoPath} alt="Founder" className="w-full h-full object-cover" />
+                <div className="fixed inset-0 z-[2000] bg-[var(--c-bg)] flex items-center justify-center p-[1.5rem]" onClick={() => setIsPhotoModalOpen(false)}>
+                    <div className="relative w-full max-w-[20rem] aspect-square border border-[var(--c-primary-20)] p-[0.25rem] bg-[var(--c-surface-elevated)] rounded-[32px] overflow-hidden">
+                        <img src={photoPath} alt="Founder" className="w-full h-full object-cover rounded-[28px]" />
                         <div className="absolute -bottom-[4rem] left-0 w-full text-center">
-                            <div className="text-[0.875rem] font-black uppercase tracking-[0.3em] text-[var(--c-primary)] italic">Алексей Антонов</div>
+                            <div className="text-[0.875rem] font-black uppercase tracking-[0.3em] text-[var(--c-primary)]">Алексей Антонов</div>
                             <div className="text-[0.55rem] text-[var(--c-text-30)] uppercase mt-[0.25rem] tracking-widest font-bold">Автор</div>
                         </div>
                     </div>
