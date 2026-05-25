@@ -63,14 +63,8 @@ export const MenuView: React.FC<MenuViewProps> = ({
     };
 
     useEffect(() => {
-        if (!isOpen) {
-            onSetBackHandler(null);
-        } else if (isPhotoModalOpen) {
-            onSetBackHandler(() => () => setIsPhotoModalOpen(false));
-        } else {
-            onSetBackHandler(() => () => onClose());
-        }
-    }, [isOpen, isPhotoModalOpen, onSetBackHandler, onClose]);
+        onSetBackHandler(isPhotoModalOpen ? () => setIsPhotoModalOpen(false) : null);
+    }, [isPhotoModalOpen, onSetBackHandler]);
 
     if (!isOpen) return null;
 
@@ -88,10 +82,6 @@ export const MenuView: React.FC<MenuViewProps> = ({
                     <div className="flex-1 flex flex-col overflow-y-auto no-scrollbar">
                         <div className="p-[1.5rem] pt-[3rem] flex-1">
                             <div className="mb-[2.5rem] px-[0.5rem]">
-                                <div className="flex items-center gap-[0.5rem] mb-[0.5rem]">
-                                    <div className="w-[0.4rem] h-[0.4rem] rounded-full bg-[var(--c-primary)]" />
-                                    <span className="text-[0.5rem] font-black uppercase tracking-[0.4em] text-[var(--c-text-30)]">Гороскоп v1.0.0</span>
-                                </div>
                                 <h2 className={`${menuTitleSize} font-black text-[var(--c-text)] uppercase leading-none`}>Меню</h2>
                             </div>
 
@@ -102,10 +92,8 @@ export const MenuView: React.FC<MenuViewProps> = ({
                                         onClick={() => { void triggerSuccessHaptic(); onOpenTextSettings(); }}
                                         className="w-full p-[1.25rem] rounded-[1.2rem] bg-[var(--c-surface)] border border-[var(--c-border)] flex items-center justify-between active:scale-[0.98] transition-all"
                                     >
-                                        <div className="flex items-center gap-[1rem]">
-                                            <div className="p-[0.6rem] rounded-[0.8rem] bg-[var(--c-primary-10)] text-[var(--c-primary)]">
-                                                <Type size="1.25rem" />
-                                            </div>
+                                        <div className="flex items-center gap-[0.75rem]">
+                                            <Type size="1.25rem" className="text-[var(--c-primary)] shrink-0" />
                                             <div className="text-left">
                                                 <div className={`${itemTitleSize} font-black text-[var(--c-text)] uppercase`}>Оформление</div>
                                                 <div className={`${itemSubtextSize} text-[var(--c-text-30)] uppercase font-bold tracking-tight`}>
@@ -119,10 +107,8 @@ export const MenuView: React.FC<MenuViewProps> = ({
 
                                 <div className="space-y-[0.75rem]">
                                     <h3 className="text-[0.55rem] font-bold uppercase tracking-widest text-[var(--c-text-20)] ml-[0.25rem]">Информация</h3>
-                                    <button onClick={() => { void triggerSuccessHaptic(); onOpenKnowledge(); }} className="w-full p-[1.25rem] rounded-[1.2rem] bg-[var(--c-surface)] border border-[var(--c-border)] flex items-center gap-[1rem] active:scale-[0.98]">
-                                        <div className="p-[0.6rem] rounded-[0.8rem] bg-[var(--c-primary-10)] text-[var(--c-primary)]">
-                                            <BookOpen size="1.25rem" />
-                                        </div>
+                                    <button onClick={() => { void triggerSuccessHaptic(); onOpenKnowledge(); }} className="w-full p-[1.25rem] rounded-[1.2rem] bg-[var(--c-surface)] border border-[var(--c-border)] flex items-center gap-[0.75rem] active:scale-[0.98]">
+                                        <BookOpen size="1.25rem" className="text-[var(--c-primary)] shrink-0" />
                                         <div className="text-left">
                                             <div className={`${itemTitleSize} font-black text-[var(--c-text)] uppercase`}>База знаний</div>
                                             <div className={`${itemSubtextSize} text-[var(--c-text-30)] uppercase font-bold tracking-tight`}>Алгоритмы и справка</div>
@@ -132,10 +118,8 @@ export const MenuView: React.FC<MenuViewProps> = ({
 
                                 <div className="space-y-[0.75rem]">
                                     <h3 className="text-[0.55rem] font-bold uppercase tracking-widest text-[var(--c-text-20)] ml-[0.25rem]">Поддержка</h3>
-                                    <button onClick={() => { void triggerSuccessHaptic(); window.WebApp?.openLink(`mailto:${supportEmail}`); }} className="w-full p-[1.25rem] rounded-[1.2rem] bg-[var(--c-surface)] border border-[var(--c-border)] flex items-center gap-[1rem] active:scale-[0.98]">
-                                        <div className="p-[0.6rem] rounded-[0.8rem] bg-[var(--c-primary-10)] text-[var(--c-primary)]">
-                                            <Mail size="1.25rem" />
-                                        </div>
+                                    <button onClick={() => { void triggerSuccessHaptic(); window.WebApp?.openLink(`mailto:${supportEmail}`); }} className="w-full p-[1.25rem] rounded-[1.2rem] bg-[var(--c-surface)] border border-[var(--c-border)] flex items-center gap-[0.75rem] active:scale-[0.98]">
+                                        <Mail size="1.25rem" className="text-[var(--c-primary)] shrink-0" />
                                         <div className="text-left">
                                             <div className={`${itemTitleSize} font-black text-[var(--c-text)] uppercase`}>Техподдержка</div>
                                             <div className={`${itemSubtextSize} text-[var(--c-primary-60)] uppercase font-bold tracking-tighter`}>{supportEmail}</div>

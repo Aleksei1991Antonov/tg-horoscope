@@ -38,9 +38,11 @@ const App: React.FC = () => {
     const [activeLegalDoc, setActiveLegalDoc] = useState<'privacy' | 'terms' | null>(null);
     const [isTextSettingsOpen, setIsTextSettingsOpen] = useState(false);
     const [isKnowledgeOpen, setIsKnowledgeOpen] = useState(false);
-    const [backHandler, setBackHandlerState] = useState<(() => void) | null>(null);
+    const backHandlerRef = useRef<(() => void) | null>(null);
+    const [backHandlerTick, setBackHandlerTick] = useState(0);
     const setBackHandler = useCallback((handler: (() => void) | null) => {
-        setBackHandlerState(handler);
+        backHandlerRef.current = handler;
+        setBackHandlerTick(t => t + 1);
     }, []);
 
     const [fontScale, setFontScale] = useState<ScaleType>(() => {
@@ -89,10 +91,11 @@ const App: React.FC = () => {
             backBtnRef.current = cb;
             bb.show();
             bb.onClick(cb);
-        } else if (backHandler) {
-            backBtnRef.current = backHandler;
+        } else if (backHandlerRef.current) {
+            const cb = backHandlerRef.current;
+            backBtnRef.current = cb;
             bb.show();
-            bb.onClick(backHandler);
+            bb.onClick(cb);
         } else {
             bb.hide();
         }
@@ -104,7 +107,7 @@ const App: React.FC = () => {
             }
             bb.hide();
         };
-    }, [isTextSettingsOpen, activeLegalDoc, isKnowledgeOpen, backHandler]);
+    }, [isTextSettingsOpen, activeLegalDoc, isKnowledgeOpen, backHandlerTick]);
 
     useEffect(() => {
         const html = document.documentElement;
@@ -296,7 +299,7 @@ const App: React.FC = () => {
                 <PageLayout className="h-full">
                     <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 pb-6 h-full">
                         {activeTab === 'rhythm' && <RhythmContainer zodiacName={selectedZodiac} fontScale={fontScale} onSetBackHandler={setBackHandler} />}
-                        {activeTab === 'love' && <LoveContainer zodiacName={selectedZodiac} fontScale={fontScale} />}
+                        {activeTab === 'love' && <LoveContainer zodiacName={selectedZodiac} fontScale={fontScale} onSetBackHandler={setBackHandler} />}
                         {activeTab === 'karma' && <KarmaContainer fontScale={fontScale} />}
                     </div>
                 </PageLayout>

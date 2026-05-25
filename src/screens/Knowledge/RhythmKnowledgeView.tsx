@@ -90,9 +90,7 @@ export const RhythmKnowledgeView: React.FC<Props> = ({ fontScale = 'medium' }) =
                                 </div>
 
                                 <div className="flex items-center gap-3 mb-4 relative z-10">
-                                    <div className="p-2.5 rounded-2xl bg-[var(--c-surface)] border border-[var(--c-border)] shadow-inner">
-                                        <Icon className={section.color} size={22} />
-                                    </div>
+                                    <Icon className={section.color} size="1.25rem" />
                                     <h2 className="text-lg font-bold text-[var(--c-text)] uppercase tracking-wider italic">{section.title}</h2>
                                 </div>
 

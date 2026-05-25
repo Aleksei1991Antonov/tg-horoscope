@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react';
-import { X } from 'lucide-react';
 import { triggerSuccessHaptic } from '../../../utils/haptics';
 
 const ZODIAC_LIST = [
@@ -49,32 +48,23 @@ export const ZodiacModal: React.FC<ZodiacModalProps> = ({
     const labelSize = fontScale === 'large' ? 'text-[0.6875rem]' : 'text-[0.5625rem]';
     const emojiSize = fontScale === 'large' ? 'text-4xl' : 'text-3xl';
     const gridGap = fontScale === 'large' ? 'gap-4' : 'gap-3';
-    const buttonPadding = fontScale === 'large' ? 'p-6' : 'p-5';
 
     return (
         <div className="fixed inset-0 z-[5000] flex items-end justify-center px-4 pb-10">
             <div
-                className="absolute inset-0 bg-[var(--c-bg-90)] backdrop-blur-xl animate-in fade-in duration-300"
+                className="absolute inset-0 bg-black/20 backdrop-blur-sm animate-in fade-in duration-300"
                 onClick={handleClose}
             />
 
-            <div className="relative w-full max-w-md bg-[var(--c-surface-elevated)] border border-[var(--c-border)] rounded-[32px] p-6 animate-in slide-in-from-bottom-10 duration-300 max-h-[90vh] overflow-y-auto custom-scrollbar">
+            <div className="relative w-full max-w-md bg-[var(--c-surface-elevated)] rounded-[36px] p-6 shadow-2xl animate-in slide-in-from-bottom-10 duration-300 max-h-[90vh] overflow-y-auto custom-scrollbar">
 
-                <div className="flex justify-between items-center mb-8">
+                <div className="mb-8">
                     <div className="flex flex-col">
                         <span className={`${labelSize} font-bold uppercase tracking-[0.4em] text-[var(--c-primary)]`}>
                             {isFirstLaunch ? "ПЕРВЫЙ ШАГ" : "ВАШ ПРОФИЛЬ"}
                         </span>
                         <h3 className={`${titleSize} font-black text-[var(--c-text)] tracking-tighter uppercase leading-tight`}>ВЫБОР ЗНАКА</h3>
                     </div>
-                    {!isFirstLaunch && (
-                        <button
-                            onClick={handleClose}
-                            className="w-10 h-10 flex items-center justify-center rounded-2xl bg-[var(--c-surface)] border border-[var(--c-border)] text-[var(--c-text-50)] active:scale-90 transition-all"
-                        >
-                            <X size={20} />
-                        </button>
-                    )}
                 </div>
 
                 <div className={`grid grid-cols-3 ${gridGap}`}>
@@ -83,13 +73,13 @@ export const ZodiacModal: React.FC<ZodiacModalProps> = ({
                             key={item.name}
                             onClick={() => handleSelect(idx)}
                             className={`
-                                flex flex-col items-center ${buttonPadding} rounded-[24px] border transition-all active:scale-95
+                                flex flex-col items-center py-5 rounded-[24px] transition-all active:scale-95
                                 ${idx === currentIndex
-                                ? 'bg-[var(--c-primary-20)] border-[var(--c-primary-50)]'
-                                : 'bg-[var(--c-surface)] border-[var(--c-border)] hover:border-[var(--c-border)]'}
+                                ? 'bg-[var(--c-primary-10)] shadow-inner'
+                                : 'hover:bg-[var(--c-surface)]'}
                             `}
                         >
-                            <span className={`${emojiSize} mb-2 drop-shadow-md transition-transform ${idx === currentIndex ? 'scale-110' : 'grayscale-[0.5]'}`}>
+                            <span className={`${emojiSize} mb-2 transition-transform ${idx === currentIndex ? 'scale-110' : ''}`}>
                                 {item.sign}
                             </span>
                             <span className={`${labelSize} font-bold uppercase tracking-tight text-center ${idx === currentIndex ? 'text-[var(--c-text)]' : 'text-[var(--c-text-40)]'}`}>

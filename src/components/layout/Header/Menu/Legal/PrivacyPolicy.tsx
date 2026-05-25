@@ -18,11 +18,11 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onBack, fontScale 
         <div className="fixed inset-0 z-[4000] bg-[var(--c-bg)] flex flex-col animate-in slide-in-from-bottom-4 duration-500">
             {/* Header */}
             <div className="p-6 border-b border-[var(--c-border)] flex items-center gap-4 bg-[var(--c-bg-90)] backdrop-blur-xl sticky top-0 z-10">
-                <button onClick={onBack} className="p-2 bg-[var(--c-surface)] rounded-xl text-[var(--c-primary)] active:scale-90 transition-transform">
-                    <Shield size={20} />
+                <button onClick={onBack} className="text-[var(--c-primary)] active:scale-90 transition-transform shrink-0">
+                    <Shield size="1.25rem" />
                 </button>
                 <div>
-                    <h2 className={`${headerTitleSize} font-black text-[var(--c-text)] uppercase italic`}>
+                    <h2 className={`${headerTitleSize} font-black text-[var(--c-text)] uppercase`}>
                         Политика конфиденциальности
                     </h2>
                     <p className="text-[0.5rem] text-[var(--c-text-20)] uppercase font-bold tracking-widest">Типовая форма платформы MAX</p>
@@ -35,7 +35,7 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onBack, fontScale 
                 {/* 1. Основные понятия */}
                 <section className="space-y-4">
                     <div className="flex items-center gap-3 text-[var(--c-primary)]">
-                        <Info size={18} />
+                        <Info size="1.25rem" className="shrink-0" />
                         <h3 className={`${sectionTitleSize} font-black uppercase tracking-widest`}>1. Основные понятия</h3>
                     </div>
                     <div className={`${bodyTextSize} leading-relaxed text-[var(--c-text-60)] font-medium space-y-2`}>
@@ -50,7 +50,7 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onBack, fontScale 
                 {/* 2. Общие положения */}
                 <section className="space-y-4">
                     <div className="flex items-center gap-3 text-[var(--c-primary)]">
-                        <Scale size={18} />
+                        <Scale size="1.25rem" className="shrink-0" />
                         <h3 className={`${sectionTitleSize} font-black uppercase tracking-widest`}>2. Общие положения</h3>
                     </div>
                     <p className={`${bodyTextSize} leading-relaxed text-[var(--c-text-60)] font-medium`}>
@@ -61,7 +61,7 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onBack, fontScale 
                 {/* 3. Цели обработки */}
                 <section className="space-y-4">
                     <div className="flex items-center gap-3 text-[var(--c-primary)]">
-                        <Lock size={18} />
+                        <Lock size="1.25rem" className="shrink-0" />
                         <h3 className={`${sectionTitleSize} font-black uppercase tracking-widest`}>3. Цели обработки информации</h3>
                     </div>
                     <p className={`${bodyTextSize} leading-relaxed text-[var(--c-text-60)] font-medium`}>
@@ -72,7 +72,7 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onBack, fontScale 
                 {/* 4. Состав обрабатываемой информации */}
                 <section className="space-y-4">
                     <div className="flex items-center gap-3 text-[var(--c-primary)]">
-                        <Database size={18} />
+                        <Database size="1.25rem" className="shrink-0" />
                         <h3 className={`${sectionTitleSize} font-black uppercase tracking-widest`}>4. Состав обрабатываемой информации</h3>
                     </div>
                     <div className={`${bodyTextSize} leading-relaxed text-[var(--c-text-60)] font-medium space-y-3`}>
@@ -86,7 +86,7 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onBack, fontScale 
                 <section className="space-y-4 border-l-2 border-[var(--c-primary)]/30 pl-4 py-1">
                     <div className="space-y-4">
                         <div className="flex items-center gap-3 text-[var(--c-primary)]">
-                            <BarChart3 size={18} />
+<BarChart3 size="1.25rem" className="shrink-0" />
                             <h3 className={`${sectionTitleSize} font-black uppercase tracking-widest`}>Аналитические инструменты</h3>
                         </div>
                         <p className={`${bodyTextSize} leading-relaxed text-[var(--c-text-60)] font-medium`}>
@@ -96,7 +96,7 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onBack, fontScale 
 
                     <div className="space-y-4 pt-4">
                         <div className="flex items-center gap-3 text-[var(--c-primary)]">
-                            <CreditCard size={18} />
+<CreditCard size="1.25rem" className="shrink-0" />
                             <h3 className={`${sectionTitleSize} font-black uppercase tracking-widest`}>Платежные операции</h3>
                         </div>
                         <p className={`${bodyTextSize} leading-relaxed text-[var(--c-text-60)] font-medium`}>
@@ -108,7 +108,7 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onBack, fontScale 
                 {/* 5. Обработка персональных данных */}
                 <section className="space-y-4">
                     <div className="flex items-center gap-3 text-[var(--c-primary)]">
-                        <Shield size={18} />
+                        <Shield size="1.25rem" className="shrink-0" />
                         <h3 className={`${sectionTitleSize} font-black uppercase tracking-widest`}>5. Обработка персональных данных</h3>
                     </div>
                     <div className={`${bodyTextSize} leading-relaxed text-[var(--c-text-60)] font-medium space-y-2`}>
@@ -121,7 +121,7 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onBack, fontScale 
                 {/* 6. Права Пользователей */}
                 <section className="space-y-4">
                     <div className="flex items-center gap-3 text-[var(--c-primary)]">
-                        <Users size={18} />
+                        <Users size="1.25rem" className="shrink-0" />
                         <h3 className={`${sectionTitleSize} font-black uppercase tracking-widest`}>6. Права и обязанности</h3>
                     </div>
                     <p className={`${bodyTextSize} leading-relaxed text-[var(--c-text-60)] font-medium`}>
@@ -132,7 +132,7 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onBack, fontScale 
                 {/* 8. Обращения */}
                 <section className="space-y-4">
                     <div className="flex items-center gap-3 text-[var(--c-primary)]">
-                        <Mail size={18} />
+                        <Mail size="1.25rem" className="shrink-0" />
                         <h3 className={`${sectionTitleSize} font-black uppercase tracking-widest`}>8. Обращения Пользователей</h3>
                     </div>
                     <div className={`${bodyTextSize} leading-relaxed text-[var(--c-text-60)] font-medium space-y-2`}>
@@ -142,7 +142,7 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onBack, fontScale 
                 </section>
 
                 <div className={`pt-10 border-t border-[var(--c-border)] text-center ${footerTextSize} space-y-1 text-[var(--c-text-30)]`}>
-                    <p className="font-bold uppercase tracking-widest text-[var(--c-text-50)] italic">Редакция от 22.05.26</p>
+                    <p className="font-bold uppercase tracking-widest text-[var(--c-text-50)]">Редакция от 22.05.26</p>
                     <p className="pt-2">ИП Антонов Алексей Олегович</p>
                     <p>ИНН 760407796785</p>
                     <p>ОГРНИП 326760000001804</p>

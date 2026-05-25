@@ -1,5 +1,4 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { X } from 'lucide-react';
 import { LoveView } from './LoveView';
 import { LoveEngine } from '../../core/engines/LoveEngine';
 import { triggerSuccessHaptic } from '../../utils/haptics';
@@ -7,6 +6,7 @@ import { triggerSuccessHaptic } from '../../utils/haptics';
 interface LoveContainerProps {
     zodiacName: string;
     fontScale: 'small' | 'medium' | 'large';
+    onSetBackHandler: (handler: (() => void) | null) => void;
 }
 
 const ALL_ZODIAC = [
@@ -21,7 +21,7 @@ const ZODIAC_EMOJI: Record<string, string> = {
     'Стрелец': '♐️', 'Козерог': '♑️', 'Водолей': '♒️', 'Рыбы': '♓️'
 };
 
-export const LoveContainer: React.FC<LoveContainerProps> = ({ zodiacName, fontScale }) => {
+export const LoveContainer: React.FC<LoveContainerProps> = ({ zodiacName, fontScale, onSetBackHandler }) => {
     const [partnerName, setPartnerName] = useState<string | undefined>(() => {
         return localStorage.getItem('user_partner_choice') || undefined;
     });
@@ -36,6 +36,10 @@ export const LoveContainer: React.FC<LoveContainerProps> = ({ zodiacName, fontSc
             window.WebApp?.DeviceStorage?.setItem('user_partner_choice', partnerName);
         }
     }, [partnerName]);
+
+    useEffect(() => {
+        onSetBackHandler(isSelecting ? () => setIsSelecting(false) : null);
+    }, [isSelecting, onSetBackHandler]);
 
     const currentYear = new Date().getFullYear() + yearOffset;
 
@@ -85,28 +89,19 @@ export const LoveContainer: React.FC<LoveContainerProps> = ({ zodiacName, fontSc
             {isSelecting && (
                 <div className="fixed inset-0 z-[1000] flex items-end justify-center px-4 pb-10">
                     <div
-                        className="absolute inset-0 bg-[var(--c-bg-80)] backdrop-blur-xl animate-in fade-in duration-300"
+                        className="absolute inset-0 bg-black/20 backdrop-blur-sm animate-in fade-in duration-300"
                         onClick={() => {
                             void triggerSuccessHaptic();
                             setIsSelecting(false);
                         }}
                     />
 
-                    <div className="relative w-full max-w-md bg-[var(--c-surface-elevated)] border border-[var(--c-border)] rounded-[32px] p-6 animate-in slide-in-from-bottom-10 duration-300 max-h-[85vh] overflow-y-auto custom-scrollbar">
-                        <div className="flex justify-between items-center mb-8">
+                    <div className="relative w-full max-w-md bg-[var(--c-surface-elevated)] rounded-[36px] p-6 shadow-2xl animate-in slide-in-from-bottom-10 duration-300 max-h-[85vh] overflow-y-auto custom-scrollbar">
+                        <div className="mb-8">
                             <div className="flex flex-col">
                                 <span className={`${zodiacLabelSize} font-bold uppercase tracking-[0.4em] text-[var(--c-primary)]`}>ЛЮБОВНЫЙ РИТМ</span>
                                 <h3 className={`${modalTitleSize} font-black text-[var(--c-text)] tracking-tighter uppercase`}>Выбор знака</h3>
                             </div>
-                            <button
-                                onClick={() => {
-                                    void triggerSuccessHaptic();
-                                    setIsSelecting(false);
-                                }}
-                                className="w-10 h-10 flex items-center justify-center rounded-2xl bg-[var(--c-surface)] border border-[var(--c-border)] text-[var(--c-text-50)] active:scale-90 transition-all"
-                            >
-                                <X size={20} />
-                            </button>
                         </div>
 
                         <div className={`grid grid-cols-3 ${gridGap}`}>
@@ -115,13 +110,13 @@ export const LoveContainer: React.FC<LoveContainerProps> = ({ zodiacName, fontSc
                                     key={name}
                                     onClick={() => handleSelectPartner(name)}
                                     className={`
-                                        flex flex-col items-center p-5 rounded-[24px] border transition-all active:scale-95
+                                        flex flex-col items-center py-5 rounded-[24px] transition-all active:scale-95
                                         ${name === partnerName
-                                        ? 'bg-[var(--c-primary-20)] border-[var(--c-primary-50)] shadow-[0_0_20px_var(--c-primary-40)]'
-                                        : 'bg-[var(--c-surface)] border-[var(--c-border)] hover:border-[var(--c-border)]'}
+                                        ? 'bg-[var(--c-primary-10)] shadow-inner'
+                                        : 'hover:bg-[var(--c-surface)]'}
                                     `}
                                 >
-                                    <span className={`${emojiSize} mb-2 drop-shadow-md transition-transform ${name === partnerName ? 'scale-110' : 'grayscale-[0.5]'}`}>
+                                    <span className={`${emojiSize} mb-2 transition-transform ${name === partnerName ? 'scale-110' : ''}`}>
                                         {ZODIAC_EMOJI[name]}
                                     </span>
                                     <span className={`${zodiacLabelSize} font-bold uppercase tracking-tight ${name === partnerName ? 'text-[var(--c-text)]' : 'text-[var(--c-text-40)]'}`}>

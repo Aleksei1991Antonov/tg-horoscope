@@ -62,7 +62,6 @@ export const LoveView: React.FC<LoveViewProps> = ({
     const labelSize = fontScale === 'large' ? 'text-[0.8125rem]' : 'text-[0.625rem]';
     const headerLabelSize = fontScale === 'large' ? 'text-[0.75rem]' : 'text-[0.625rem]';
     const percentSize = fontScale === 'large' ? 'text-[1.8rem]' : fontScale === 'small' ? 'text-[1.4rem]' : 'text-[1.6rem]';
-    const zodiacBoxSize = fontScale === 'large' ? 'w-16 h-16 text-[2rem]' : 'w-12 h-12 text-[1.5rem]';
     const widgetPadding = fontScale === 'large' ? 'p-8 min-h-[180px]' : 'p-6 min-h-[140px]';
     const bottomPadding = fontScale === 'large' ? 'pb-40' : 'pb-32';
 
@@ -82,9 +81,7 @@ export const LoveView: React.FC<LoveViewProps> = ({
                 <div className={`bg-[var(--c-surface)] backdrop-blur-2xl border border-[var(--c-border)] rounded-[32px] mx-1 card-shadow ${widgetPadding}`}>
                     <div className="flex items-center justify-around mb-6 gap-2">
                         <div className="flex flex-col items-center gap-2 flex-1">
-                            <div className={`${zodiacBoxSize} rounded-2xl bg-[var(--c-primary-10)] border border-[var(--c-primary-20)] flex items-center justify-center text-[var(--c-primary)]`}>
-                                <Heart size={fontScale === 'large' ? 32 : 24} fill="currentColor" />
-                            </div>
+                            <Heart size={fontScale === 'large' ? "2rem" : "1.5rem"} fill="currentColor" className="text-[var(--c-primary)]" />
                             <span className={`${labelSize} font-black opacity-30 uppercase tracking-widest`}>Вы</span>
                         </div>
 
@@ -98,15 +95,11 @@ export const LoveView: React.FC<LoveViewProps> = ({
                         <div className="flex flex-col items-center gap-2 flex-1">
                             <button
                                 onClick={handlePartnerClick}
-                                className={`${zodiacBoxSize} rounded-2xl transition-all active:scale-90 flex items-center justify-center ${
-                                    partnerZodiac
-                                        ? 'bg-[var(--c-primary-10)] text-[var(--c-primary)] border border-[var(--c-primary-20)]'
-                                        : 'bg-[var(--c-surface)] text-[var(--c-text-20)] border border-[var(--c-border)] border-dashed'
-                                }`}
+                                className="transition-all active:scale-90 text-[var(--c-primary)]"
                             >
                                 {partnerZodiac
-                                    ? <span className={fontScale === 'large' ? 'text-[2rem]' : 'text-[1.5rem]'}>{partnerZodiac}</span>
-                                    : <Plus size={24} className="text-[var(--c-primary-40)]" />
+                                    ? <span className={fontScale === 'large' ? 'text-[1.5rem]' : 'text-[1.25rem]'}>{partnerZodiac}</span>
+                                    : <Plus size="1.5rem" className="text-[var(--c-primary-40)]" />
                                 }
                             </button>
                             <span className={`${labelSize} font-black opacity-30 uppercase tracking-widest`}>Партнер</span>

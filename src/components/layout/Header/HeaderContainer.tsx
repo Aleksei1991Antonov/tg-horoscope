@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { HeaderView } from './HeaderView';
 import { MenuContainer } from './Menu/MenuContainer';
 import { ZodiacModal } from './ZodiacModal';
@@ -54,6 +54,16 @@ export const HeaderContainer: React.FC<HeaderContainerProps> = ({
         setIsZodiacModalOpen(false);
         onZodiacChange(selected.name);
     };
+
+    useEffect(() => {
+        if (isZodiacModalOpen) {
+            onSetBackHandler(() => setIsZodiacModalOpen(false));
+        } else if (isMenuOpen) {
+            onSetBackHandler(() => setIsMenuOpen(false));
+        } else {
+            onSetBackHandler(null);
+        }
+    }, [isMenuOpen, isZodiacModalOpen, onSetBackHandler]);
 
     const displayZodiac = zodiacIndex !== null
         ? ZODIAC_LIST[zodiacIndex]
