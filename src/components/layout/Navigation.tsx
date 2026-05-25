@@ -25,7 +25,7 @@ export const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange, 
     return (
         <nav className="fixed bottom-0 left-0 right-0 z-50 px-6 pb-[calc(12px+env(safe-area-inset-bottom))] pt-2">
             {/* Стеклянная подложка */}
-            <div className="absolute inset-0 bg-[#050510]/85 backdrop-blur-3xl border-t border-white/5" />
+            <div className="absolute inset-0 bg-white/70 backdrop-blur-3xl border-t border-[var(--c-border)]" />
 
             <div className={`relative flex justify-around items-center max-w-md mx-auto transition-all duration-300 ${navHeight}`}>
                 {NAV_ITEMS.map((item) => {
@@ -43,30 +43,29 @@ export const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange, 
                         >
                             {/* Эффект свечения */}
                             {isActive && (
-                                <div className="absolute -top-2 w-12 h-12 bg-fuchsia-500/10 blur-xl rounded-full animate-pulse" />
+                                <div className="absolute -top-2 w-12 h-12 bg-[var(--c-primary-10)] blur-xl rounded-full" />
                             )}
 
-                            {/* Иконка - размер меняется плавно */}
+                            {/* Иконка */}
                             <div className={`relative z-10 mb-1 transition-all duration-300 ${
-                                isActive ? 'text-fuchsia-500 scale-110' : 'text-white/30 group-hover:text-white/50'
+                                isActive ? 'text-[var(--c-primary)] scale-110' : 'text-[var(--c-text-30)] group-hover:text-[var(--c-text-50)]'
                             }`}>
                                 <Icon
                                     size={iconSize}
                                     strokeWidth={isActive ? 2.5 : 2}
-                                    className={isActive ? 'drop-shadow-[0_0_8px_rgba(217,70,239,0.5)]' : ''}
                                 />
                             </div>
 
-                            {/* Текст - увеличиваем для читаемости */}
+                            {/* Текст */}
                             <span className={`relative z-10 uppercase tracking-[0.15em] transition-all duration-300 ${textSize} ${
-                                isActive ? 'text-white font-black opacity-100' : 'text-white/40 font-bold opacity-60'
+                                isActive ? 'text-[var(--c-text)] font-black opacity-100' : 'text-[var(--c-text-40)] font-bold opacity-60'
                             }`}>
                                 {item.label}
                             </span>
 
                             {/* Индикатор-полоска */}
-                            <div className={`absolute -bottom-1 w-5 h-0.5 rounded-full transition-all duration-500 ${
-                                isActive ? 'bg-fuchsia-500 shadow-[0_0_10px_#d946ef] opacity-100' : 'bg-transparent opacity-0'
+                            <div className={`absolute -bottom-1 w-5 h-0.5 rounded-full transition-all duration-300 ${
+                                isActive ? 'bg-[var(--c-primary)] opacity-100' : 'bg-transparent opacity-0'
                             }`} />
                         </button>
                     );

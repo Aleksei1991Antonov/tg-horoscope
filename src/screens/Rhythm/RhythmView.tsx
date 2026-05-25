@@ -44,11 +44,7 @@ export const RhythmView: React.FC<RhythmViewProps> = ({
     };
 
     return (
-        <div className={`relative w-full text-white ${bottomPadding} font-sans antialiased`}>
-            <div className="fixed inset-0 pointer-events-none">
-                <div className="absolute top-[-10%] left-[-10%] w-[100%] h-[40%] rounded-full bg-fuchsia-900/10 blur-[120px]" />
-                <div className="absolute bottom-[-10%] right-[-10%] w-[100%] h-[40%] rounded-full bg-indigo-900/10 blur-[120px]" />
-            </div>
+        <div className={`relative w-full text-[var(--c-text)] ${bottomPadding} font-sans antialiased`}>
 
             <div className="relative z-10 flex flex-col max-w-md mx-auto w-full gap-4 px-3">
                 <header className="px-1 mt-2">
@@ -61,29 +57,28 @@ export const RhythmView: React.FC<RhythmViewProps> = ({
                 {/* Виджет: Час Силы — ТЕПЕРЬ СИММЕТРИЧЕН СИНЕРГИИ */}
                 <button
                     onClick={() => handleAction(onOpenPowerInfo)}
-                    className={`w-full text-left bg-white/[0.03] backdrop-blur-3xl border border-white/10
+                    className={`w-full text-left bg-[var(--c-surface)] backdrop-blur-3xl border border-[var(--c-border)]
                                rounded-[32px] flex flex-col justify-between relative overflow-hidden 
-                               active:scale-[0.98] transition-all shadow-xl ${widgetPadding}`}
+                               active:scale-[0.98] transition-all card-shadow ${widgetPadding}`}
                 >
                     <div className="flex items-start justify-between relative z-10 w-full mb-6">
-                        <div className={`${iconBoxSize} bg-amber-500/10 rounded-2xl text-amber-500 border border-amber-500/20 flex items-center justify-center`}>
+                        <div className={`${iconBoxSize} bg-[var(--c-primary-10)] rounded-2xl text-[var(--c-primary)] border border-[var(--c-primary-20)] flex items-center justify-center`}>
                             <Crown size={fontScale === 'large' ? 32 : 24} />
                         </div>
                         <div className="text-right">
-                            {/* Процент теперь сверху, как в синергии */}
-                            <div className={`${percentSize} font-black tracking-tighter text-amber-500 leading-[0.9] tabular-nums`}>{luckyPercent}%</div>
-                            <div className={`${labelSize} font-bold uppercase tracking-[1px] opacity-40 text-amber-200 mt-2`}>Интенсивность</div>
+                            <div className={`${percentSize} font-black tracking-tighter text-[var(--c-primary)] leading-[0.9] tabular-nums`}>{luckyPercent}%</div>
+                            <div className={`${labelSize} font-bold uppercase tracking-[1px] text-[var(--c-primary-50)] mt-2`}>Интенсивность</div>
                         </div>
                     </div>
 
                     <div className="mt-auto space-y-3 w-full relative z-10">
                         <div className="flex flex-col gap-1.5 px-1">
-                            <span className={`${labelSize} font-bold text-amber-200/40 uppercase tracking-wider`}>Час силы</span>
-                            <span className={`${subTitleSize} font-black text-white leading-tight tabular-nums`}>{luckyHour}</span>
+                            <span className={`${labelSize} font-bold text-[var(--c-primary-50)] uppercase tracking-wider`}>Час силы</span>
+                            <span className={`${subTitleSize} font-black text-[var(--c-text)] leading-tight tabular-nums`}>{luckyHour}</span>
                         </div>
-                        <div className="w-full h-2.5 bg-white/10 rounded-full overflow-hidden">
+                        <div className="w-full h-2.5 bg-black/[0.05] rounded-full overflow-hidden">
                             <div
-                                className="h-full bg-amber-500 rounded-full transition-all duration-1000 ease-out shadow-[0_0_8px_rgba(245,158,11,0.4)]"
+                                className="h-full bg-[var(--c-primary)] rounded-full transition-all duration-1000 ease-out"
                                 style={{ width: `${luckyPercent}%` }}
                             />
                         </div>
@@ -93,28 +88,28 @@ export const RhythmView: React.FC<RhythmViewProps> = ({
                 {/* Виджет: Синергия */}
                 <button
                     onClick={() => handleAction(onOpenSynergyInfo)}
-                    className={`w-full text-left bg-white/[0.03] backdrop-blur-3xl border border-white/10
+                    className={`w-full text-left bg-[var(--c-surface)] backdrop-blur-3xl border border-[var(--c-border)]
                       rounded-[32px] flex flex-col justify-between relative overflow-hidden 
-                      active:scale-[0.98] transition-all shadow-xl ${widgetPadding}`}
+                      active:scale-[0.98] transition-all card-shadow ${widgetPadding}`}
                 >
                     <div className="flex items-start justify-between relative z-10 w-full mb-6">
-                        <div className={`${iconBoxSize} bg-pink-500/10 rounded-2xl text-pink-500 border border-pink-500/20 flex items-center justify-center`}>
+                        <div className={`${iconBoxSize} bg-[var(--c-secondary-20)] rounded-2xl text-[var(--c-secondary)] border border-[var(--c-secondary-40)] flex items-center justify-center`}>
                             <Gem size={fontScale === 'large' ? 32 : 24} />
                         </div>
                         <div className="text-right">
-                            <div className={`${percentSize} font-black tracking-tighter text-pink-500 leading-[0.9] tabular-nums`}>{synergyZodiac.percent}%</div>
-                            <div className={`${labelSize} font-bold uppercase tracking-[1px] opacity-40 text-pink-200 mt-2`}>Синергия</div>
+                            <div className={`${percentSize} font-black tracking-tighter text-[var(--c-secondary)] leading-[0.9] tabular-nums`}>{synergyZodiac.percent}%</div>
+                            <div className={`${labelSize} font-bold uppercase tracking-[1px] text-[var(--c-secondary)] mt-2`}>Синергия</div>
                         </div>
                     </div>
 
                     <div className="mt-auto space-y-3 w-full relative z-10">
                         <div className="flex flex-col gap-1.5 px-1">
-                            <span className={`${labelSize} font-bold text-pink-200/40 uppercase tracking-wider`}>Лучший компаньон</span>
-                            <span className={`${subTitleSize} font-black text-pink-200 leading-tight`}>{synergyZodiac.sign} {synergyZodiac.name}</span>
+                            <span className={`${labelSize} font-bold text-[var(--c-secondary)] uppercase tracking-wider`}>Лучший компаньон</span>
+                            <span className={`${subTitleSize} font-black text-[var(--c-text)] leading-tight`}>{synergyZodiac.sign} {synergyZodiac.name}</span>
                         </div>
-                        <div className="w-full h-2.5 bg-white/10 rounded-full overflow-hidden">
+                        <div className="w-full h-2.5 bg-black/[0.05] rounded-full overflow-hidden">
                             <div
-                                className="h-full bg-pink-500 rounded-full transition-all duration-1000 ease-out shadow-[0_0_8px_rgba(236,72,153,0.4)]"
+                                className="h-full bg-[var(--c-secondary)] rounded-full transition-all duration-1000 ease-out"
                                 style={{ width: `${synergyZodiac.percent}%` }}
                             />
                         </div>
@@ -124,17 +119,13 @@ export const RhythmView: React.FC<RhythmViewProps> = ({
                 {/* Кнопка: Прогноз */}
                 <button
                     onClick={() => handleAction(onOpenPrediction)}
-                    className={`group relative w-full bg-gradient-to-br from-fuchsia-600 to-indigo-700
-                             rounded-[36px] flex flex-col justify-between overflow-hidden shadow-2xl 
-                             active:scale-[0.97] transition-all text-left ${fontScale === 'large' ? 'p-9 min-h-[190px]' : 'p-7 min-h-[150px]'}`}
+                    className={`group relative w-full bg-gradient-to-br from-[var(--c-primary)] to-[var(--c-primary-60)] backdrop-blur-3xl border border-[var(--c-border)]
+                             rounded-[36px] flex flex-col justify-between overflow-hidden
+                             hover:brightness-110 active:scale-[0.97] transition-all text-left ${fontScale === 'large' ? 'p-9 min-h-[190px]' : 'p-7 min-h-[150px]'}`}
                 >
-                    <div className="absolute -right-6 -top-4 p-2 opacity-[0.1] group-hover:scale-110 group-hover:-rotate-12 transition-transform duration-700 ease-out">
-                        <MoonStar size={160} fill="currentColor" />
-                    </div>
-
                     <div className="relative z-10 flex items-start justify-between gap-4">
-                        <div className="shrink-0 p-3 bg-white/15 backdrop-blur-md rounded-2xl text-white shadow-inner border border-white/10">
-                            <MoonStar size={fontScale === 'large' ? 32 : 24} fill="white" className="group-hover:rotate-12 transition-transform" />
+                        <div className={`shrink-0 ${iconBoxSize} bg-white/10 border border-white/20 rounded-2xl text-white flex items-center justify-center`}>
+                            <MoonStar size={fontScale === 'large' ? 32 : 24} fill="currentColor" className="group-hover:rotate-12 transition-transform" />
                         </div>
                         <div className={`${labelSize} font-black uppercase tracking-[2px] text-white/50 text-right mt-1 max-w-[65%] leading-tight`}>
                             Индивидуальный расчет
@@ -143,16 +134,16 @@ export const RhythmView: React.FC<RhythmViewProps> = ({
 
                     <div className="relative z-10 mt-auto flex justify-between items-end gap-2">
                         <div className="space-y-3">
-                            <h2 className={`${titleSize} font-black tracking-tight text-white leading-[0.9] italic`}>
-                                Твой <span className="text-fuchsia-200">гороскоп</span>
+                            <h2 className={`${titleSize} font-black tracking-tight text-white leading-[0.9]`}>
+                                Твой <span className="text-white/80">гороскоп</span>
                             </h2>
                             <div className="flex items-center gap-2">
-                                <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                                <div className="w-2 h-2 rounded-full bg-[var(--c-primary-60)]" />
                                 <span className={`${labelSize} font-bold text-white/60 uppercase tracking-widest`}>Актуально на сегодня</span>
                             </div>
                         </div>
                         <div className="shrink-0 mb-1">
-                            <ChevronRight size={fontScale === 'large' ? 42 : 32} className="text-white/40 group-hover:text-white group-hover:translate-x-1 transition-all duration-300" strokeWidth={3} />
+                            <ChevronRight size={fontScale === 'large' ? 24 : 18} className="text-white/40 group-hover:text-white group-hover:translate-x-1 transition-all duration-300" strokeWidth={2} />
                         </div>
                     </div>
                 </button>

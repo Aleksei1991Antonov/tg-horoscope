@@ -42,7 +42,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = memo(({
     const titleSize = useMemo(() => {
         switch (fontScale) {
             case 'small': return 'text-[clamp(2.2rem,13vw,3.8rem)]';
-            case 'large': return 'text-[clamp(3.2rem,20vw,5.5rem)]';
+            case 'large': return 'text-[clamp(2.5rem,14vw,4.5rem)]';
             default: return 'text-[clamp(2.5rem,15vw,4.5rem)]';
         }
     }, [fontScale]);
@@ -54,17 +54,17 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = memo(({
     ] as const;
 
     return (
-        <div className="relative min-h-screen w-full bg-[#050510] flex flex-col items-center p-[1.5rem] overflow-y-auto overflow-x-hidden font-manrope z-[3000]">
+        <div className="relative min-h-screen w-full bg-[var(--c-bg)] flex flex-col items-center p-[1.5rem] overflow-y-auto overflow-x-hidden font-manrope z-[3000]">
 
             {/* Background Elements */}
             <div className="fixed inset-0 pointer-events-none z-0">
-                <div className="absolute top-[-10%] left-[-10%] w-[70%] h-[50%] bg-fuchsia-600/10 blur-[7.5rem] rounded-full" />
-                <div className="absolute bottom-[-10%] right-[-10%] w-[70%] h-[50%] bg-indigo-600/10 blur-[7.5rem] rounded-full" />
+                <div className="absolute top-[-10%] left-[-10%] w-[70%] h-[50%] bg-[var(--c-primary-10)] blur-[7.5rem] rounded-full" />
+                <div className="absolute bottom-[-10%] right-[-10%] w-[70%] h-[50%] bg-[var(--c-secondary-10)] blur-[7.5rem] rounded-full" />
 
                 {STATIC_STARS.map((star) => (
                     <div
                         key={star.id}
-                        className="absolute bg-white rounded-full animate-twinkle"
+                        className="absolute bg-[var(--c-text)] rounded-full animate-twinkle"
                         style={{
                             top: star.top,
                             left: star.left,
@@ -79,19 +79,19 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = memo(({
 
             {/* Center Content */}
             <div className="relative z-10 w-full flex-1 flex flex-col items-center justify-center text-center py-[2rem]">
-                <h1 className={`${titleSize} font-black text-white uppercase tracking-tighter mb-[0.75rem] leading-none px-2 transition-all duration-300`}>
+                <h1 className={`${titleSize} font-black text-[var(--c-text)] uppercase tracking-tighter mb-[0.75rem] leading-none px-2 transition-all duration-300`}>
                     Гороскоп
                 </h1>
 
                 <div className="flex flex-wrap justify-center gap-[0.5rem] mb-[1.5rem]">
                     {['Ритмы', 'Любовь', 'Красота'].map((tag, i) => (
-                        <span key={i} className="text-[0.65rem] font-black uppercase tracking-widest text-fuchsia-400 bg-fuchsia-400/10 px-[0.75rem] py-[0.25rem] rounded-full border border-fuchsia-400/20">
+                        <span key={i} className="text-[0.65rem] font-black uppercase tracking-widest text-[var(--c-primary)] bg-[var(--c-primary-10)] px-[0.75rem] py-[0.25rem] rounded-full border border-[var(--c-primary-20)]">
                             {tag}
                         </span>
                     ))}
                 </div>
 
-                <p className={`text-white/40 leading-relaxed max-w-[18rem] font-medium px-4 transition-all duration-300 ${
+                <p className={`text-[var(--c-text-40)] leading-relaxed max-w-[18rem] font-medium px-4 transition-all duration-300 ${
                     fontScale === 'large' ? 'text-[1.1rem]' : fontScale === 'small' ? 'text-[0.85rem]' : 'text-[0.95rem]'
                 }`}>
                     Ваша персональная карта звездных ритмов для гармонии в жизни и чувствах.
@@ -100,18 +100,18 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = memo(({
 
             {/* Bottom Card */}
             <div className="relative z-10 w-full max-w-[24rem] mt-auto space-y-[1.5rem] pb-[1rem]">
-                <div className="bg-white/[0.03] border border-white/10 rounded-[2.5rem] p-[1.5rem] backdrop-blur-2xl">
+                <div className="bg-[var(--c-surface)] border border-[var(--c-border)] rounded-[2.5rem] p-[1.5rem] backdrop-blur-2xl card-shadow">
 
                     {/* Scale Selector */}
                     <div className="space-y-3 mb-[1.5rem]">
                         <div className="flex justify-between items-center px-2">
-                            <span className="text-[0.625rem] font-bold uppercase tracking-widest text-white/20">Текст</span>
-                            <span className="text-[0.625rem] font-black text-fuchsia-500 uppercase">
+                            <span className="text-[0.625rem] font-bold uppercase tracking-widest text-[var(--c-text-20)]">Текст</span>
+                            <span className="text-[0.625rem] font-black text-[var(--c-primary)] uppercase">
                                 {fontScale === 'small' ? 'Компакт' : fontScale === 'medium' ? 'Стандарт' : 'Крупный'}
                             </span>
                         </div>
 
-                        <div className="bg-black/40 p-1 rounded-2xl flex items-center relative border border-white/5">
+                        <div className="bg-[var(--c-surface)] p-1 rounded-2xl flex items-center relative border border-[var(--c-border)]">
                             {scales.map((s) => (
                                 <button
                                     key={s.id}
@@ -121,7 +121,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = memo(({
                                     <span className={`
                                         font-black transition-none
                                         ${s.id === 'small' ? 'text-xs' : s.id === 'medium' ? 'text-base' : 'text-xl'}
-                                        ${fontScale === s.id ? 'text-white' : 'text-white/20'}
+                                        ${fontScale === s.id ? 'text-[var(--c-text)]' : 'text-[var(--c-text-20)]'}
                                     `}>
                                         {s.label}
                                     </span>
@@ -130,7 +130,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = memo(({
 
                             {/* Sliding Background Indicator */}
                             <div
-                                className="absolute top-1 bottom-1 transition-all duration-300 ease-out bg-white/10 rounded-xl border border-white/10"
+                                className="absolute top-1 bottom-1 transition-all duration-300 ease-out bg-[var(--c-surface-elevated)] rounded-xl border border-[var(--c-border)]"
                                 style={{
                                     width: 'calc(33.33% - 4px)',
                                     left: fontScale === 'small' ? '4px' : fontScale === 'medium' ? '33.33%' : 'calc(66.66% - 4px)'
@@ -141,27 +141,27 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = memo(({
 
                     <button
                         onClick={handleAccept}
-                        className="w-full py-[1.25rem] rounded-[1.5rem] flex items-center justify-center gap-[0.75rem] font-black uppercase tracking-[0.2em] italic text-[0.875rem] bg-white text-black active:scale-95 mb-[1.25rem] shadow-xl"
+                        className="w-full py-[1.25rem] rounded-[1.5rem] flex items-center justify-center gap-[0.75rem] font-black uppercase tracking-[0.2em] italic text-[0.875rem] bg-[var(--c-primary)] text-[var(--c-bg)] active:scale-95 mb-[1.25rem] shadow-xl"
                     >
                         <span>Начать путь</span>
                         <ChevronRight size="1.1rem" className="animate-bounce-x" />
                     </button>
 
-                    <div className="text-[0.7rem] leading-[1.4] text-white/30 font-medium text-center px-[0.5rem]">
+                    <div className="text-[0.7rem] leading-[1.4] text-[var(--c-text-30)] font-medium text-center px-[0.5rem]">
                         Нажимая кнопку, вы принимаете условия{' '}
-                        <button onClick={onOpenTerms} className="text-white/60 font-bold underline decoration-fuchsia-500/30 active:text-fuchsia-400 transition-colors">
+                        <button onClick={onOpenTerms} className="text-[var(--c-text-60)] font-bold underline decoration-[var(--c-primary-30)] active:text-[var(--c-primary)] transition-colors">
                             Пользовательского соглашения
                         </button>
                         {' '}и{' '}
-                        <button onClick={onOpenPrivacy} className="text-white/60 font-bold underline decoration-fuchsia-500/30 active:text-fuchsia-400 transition-colors">
+                        <button onClick={onOpenPrivacy} className="text-[var(--c-text-60)] font-bold underline decoration-[var(--c-primary-30)] active:text-[var(--c-primary)] transition-colors">
                             Политики конфиденциальности
                         </button>.
                     </div>
                 </div>
 
                 <div className="text-center flex flex-col items-center gap-[0.5rem]">
-                    <div className="h-[1px] w-[3rem] bg-white/10" />
-                    <span className="text-[0.55rem] font-black text-white/20 uppercase tracking-[0.5em]">
+                    <div className="h-[1px] w-[3rem] bg-[var(--c-surface-elevated)]" />
+                    <span className="text-[0.55rem] font-black text-[var(--c-text-20)] uppercase tracking-[0.5em]">
                         ИП Антонов Алексей Олегович
                     </span>
                 </div>

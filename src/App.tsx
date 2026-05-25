@@ -7,11 +7,12 @@ import { PrivacyPolicy } from './components/layout/Header/Menu/Legal/PrivacyPoli
 import { TermsOfService } from './components/layout/Header/Menu/Legal/TermsOfService';
 import { ZodiacModal } from './components/layout/Header/ZodiacModal';
 import { DesktopStub } from './components/DesktopStub';
-import { TextSettingsView } from './components/layout/Header/Menu/TextSettingsView';
+import { AppearanceSettingsView } from './components/layout/Header/Menu/AppearanceSettingsView';
 
 import { RhythmContainer } from './screens/Rhythm/RhythmContainer';
 import { LoveContainer } from './screens/Love/LoveContainer';
 import { KarmaContainer } from './screens/Karma/KarmaContainer';
+import { RhythmKnowledgeView } from './screens/Knowledge/RhythmKnowledgeView';
 
 // ИМПОРТИРУЕМ РАБОЧИЕ УТИЛИТЫ
 import { triggerSuccessHaptic, triggerSelectionHaptic } from './utils/haptics';
@@ -36,11 +37,27 @@ const App: React.FC = () => {
     const [hasAccepted, setHasAccepted] = useState<boolean>(false);
     const [activeLegalDoc, setActiveLegalDoc] = useState<'privacy' | 'terms' | null>(null);
     const [isTextSettingsOpen, setIsTextSettingsOpen] = useState(false);
+    const [isKnowledgeOpen, setIsKnowledgeOpen] = useState(false);
 
     const [fontScale, setFontScale] = useState<ScaleType>(() => {
         const saved = localStorage.getItem('app-font-scale');
         return (saved as ScaleType) || 'small';
     });
+
+    const [theme, setTheme] = useState<string>(() => {
+        const saved = localStorage.getItem('user_theme') || 'morning-magic';
+        document.documentElement.dataset.theme = saved;
+        return saved;
+    });
+
+    useEffect(() => {
+        document.documentElement.dataset.theme = theme;
+        localStorage.setItem('user_theme', theme);
+    }, [theme]);
+
+    useEffect(() => {
+        (window.WebApp as any)?.disableVerticalSwipes?.();
+    }, []);
 
     const backBtnRef = useRef<(() => void) | null>(null);
 
@@ -55,6 +72,11 @@ const App: React.FC = () => {
 
         if (isTextSettingsOpen) {
             const cb = () => setIsTextSettingsOpen(false);
+            backBtnRef.current = cb;
+            bb.show();
+            bb.onClick(cb);
+        } else if (isKnowledgeOpen) {
+            const cb = () => setIsKnowledgeOpen(false);
             backBtnRef.current = cb;
             bb.show();
             bb.onClick(cb);
@@ -74,7 +96,7 @@ const App: React.FC = () => {
             }
             bb.hide();
         };
-    }, [isTextSettingsOpen, activeLegalDoc]);
+    }, [isTextSettingsOpen, activeLegalDoc, isKnowledgeOpen]);
 
     useEffect(() => {
         const html = document.documentElement;
@@ -191,15 +213,26 @@ const App: React.FC = () => {
     }, [activeTab]);
 
     if (isDesktop && !window.location.search.includes('force=mobile')) return <DesktopStub />;
-    if (!isStorageLoaded) return <div className="h-screen bg-[#050510]" />;
+    if (!isStorageLoaded) return <div className="h-screen bg-[var(--c-bg)]" />;
 
     if (isTextSettingsOpen) {
         return (
-            <TextSettingsView
-                onBack={() => setIsTextSettingsOpen(false)}
+            <AppearanceSettingsView
                 fontScale={fontScale}
                 setFontScale={setFontScale}
+                theme={theme}
+                setTheme={setTheme}
             />
+        );
+    }
+
+    if (isKnowledgeOpen) {
+        return (
+            <div className="absolute inset-0 z-[5000] bg-[var(--c-bg)] flex flex-col overflow-hidden">
+                <div className="flex-1 overflow-y-auto">
+                    <RhythmKnowledgeView fontScale={fontScale} />
+                </div>
+            </div>
         );
     }
 
@@ -220,7 +253,7 @@ const App: React.FC = () => {
 
     if (!isSetupDone) {
         return (
-            <div className="fixed inset-0 z-[3000] bg-[#050510]">
+            <div className="fixed inset-0 z-[3000] bg-[var(--c-bg)]">
                 <ZodiacModal
                     isOpen={true}
                     onClose={() => {}}
@@ -234,8 +267,8 @@ const App: React.FC = () => {
     }
 
     return (
-        <div className="h-screen bg-[#050510] text-white font-manrope flex flex-col overflow-hidden relative">
-            <div className={`fixed inset-0 z-[9999] bg-[#050510] transition-opacity duration-1000 pointer-events-none ${isOverlayVisible ? 'opacity-100' : 'opacity-0'}`} />
+        <div className="h-screen bg-[var(--c-bg)] text-[var(--c-text)] font-manrope flex flex-col overflow-hidden relative">
+            <div className={`fixed inset-0 z-[9999] bg-[var(--c-bg)] transition-opacity duration-1000 pointer-events-none ${isOverlayVisible ? 'opacity-100' : 'opacity-0'}`} />
 
             <Header
                 onZodiacChange={(newName: string) => {
@@ -246,6 +279,8 @@ const App: React.FC = () => {
                 fontScale={fontScale}
                 setFontScale={setFontScale}
                 onOpenTextSettings={() => setIsTextSettingsOpen(true)}
+                onOpenKnowledge={() => setIsKnowledgeOpen(true)}
+                onOpenLegalDoc={setActiveLegalDoc}
             />
 
             <div className="flex-1 relative overflow-hidden">

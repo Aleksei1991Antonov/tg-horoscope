@@ -52,15 +52,15 @@ export const DebugHaptics: React.FC<DebugHapticsProps> = ({ onBack }) => {
     };
 
     return (
-        <div className="fixed inset-0 z-[5000] bg-[#050510] flex flex-col p-6 overflow-y-auto text-white">
+        <div className="fixed inset-0 z-[5000] bg-[var(--c-bg)] flex flex-col p-6 overflow-y-auto text-[var(--c-text)]">
             <button onClick={onBack} className="flex items-center text-gray-400 mb-8 active:scale-95 transition-transform">
                 <ArrowLeft className="mr-2" /> Назад
             </button>
 
             <h1 className="text-2xl font-bold mb-2">Haptic Debug</h1>
-            <div className="bg-white/5 p-4 rounded-xl mb-6 border border-white/10">
+            <div className="bg-[var(--c-surface)] p-4 rounded-xl mb-6 border border-[var(--c-border)]">
                 <p className="text-xs text-gray-400 uppercase mb-1">Статус API:</p>
-                <p className="font-mono text-sm text-cyan-400 break-all">{lastStatus}</p>
+                <p className="font-mono text-sm text-[var(--c-primary)] break-all">{lastStatus}</p>
             </div>
 
             <section className="mb-8">
@@ -70,7 +70,7 @@ export const DebugHaptics: React.FC<DebugHapticsProps> = ({ onBack }) => {
                         <button
                             key={style}
                             onClick={() => void triggerImpact(style)}
-                            className="flex items-center justify-between bg-white/10 hover:bg-white/20 active:bg-white/30 p-4 rounded-xl transition-all"
+                            className="flex items-center justify-between bg-[var(--c-surface-elevated)] hover:bg-[var(--c-surface-elevated)] active:bg-[var(--c-surface-elevated)] p-4 rounded-xl transition-all"
                         >
                             <span className="capitalize">{style}</span>
                             <Zap size={18} className="text-yellow-400" />

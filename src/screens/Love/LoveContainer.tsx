@@ -86,25 +86,25 @@ export const LoveContainer: React.FC<LoveContainerProps> = ({ zodiacName, fontSc
             {isSelecting && (
                 <div className="fixed inset-0 z-[1000] flex items-end justify-center px-4 pb-10">
                     <div
-                        className="absolute inset-0 bg-[#050510]/80 backdrop-blur-xl animate-in fade-in duration-300"
+                        className="absolute inset-0 bg-[var(--c-bg-80)] backdrop-blur-xl animate-in fade-in duration-300"
                         onClick={() => {
                             void triggerSuccessHaptic();
                             setIsSelecting(false);
                         }}
                     />
 
-                    <div className="relative w-full max-w-md bg-[#0a0a1a] border border-white/10 rounded-[32px] p-6 shadow-[0_-20px_50px_rgba(0,0,0,0.5)] animate-in slide-in-from-bottom-10 duration-300 max-h-[85vh] overflow-y-auto custom-scrollbar">
+                    <div className="relative w-full max-w-md bg-[var(--c-surface-elevated)] border border-[var(--c-border)] rounded-[32px] p-6 animate-in slide-in-from-bottom-10 duration-300 max-h-[85vh] overflow-y-auto custom-scrollbar">
                         <div className="flex justify-between items-center mb-8">
                             <div className="flex flex-col">
-                                <span className={`${zodiacLabelSize} font-bold uppercase tracking-[0.4em] text-pink-500`}>ЛЮБОВНЫЙ РИТМ</span>
-                                <h3 className={`${modalTitleSize} font-black text-white tracking-tighter uppercase`}>Выбор знака</h3>
+                                <span className={`${zodiacLabelSize} font-bold uppercase tracking-[0.4em] text-[var(--c-primary)]`}>ЛЮБОВНЫЙ РИТМ</span>
+                                <h3 className={`${modalTitleSize} font-black text-[var(--c-text)] tracking-tighter uppercase`}>Выбор знака</h3>
                             </div>
                             <button
                                 onClick={() => {
                                     void triggerSuccessHaptic();
                                     setIsSelecting(false);
                                 }}
-                                className="w-10 h-10 flex items-center justify-center rounded-2xl bg-white/5 border border-white/10 text-white/50 active:scale-90 transition-all"
+                                className="w-10 h-10 flex items-center justify-center rounded-2xl bg-[var(--c-surface)] border border-[var(--c-border)] text-[var(--c-text-50)] active:scale-90 transition-all"
                             >
                                 <X size={20} />
                             </button>
@@ -118,14 +118,14 @@ export const LoveContainer: React.FC<LoveContainerProps> = ({ zodiacName, fontSc
                                     className={`
                                         flex flex-col items-center p-5 rounded-[24px] border transition-all active:scale-95
                                         ${name === partnerName
-                                        ? 'bg-pink-600/20 border-pink-500/50 shadow-[0_0_20px_rgba(236,72,153,0.1)]'
-                                        : 'bg-white/[0.03] border-white/5 hover:border-white/10'}
+                                        ? 'bg-[var(--c-primary-20)] border-[var(--c-primary-50)] shadow-[0_0_20px_var(--c-primary-40)]'
+                                        : 'bg-[var(--c-surface)] border-[var(--c-border)] hover:border-[var(--c-border)]'}
                                     `}
                                 >
                                     <span className={`${emojiSize} mb-2 drop-shadow-md transition-transform ${name === partnerName ? 'scale-110' : 'grayscale-[0.5]'}`}>
                                         {ZODIAC_EMOJI[name]}
                                     </span>
-                                    <span className={`${zodiacLabelSize} font-bold uppercase tracking-tight ${name === partnerName ? 'text-white' : 'text-white/40'}`}>
+                                    <span className={`${zodiacLabelSize} font-bold uppercase tracking-tight ${name === partnerName ? 'text-[var(--c-text)]' : 'text-[var(--c-text-40)]'}`}>
                                         {name}
                                     </span>
                                 </button>

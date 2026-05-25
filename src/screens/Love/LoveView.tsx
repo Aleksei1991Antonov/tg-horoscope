@@ -69,35 +69,35 @@ export const LoveView: React.FC<LoveViewProps> = ({
     const bottomPadding = fontScale === 'large' ? 'pb-40' : 'pb-32';
 
     return (
-        <div className={`w-full text-white ${bottomPadding} px-1 animate-in fade-in duration-500`}>
+        <div className={`w-full text-[var(--c-text)] ${bottomPadding} px-1 animate-in fade-in duration-500`}>
             <header className="mb-6 px-3">
                 <div className="flex items-center gap-2 opacity-40 mb-1">
-                    <Heart size={fontScale === 'large' ? 14 : 12} className="text-pink-500" fill="currentColor" />
+                    <Heart size={fontScale === 'large' ? 14 : 12} className="text-[var(--c-primary)]" fill="currentColor" />
                     <span className={`${headerLabelSize} font-black uppercase tracking-[0.2em]`}>Любовный радар</span>
                 </div>
-                <h1 className={`${headerSize} font-black tracking-normal bg-gradient-to-r from-white via-pink-100 to-pink-500 bg-clip-text text-transparent leading-tight`}>
+                <h1 className={`${headerSize} font-black tracking-normal text-[var(--c-text-90)] leading-tight`}>
                     Совместимость
                 </h1>
             </header>
 
             <div className="flex flex-col gap-4">
-                <div className={`bg-white/[0.03] backdrop-blur-2xl border border-white/10 rounded-[32px] shadow-2xl mx-1 ${widgetPadding}`}>
+                <div className={`bg-[var(--c-surface)] backdrop-blur-2xl border border-[var(--c-border)] rounded-[32px] mx-1 card-shadow ${widgetPadding}`}>
                     <div className="flex items-center justify-around mb-6 gap-2">
                         <div className="flex flex-col items-center gap-2 flex-1">
-                            <div className={`${zodiacBoxSize} rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center relative`}>
+                            <div className={`${zodiacBoxSize} rounded-2xl bg-[var(--c-surface)] border border-[var(--c-border)] flex items-center justify-center relative`}>
                                 {userZodiac}
-                                <div className="absolute -bottom-1 -right-1 p-1 bg-indigo-500 rounded-lg border-2 border-[#050510]">
-                                    <User size={10} className="text-white" />
+                                <div className="absolute -bottom-1 -right-1 p-1 bg-[var(--c-surface-elevated)] rounded-lg border-2 border-[var(--c-bg)]">
+                                    <User size={10} className="text-[var(--c-text)]" />
                                 </div>
                             </div>
                             <span className={`${labelSize} font-black opacity-30 uppercase tracking-widest`}>Вы</span>
                         </div>
 
                         <div className="flex flex-col items-center flex-1 min-w-fit">
-                            <div className={`${percentSize} font-black text-pink-500 leading-none drop-shadow-[0_0_15px_rgba(236,72,153,0.4)]`}>
+                            <div className={`${percentSize} font-black text-[var(--c-primary)] leading-none`}>
                                 {synergyPercent}%
                             </div>
-                            <div className={`${labelSize} font-bold uppercase tracking-[0.1em] text-pink-200/40 mt-2 text-center`}>Химия</div>
+                            <div className={`${labelSize} font-bold uppercase tracking-[0.1em] text-[var(--c-primary-50)] mt-2 text-center`}>Химия</div>
                         </div>
 
                         <div className="flex flex-col items-center gap-2 flex-1">
@@ -105,31 +105,31 @@ export const LoveView: React.FC<LoveViewProps> = ({
                                 onClick={handlePartnerClick}
                                 className={`${zodiacBoxSize} rounded-2xl transition-all active:scale-90 flex items-center justify-center relative ${
                                     partnerZodiac
-                                        ? 'bg-pink-500/10 text-pink-500 border border-pink-500/20'
-                                        : 'bg-white/5 text-white/20 border border-white/10 border-dashed'
+                                        ? 'bg-[var(--c-primary-10)] text-[var(--c-primary)] border border-[var(--c-primary-20)]'
+                                        : 'bg-[var(--c-surface)] text-[var(--c-text-20)] border border-[var(--c-border)] border-dashed'
                                 }`}
                             >
-                                {partnerZodiac ? partnerZodiac : <Plus size={24} className="text-pink-500/50" />}
-                                <div className="absolute -bottom-1 -left-1 p-1 bg-pink-500 rounded-lg border-2 border-[#050510]">
-                                    <Users size={10} className="text-white" />
+                                {partnerZodiac ? partnerZodiac : <Plus size={24} className="text-[var(--c-primary-40)]" />}
+                                <div className="absolute -bottom-1 -left-1 p-1 bg-[var(--c-primary-60)] rounded-lg border-2 border-[var(--c-bg)]">
+                                    <Users size={10} className="text-[var(--c-text)]" />
                                 </div>
                             </button>
                             <span className={`${labelSize} font-black opacity-30 uppercase tracking-widest`}>Партнер</span>
                         </div>
                     </div>
 
-                    <div className="w-full h-2.5 bg-white/5 rounded-full overflow-hidden">
+                    <div className="w-full h-2.5 bg-black/[0.05] rounded-full overflow-hidden">
                         <div
-                            className="h-full bg-gradient-to-r from-pink-500 to-violet-500 transition-all duration-1000"
+                            className="h-full bg-[var(--c-primary)] transition-all duration-1000"
                             style={{ width: `${synergyPercent}%` }}
                         />
                     </div>
                 </div>
 
-                <div className={`bg-white/[0.03] backdrop-blur-2xl border border-white/10 rounded-[32px] mx-1 ${widgetPadding}`}>
+                <div className={`bg-[var(--c-surface)] backdrop-blur-2xl border border-[var(--c-border)] rounded-[32px] mx-1 card-shadow ${widgetPadding}`}>
                     <div className="flex items-center gap-2 mb-6">
-                        <BarChart3 size={fontScale === 'large' ? 14 : 12} className="text-pink-400" />
-                        <h3 className={`${headerLabelSize} font-black uppercase tracking-widest text-white/50`}>Прогноз на неделю</h3>
+                        <BarChart3 size={fontScale === 'large' ? 14 : 12} className="text-[var(--c-secondary-60)]" />
+                        <h3 className={`${headerLabelSize} font-black uppercase tracking-widest text-[var(--c-text-50)]`}>Прогноз на неделю</h3>
                     </div>
 
                     <div className="flex justify-between items-end h-28 w-full px-1">
@@ -139,14 +139,12 @@ export const LoveView: React.FC<LoveViewProps> = ({
                                 <div key={i} className="flex flex-col items-center justify-end h-full flex-1">
                                     <div className="w-full flex justify-center items-end h-full pb-2">
                                         <div
-                                            className={`rounded-full bg-gradient-to-t from-pink-600 to-pink-400 transition-all duration-1000 ease-out ${
-                                                isToday ? 'shadow-[0_0_15px_rgba(236,72,153,0.8)]' : ''
-                                            } ${fontScale === 'large' ? 'w-3' : 'w-2'}`}
+                                            className={`rounded-full bg-[var(--c-primary-60)] transition-all duration-1000 ease-out ${fontScale === 'large' ? 'w-3' : 'w-2'}`}
                                             style={{ height: `${item.score}%`, minHeight: '8px' }}
                                         />
                                     </div>
                                     <span className={`${labelSize} font-black uppercase mt-2 transition-colors ${
-                                        isToday ? 'text-pink-500 opacity-100' : 'text-white opacity-20'}`
+                                        isToday ? 'text-[var(--c-primary)]' : 'text-[var(--c-text)] opacity-20'}`
                                     }>{item.day}
                                     </span>
                                 </div>
@@ -155,37 +153,37 @@ export const LoveView: React.FC<LoveViewProps> = ({
                     </div>
                 </div>
 
-                <div className={`bg-white/[0.03] backdrop-blur-2xl border border-white/10 rounded-[32px] mx-1 ${widgetPadding}`}>
+                <div className={`bg-[var(--c-surface)] backdrop-blur-2xl border border-[var(--c-border)] rounded-[32px] mx-1 card-shadow ${widgetPadding}`}>
                     <div className="flex items-center gap-2 mb-6">
-                        <BarChart3 size={fontScale === 'large' ? 14 : 12} className="text-pink-400" />
-                        <h3 className={`${headerLabelSize} font-black uppercase tracking-widest text-white/50`}>Прогноз на месяц</h3>
+                        <BarChart3 size={fontScale === 'large' ? 14 : 12} className="text-[var(--c-secondary-60)]" />
+                        <h3 className={`${headerLabelSize} font-black uppercase tracking-widest text-[var(--c-text-50)]`}>Прогноз на месяц</h3>
                     </div>
-                    <LineChart data={monthlyForecast} fontScale={fontScale} color="#ec4899" gradientId="loveFill" />
+                    <LineChart data={monthlyForecast} fontScale={fontScale} gradientId="loveFill" />
                 </div>
 
-                <div className={`bg-white/[0.03] backdrop-blur-2xl border border-white/10 rounded-[32px] mx-1 ${widgetPadding}`}>
+                <div className={`bg-[var(--c-surface)] backdrop-blur-2xl border border-[var(--c-border)] rounded-[32px] mx-1 card-shadow ${widgetPadding}`}>
                     <div className="flex items-center gap-2 mb-6">
-                        <BarChart3 size={fontScale === 'large' ? 14 : 12} className="text-pink-400" />
-                        <h3 className={`${headerLabelSize} font-black uppercase tracking-widest text-white/50`}>Прогноз на год</h3>
+                        <BarChart3 size={fontScale === 'large' ? 14 : 12} className="text-[var(--c-secondary-60)]" />
+                        <h3 className={`${headerLabelSize} font-black uppercase tracking-widest text-[var(--c-text-50)]`}>Прогноз на год</h3>
                     </div>
                     <div className="flex items-center justify-center gap-4 mb-5">
                         <button
                             onClick={onYearPrev}
-                            className="w-8 h-8 flex items-center justify-center rounded-xl bg-white/5 border border-white/10 text-white/40 hover:text-white active:scale-90 transition-all disabled:opacity-20"
+                            className="w-8 h-8 flex items-center justify-center rounded-xl bg-[var(--c-surface)] border border-[var(--c-border)] text-[var(--c-text-40)] hover:text-[var(--c-text)] active:scale-90 transition-all disabled:opacity-20"
                         >
                             <ChevronLeft size={16} />
                         </button>
-                        <span className={`${fontScale === 'large' ? 'text-[1.2rem]' : 'text-[1rem]'} font-black tracking-tight text-white`}>
+                        <span className={`${fontScale === 'large' ? 'text-[1.2rem]' : 'text-[1rem]'} font-black tracking-tight text-[var(--c-text)]`}>
                             {currentYear}
                         </span>
                         <button
                             onClick={onYearNext}
-                            className="w-8 h-8 flex items-center justify-center rounded-xl bg-white/5 border border-white/10 text-white/40 hover:text-white active:scale-90 transition-all disabled:opacity-20"
+                            className="w-8 h-8 flex items-center justify-center rounded-xl bg-[var(--c-surface)] border border-[var(--c-border)] text-[var(--c-text-40)] hover:text-[var(--c-text)] active:scale-90 transition-all disabled:opacity-20"
                         >
                             <ChevronRight size={16} />
                         </button>
                     </div>
-                    <LineChart data={yearlyForecast} fontScale={fontScale} color="#a78bfa" gradientId="yearFill" labelSuffix="месяцев" showAllLabels bestIdx={bestWorst.bestIdx} worstIdx={bestWorst.worstIdx} />
+                    <LineChart data={yearlyForecast} fontScale={fontScale} gradientId="yearFill" labelSuffix="месяцев" showAllLabels bestIdx={bestWorst.bestIdx} worstIdx={bestWorst.worstIdx} />
                 </div>
             </div>
         </div>
@@ -195,7 +193,6 @@ export const LoveView: React.FC<LoveViewProps> = ({
 function LineChart({
     data,
     fontScale,
-    color,
     gradientId,
     labelSuffix = 'дней',
     showAllLabels = false,
@@ -204,7 +201,6 @@ function LineChart({
 }: {
     data: LoveForecast[];
     fontScale: 'small' | 'medium' | 'large';
-    color: string;
     gradientId: string;
     labelSuffix?: string;
     showAllLabels?: boolean;
@@ -257,8 +253,8 @@ function LineChart({
             <svg id={svgId} viewBox={`0 0 ${width} ${height}`} className="w-full h-auto" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                     <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor={color} stopOpacity="0.35" />
-                        <stop offset="100%" stopColor={color} stopOpacity="0" />
+                        <stop offset="0%" style={{ stopColor: 'var(--c-primary)', stopOpacity: '0.35' }} />
+                        <stop offset="100%" style={{ stopColor: 'var(--c-primary)', stopOpacity: '0' }} />
                     </linearGradient>
                 </defs>
 
@@ -269,12 +265,12 @@ function LineChart({
                             <line
                                 x1={pad.left} y1={y}
                                 x2={width - pad.right} y2={y}
-                                stroke="#ffffff" strokeOpacity="0.06" strokeDasharray="3,3"
+                                stroke="var(--c-text)" strokeOpacity="0.06" strokeDasharray="3,3"
                             />
                             <text
                                 x={pad.left - 6} y={y}
                                 textAnchor="end" dominantBaseline="middle"
-                                fill="#ffffff" opacity="0.3"
+                                fill="var(--c-text)" opacity="0.3"
                                 fontSize={fontScale === 'large' ? 10 : 8}
                                 fontFamily="inherit" fontWeight="800"
                             >
@@ -285,7 +281,7 @@ function LineChart({
                 })}
 
                 <path d={fillD} fill={`url(#${gradientId})`} />
-                <path d={lineD} fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                <path d={lineD} fill="none" className="stroke-[var(--c-primary)]" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
 
                 {points.map((p, i) => {
                     const isBest = hasHighlights && i === bestIdx;
@@ -297,10 +293,10 @@ function LineChart({
                             cx={p.x}
                             cy={p.y}
                             r={isBest ? 7 : isWorst ? 6 : i === todayIdx ? 5 : 2.5}
-                            fill={isBest ? '#22c55e' : isWorst ? '#ef4444' : i === todayIdx ? color : '#ffffff'}
-                            stroke={i === todayIdx || isSpecial ? '#ffffff' : 'none'}
+                            fill={isBest ? 'var(--c-primary)' : isWorst ? 'var(--c-secondary)' : 'var(--c-text)'}
+                            style={i === todayIdx ? { fill: 'var(--c-primary)' } : {}}
+                            stroke={i === todayIdx || isSpecial ? 'var(--c-bg)' : 'none'}
                             strokeWidth={i === todayIdx || isSpecial ? 2.5 : 0}
-                            className={(i === todayIdx || isSpecial) ? 'drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]' : ''}
                         />
                     );
                 })}
@@ -311,7 +307,7 @@ function LineChart({
                             x={points[bestIdx].x}
                             y={points[bestIdx].y - 12}
                             textAnchor="middle"
-                            fill="#22c55e"
+                            fill="var(--c-primary)"
                             fontSize={fontScale === 'large' ? 9 : 7}
                             fontFamily="inherit" fontWeight="800"
                             opacity="0.9"
@@ -322,7 +318,7 @@ function LineChart({
                             x={points[worstIdx].x}
                             y={points[worstIdx].y - 12}
                             textAnchor="middle"
-                            fill="#ef4444"
+                            fill="var(--c-secondary)"
                             fontSize={fontScale === 'large' ? 9 : 7}
                             fontFamily="inherit" fontWeight="800"
                             opacity="0.9"
@@ -341,7 +337,7 @@ function LineChart({
                             x={points[i].x}
                             y={height - 10}
                             textAnchor="middle"
-                            fill={isToday ? color : '#ffffff'}
+                            style={{ fill: isToday ? 'var(--c-primary)' : 'var(--c-text)' }}
                             opacity={isToday ? 1 : 0.3}
                             fontSize={fontScale === 'large' ? (showAllLabels ? 11 : 13) : (showAllLabels ? 8 : 10)}
                             fontFamily="inherit" fontWeight="800"
@@ -356,7 +352,7 @@ function LineChart({
                         x={points[todayIdx].x}
                         y={height - 10}
                         textAnchor="middle"
-                        fill={color}
+                        style={{ fill: 'var(--c-primary)' }}
                         fontSize={fontScale === 'large' ? (showAllLabels ? 9 : 10) : (showAllLabels ? 7 : 8)}
                         fontFamily="inherit" fontWeight="700"
                         dy={showAllLabels ? '11' : '13'}
@@ -369,27 +365,27 @@ function LineChart({
             {hasHighlights && (
                 <div className="flex items-center justify-center gap-4 mt-3">
                     <div className="flex items-center gap-1.5">
-                        <div className="w-2 h-2 rounded-full bg-green-500" />
-                        <span className={`${fontScale === 'large' ? 'text-[0.6875rem]' : 'text-[0.5625rem]'} font-black uppercase tracking-widest text-green-400/60`}>
+                        <div className="w-2 h-2 rounded-full bg-[var(--c-primary)]" />
+                        <span className={`${fontScale === 'large' ? 'text-[0.6875rem]' : 'text-[0.5625rem]'} font-black uppercase tracking-widest text-[var(--c-primary-60)]`}>
                             {chartData[bestIdx].day} — {chartData[bestIdx].score}%
                         </span>
                     </div>
                     <div className="flex items-center gap-1.5">
-                        <div className="w-2 h-2 rounded-full bg-red-500" />
-                        <span className={`${fontScale === 'large' ? 'text-[0.6875rem]' : 'text-[0.5625rem]'} font-black uppercase tracking-widest text-red-400/60`}>
+                        <div className="w-2 h-2 rounded-full bg-[var(--c-secondary)]" />
+                        <span className={`${fontScale === 'large' ? 'text-[0.6875rem]' : 'text-[0.5625rem]'} font-black uppercase tracking-widest text-[var(--c-secondary-60)]`}>
                             {chartData[worstIdx].day} — {chartData[worstIdx].score}%
                         </span>
                     </div>
                 </div>
             )}
             <div className="flex justify-between items-center mt-3 px-2">
-                <span className={`${fontScale === 'large' ? 'text-[0.6875rem]' : 'text-[0.5625rem]'} font-black uppercase tracking-widest text-white/20`}>
+                <span className={`${fontScale === 'large' ? 'text-[0.6875rem]' : 'text-[0.5625rem]'} font-black uppercase tracking-widest text-[var(--c-text-20)]`}>
                     {chartData[0].score}%
                 </span>
-                <span className={`${fontScale === 'large' ? 'text-[0.6875rem]' : 'text-[0.5625rem]'} font-black uppercase tracking-[0.15em] text-white/30`}>
+                <span className={`${fontScale === 'large' ? 'text-[0.6875rem]' : 'text-[0.5625rem]'} font-black uppercase tracking-[0.15em] text-[var(--c-text-30)]`}>
                     {chartData.length} {labelSuffix}
                 </span>
-                <span className={`${fontScale === 'large' ? 'text-[0.6875rem]' : 'text-[0.5625rem]'} font-black uppercase tracking-widest text-white/20`}>
+                <span className={`${fontScale === 'large' ? 'text-[0.6875rem]' : 'text-[0.5625rem]'} font-black uppercase tracking-widest text-[var(--c-text-20)]`}>
                     {chartData[chartData.length - 1].score}%
                 </span>
             </div>

@@ -10,7 +10,9 @@ interface HeaderContainerProps {
     currentZodiacName: string;
     fontScale: 'small' | 'medium' | 'large';
     setFontScale: (scale: 'small' | 'medium' | 'large') => void;
-    onOpenTextSettings: () => void; // Добавляем новый пропс
+    onOpenTextSettings: () => void;
+    onOpenKnowledge: () => void;
+    onOpenLegalDoc: (doc: 'privacy' | 'terms') => void;
 }
 
 export const HeaderContainer: React.FC<HeaderContainerProps> = ({
@@ -18,7 +20,9 @@ export const HeaderContainer: React.FC<HeaderContainerProps> = ({
                                                                     currentZodiacName,
                                                                     fontScale,
                                                                     setFontScale,
-                                                                    onOpenTextSettings // Принимаем его
+                                                                    onOpenTextSettings,
+                                                                    onOpenKnowledge,
+                                                                    onOpenLegalDoc
                                                                 }) => {
     const [userName] = useState(() => {
         const user = window.WebApp?.initDataUnsafe?.user;
@@ -76,8 +80,9 @@ export const HeaderContainer: React.FC<HeaderContainerProps> = ({
                 setIsOpen={setIsMenuOpen}
                 fontScale={fontScale}
                 setFontScale={setFontScale}
-                // Передаем функцию открытия настроек в MenuContainer
                 onOpenTextSettings={onOpenTextSettings}
+                onOpenKnowledge={onOpenKnowledge}
+                onOpenLegalDoc={onOpenLegalDoc}
             />
 
             <ZodiacModal

@@ -37,26 +37,27 @@ export const HeaderView: React.FC<HeaderViewProps> = ({
     const emojiSize = fontScale === 'large' ? 'text-[1.8rem]' : 'text-[1.5rem]';
 
     return (
-        <header className="sticky top-0 z-50 w-full px-[1rem] pt-[1rem] pb-[0.5rem] bg-[#050510]/60 backdrop-blur-2xl">
-            <div className="max-w-md mx-auto flex justify-between items-center bg-white/[0.03] border border-white/10 p-[0.5rem] pl-[0.75rem] rounded-[1.5rem] shadow-2xl gap-[0.5rem]">
+        <header className="sticky top-0 z-50 w-full px-[1rem] pt-[1rem] pb-[0.5rem] bg-[var(--c-bg-60)] backdrop-blur-2xl">
+            <div className="max-w-md mx-auto flex justify-between items-center bg-[var(--c-surface)] border border-[var(--c-border)] p-[0.5rem] pl-[0.75rem] rounded-[1.5rem] gap-[0.5rem]">
                 <div className="flex items-center gap-[0.75rem] min-w-0 flex-1">
                     <button
                         onClick={onZodiacClick}
-                        className="relative group outline-none flex-shrink-0"
+                        className="relative flex-shrink-0 outline-none"
                     >
-                        <div className="absolute inset-0 bg-fuchsia-500/20 blur-lg rounded-full group-hover:bg-fuchsia-500/40 transition-all" />
-                        <div className={`relative ${iconSize} flex items-center justify-center bg-gradient-to-br from-white/10 to-white/[0.02] border border-white/10 rounded-[1rem] shadow-inner overflow-hidden active:scale-90 transition-all`}>
-                            <span className={`${emojiSize} drop-shadow-md`}>{zodiacSign}</span>
+                        <div className={`relative ${iconSize} flex items-center justify-center bg-gradient-to-br from-[var(--c-primary)] to-[var(--c-secondary)] p-[2px] rounded-[1rem] overflow-hidden active:scale-90 transition-all`}>
+                            <div className="w-full h-full rounded-[calc(1rem-2px)] bg-[var(--c-bg)] flex items-center justify-center">
+                                <span className={`${emojiSize}`}>{zodiacSign}</span>
+                            </div>
                         </div>
                     </button>
 
                     <div className="flex flex-col min-w-0 flex-1 text-left">
                         <div className="flex items-center gap-[0.4rem] w-full">
-                            <span className={`font-black tracking-tight text-white uppercase truncate ${getFontSizeClass(userName)}`}>
+                            <span className={`font-black tracking-tight text-[var(--c-text)] uppercase truncate ${getFontSizeClass(userName)}`}>
                                 {userName}
                             </span>
-                            <span className="w-[0.25rem] h-[0.25rem] rounded-full bg-white/20 flex-shrink-0" />
-                            <span className={`${zodiacLabelSize} font-bold text-fuchsia-400/90 uppercase tracking-tighter flex-shrink-0`}>
+                            <span className="w-[0.25rem] h-[0.25rem] rounded-full bg-[var(--c-surface-elevated)] flex-shrink-0" />
+                            <span className={`${zodiacLabelSize} font-bold text-[var(--c-primary)] uppercase tracking-widest flex-shrink-0`}>
                                 {zodiacName}
                             </span>
                         </div>
@@ -70,7 +71,7 @@ export const HeaderView: React.FC<HeaderViewProps> = ({
 
                 <button
                     onClick={onMenuClick}
-                    className={`${iconSize} flex-shrink-0 flex items-center justify-center rounded-[1rem] bg-white/5 border border-white/5 hover:bg-white/10 active:scale-90 transition-all text-white/70 hover:text-white`}
+                    className={`${iconSize} flex-shrink-0 flex items-center justify-center rounded-[1rem] bg-[var(--c-surface)] border border-[var(--c-border)] hover:bg-[var(--c-surface-elevated)] active:scale-90 transition-all text-[var(--c-text-50)] hover:text-[var(--c-text)]`}
                 >
                     <Menu size={fontScale === 'large' ? "1.5rem" : "1.25rem"} strokeWidth={2.5} />
                 </button>

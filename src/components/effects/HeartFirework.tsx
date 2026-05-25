@@ -25,7 +25,7 @@ const StardustEffect = forwardRef<HeartFireworkRef>((_, ref) => {
     const animationFrameId = useRef<number | null>(null);
 
     const createParticle = (x: number, y: number, delay = 0): Particle => {
-        const colors = ['#F9A8D4', '#FDE68A', '#E879F9', '#C084FC', '#FFFFFF'];
+        const colors = ['#FFB5C5', '#FFD4A8', '#E8C4FF', '#B5D8FF', '#FFFFFF'];
 
         return {
             x: x + (Math.random() - 0.5) * 40,
