@@ -5,6 +5,10 @@
   --font-manrope: "Manrope", sans-serif;
 }
 
+html {
+    overscroll-behavior: none;
+}
+
 :root {
   --max-ui-bg-primary: #FBF6F0;
   --max-ui-text-primary: #2C2824;

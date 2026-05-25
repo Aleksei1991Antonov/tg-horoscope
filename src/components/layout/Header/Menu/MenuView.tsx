@@ -107,7 +107,7 @@ export const MenuView: React.FC<MenuViewProps> = ({
                                                 <Type size="1.25rem" />
                                             </div>
                                             <div className="text-left">
-                                                <div className={`${itemTitleSize} font-black text-[var(--c-text)] uppercase italic`}>Оформление</div>
+                                                <div className={`${itemTitleSize} font-black text-[var(--c-text)] uppercase`}>Оформление</div>
                                                 <div className={`${itemSubtextSize} text-[var(--c-text-30)] uppercase font-bold tracking-tight`}>
                                                     Шрифт и тема
                                                 </div>
@@ -124,7 +124,7 @@ export const MenuView: React.FC<MenuViewProps> = ({
                                             <BookOpen size="1.25rem" />
                                         </div>
                                         <div className="text-left">
-                                            <div className={`${itemTitleSize} font-black text-[var(--c-text)] uppercase italic`}>База знаний</div>
+                                            <div className={`${itemTitleSize} font-black text-[var(--c-text)] uppercase`}>База знаний</div>
                                             <div className={`${itemSubtextSize} text-[var(--c-text-30)] uppercase font-bold tracking-tight`}>Алгоритмы и справка</div>
                                         </div>
                                     </button>
@@ -137,7 +137,7 @@ export const MenuView: React.FC<MenuViewProps> = ({
                                             <Mail size="1.25rem" />
                                         </div>
                                         <div className="text-left">
-                                            <div className={`${itemTitleSize} font-black text-[var(--c-text)] uppercase italic`}>Техподдержка</div>
+                                            <div className={`${itemTitleSize} font-black text-[var(--c-text)] uppercase`}>Техподдержка</div>
                                             <div className={`${itemSubtextSize} text-[var(--c-primary-60)] uppercase font-bold tracking-tighter`}>{supportEmail}</div>
                                         </div>
                                     </button>
@@ -196,7 +196,7 @@ export const MenuView: React.FC<MenuViewProps> = ({
                                                     <div className="pt-[0.5rem] border-t border-[var(--c-border)] flex justify-between items-center">
                                                         <div className="flex items-center gap-2">
                                                             <Heart size={10} className="text-[var(--c-primary)]" />
-                                                            <span className="text-[var(--c-text-30)] uppercase italic tracking-tighter">Поддержать</span>
+                                                            <span className="text-[var(--c-text-30)] uppercase tracking-tighter">Поддержать</span>
                                                         </div>
                                                         <button onClick={() => { void triggerSuccessHaptic(); window.WebApp?.openLink(donatePageUrl); }} className="text-[var(--c-primary)] font-bold">ЮMoney</button>
                                                     </div>

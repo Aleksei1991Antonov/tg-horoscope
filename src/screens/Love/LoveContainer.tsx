@@ -67,7 +67,6 @@ export const LoveContainer: React.FC<LoveContainerProps> = ({ zodiacName, fontSc
     return (
         <div className="relative w-full h-full">
             <LoveView
-                userZodiac={ZODIAC_EMOJI[zodiacName] || zodiacName}
                 partnerZodiac={partnerName ? ZODIAC_EMOJI[partnerName] : undefined}
                 synergyPercent={data.synergyPercent}
                 weeklyForecast={data.weeklyForecast}

@@ -1,5 +1,5 @@
 import React, { useMemo, useCallback } from 'react';
-import { Heart, Plus, BarChart3, User, Users, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Heart, Plus, BarChart3, ChevronLeft, ChevronRight } from 'lucide-react';
 import { triggerSuccessHaptic } from '../../utils/haptics';
 
 interface LoveForecast {
@@ -8,7 +8,6 @@ interface LoveForecast {
 }
 
 interface LoveViewProps {
-    userZodiac: string;
     partnerZodiac?: string;
     synergyPercent?: number;
     weeklyForecast?: LoveForecast[];
@@ -22,8 +21,7 @@ interface LoveViewProps {
 }
 
 export const LoveView: React.FC<LoveViewProps> = ({
-                                                      userZodiac,
-                                                       partnerZodiac,
+                                                        partnerZodiac,
                                                        synergyPercent = 0,
                                                        weeklyForecast = [],
                                                        monthlyForecast = [],
@@ -84,11 +82,8 @@ export const LoveView: React.FC<LoveViewProps> = ({
                 <div className={`bg-[var(--c-surface)] backdrop-blur-2xl border border-[var(--c-border)] rounded-[32px] mx-1 card-shadow ${widgetPadding}`}>
                     <div className="flex items-center justify-around mb-6 gap-2">
                         <div className="flex flex-col items-center gap-2 flex-1">
-                            <div className={`${zodiacBoxSize} rounded-2xl bg-[var(--c-surface)] border border-[var(--c-border)] flex items-center justify-center relative`}>
-                                {userZodiac}
-                                <div className="absolute -bottom-1 -right-1 p-1 bg-[var(--c-surface-elevated)] rounded-lg border-2 border-[var(--c-bg)]">
-                                    <User size={10} className="text-[var(--c-text)]" />
-                                </div>
+                            <div className={`${zodiacBoxSize} rounded-2xl bg-[var(--c-primary-10)] border border-[var(--c-primary-20)] flex items-center justify-center text-[var(--c-primary)]`}>
+                                <Heart size={fontScale === 'large' ? 32 : 24} fill="currentColor" />
                             </div>
                             <span className={`${labelSize} font-black opacity-30 uppercase tracking-widest`}>Вы</span>
                         </div>
@@ -103,16 +98,16 @@ export const LoveView: React.FC<LoveViewProps> = ({
                         <div className="flex flex-col items-center gap-2 flex-1">
                             <button
                                 onClick={handlePartnerClick}
-                                className={`${zodiacBoxSize} rounded-2xl transition-all active:scale-90 flex items-center justify-center relative ${
+                                className={`${zodiacBoxSize} rounded-2xl transition-all active:scale-90 flex items-center justify-center ${
                                     partnerZodiac
                                         ? 'bg-[var(--c-primary-10)] text-[var(--c-primary)] border border-[var(--c-primary-20)]'
                                         : 'bg-[var(--c-surface)] text-[var(--c-text-20)] border border-[var(--c-border)] border-dashed'
                                 }`}
                             >
-                                {partnerZodiac ? partnerZodiac : <Plus size={24} className="text-[var(--c-primary-40)]" />}
-                                <div className="absolute -bottom-1 -left-1 p-1 bg-[var(--c-primary-60)] rounded-lg border-2 border-[var(--c-bg)]">
-                                    <Users size={10} className="text-[var(--c-text)]" />
-                                </div>
+                                {partnerZodiac
+                                    ? <Heart size={fontScale === 'large' ? 32 : 24} className="text-[var(--c-primary)]" fill="currentColor" />
+                                    : <Plus size={24} className="text-[var(--c-primary-40)]" />
+                                }
                             </button>
                             <span className={`${labelSize} font-black opacity-30 uppercase tracking-widest`}>Партнер</span>
                         </div>
