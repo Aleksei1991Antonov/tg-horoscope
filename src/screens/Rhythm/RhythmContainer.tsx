@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback } from 'react';
+import React, { useMemo, useState, useCallback, useEffect } from 'react';
 import { RhythmView } from './RhythmView';
 import { PowerHourEngine } from '../../core/engines/PowerHourEngine';
 import { SynergyEngine } from '../../core/engines/SynergyEngine';
@@ -11,10 +11,10 @@ import { triggerSuccessHaptic } from '../../utils/haptics';
 interface RhythmContainerProps {
     zodiacName: string;
     fontScale: 'small' | 'medium' | 'large';
+    onSetBackHandler: (handler: (() => void) | null) => void;
 }
 
-export const RhythmContainer: React.FC<RhythmContainerProps> = ({ zodiacName, fontScale }) => {
-    // Используем WebApp из MAX Bridge для получения имени
+export const RhythmContainer: React.FC<RhythmContainerProps> = ({ zodiacName, fontScale, onSetBackHandler }) => {
     const [userName] = useState(() => {
         const name = window.WebApp?.initDataUnsafe?.user?.first_name;
         return name ? name.toUpperCase() : "ПОЛЬЗОВАТЕЛЬ";
@@ -24,7 +24,8 @@ export const RhythmContainer: React.FC<RhythmContainerProps> = ({ zodiacName, fo
     const [isPowerModalOpen, setIsPowerModalOpen] = useState(false);
     const [isSynergyModalOpen, setIsSynergyModalOpen] = useState(false);
 
-    // Мемоизируем расчеты, чтобы не пересчитывать при каждом рендере (например, при смене fontScale)
+    const anyModalOpen = isModalOpen || isPowerModalOpen || isSynergyModalOpen;
+
     const astroData = useMemo(() => {
         const power = PowerHourEngine.calculate(zodiacName);
         const synergy = SynergyEngine.calculateDailyMatch(zodiacName);
@@ -33,7 +34,6 @@ export const RhythmContainer: React.FC<RhythmContainerProps> = ({ zodiacName, fo
         return { power, synergy, dailyPrediction };
     }, [zodiacName]);
 
-    // Оптимизированные обработчики с тактильным откликом
     const handleOpenPrediction = useCallback(() => {
         void triggerSuccessHaptic();
         setIsModalOpen(true);
@@ -54,6 +54,14 @@ export const RhythmContainer: React.FC<RhythmContainerProps> = ({ zodiacName, fo
         setIsPowerModalOpen(false);
         setIsSynergyModalOpen(false);
     }, []);
+
+    useEffect(() => {
+        if (anyModalOpen) {
+            onSetBackHandler(handleCloseAll);
+        } else {
+            onSetBackHandler(null);
+        }
+    }, [anyModalOpen, onSetBackHandler, handleCloseAll]);
 
     return (
         <>

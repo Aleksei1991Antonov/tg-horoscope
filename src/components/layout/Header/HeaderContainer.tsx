@@ -13,6 +13,7 @@ interface HeaderContainerProps {
     onOpenTextSettings: () => void;
     onOpenKnowledge: () => void;
     onOpenLegalDoc: (doc: 'privacy' | 'terms') => void;
+    onSetBackHandler: (handler: (() => void) | null) => void;
 }
 
 export const HeaderContainer: React.FC<HeaderContainerProps> = ({
@@ -22,7 +23,8 @@ export const HeaderContainer: React.FC<HeaderContainerProps> = ({
                                                                     setFontScale,
                                                                     onOpenTextSettings,
                                                                     onOpenKnowledge,
-                                                                    onOpenLegalDoc
+                                                                    onOpenLegalDoc,
+                                                                    onSetBackHandler
                                                                 }) => {
     const [userName] = useState(() => {
         const user = window.WebApp?.initDataUnsafe?.user;
@@ -83,6 +85,7 @@ export const HeaderContainer: React.FC<HeaderContainerProps> = ({
                 onOpenTextSettings={onOpenTextSettings}
                 onOpenKnowledge={onOpenKnowledge}
                 onOpenLegalDoc={onOpenLegalDoc}
+                onSetBackHandler={onSetBackHandler}
             />
 
             <ZodiacModal

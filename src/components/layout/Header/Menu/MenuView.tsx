@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
     Shield, FileText, BookOpen, Building2,
     ChevronDown, Copy, Check, Mail, Type, Heart, ChevronRight, ExternalLink
@@ -16,13 +16,15 @@ interface MenuViewProps {
     onOpenTextSettings: () => void;
     onOpenKnowledge: () => void;
     onOpenLegalDoc: (doc: 'privacy' | 'terms') => void;
+    onSetBackHandler: (handler: (() => void) | null) => void;
 }
 
 export const MenuView: React.FC<MenuViewProps> = ({
                                                       isOpen, onClose,
                                                       onTouchStart, onTouchMove, onTouchEnd,
                                                       fontScale, onOpenTextSettings,
-                                                      onOpenKnowledge, onOpenLegalDoc
+                                                      onOpenKnowledge, onOpenLegalDoc,
+                                                      onSetBackHandler
                                                   }) => {
     const [isLegalOpen, setIsLegalOpen] = useState(false);
     const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
@@ -54,11 +56,21 @@ export const MenuView: React.FC<MenuViewProps> = ({
         const nextState = !isLegalOpen;
         setIsLegalOpen(nextState);
         if (nextState) {
-            setTimeout(() => {
-                creatorRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 100);
+            requestAnimationFrame(() => {
+                creatorRef.current?.scrollIntoView({ behavior: 'instant', block: 'start' });
+            });
         }
     };
+
+    useEffect(() => {
+        if (!isOpen) {
+            onSetBackHandler(null);
+        } else if (isPhotoModalOpen) {
+            onSetBackHandler(() => () => setIsPhotoModalOpen(false));
+        } else {
+            onSetBackHandler(() => () => onClose());
+        }
+    }, [isOpen, isPhotoModalOpen, onSetBackHandler, onClose]);
 
     if (!isOpen) return null;
 
@@ -80,7 +92,7 @@ export const MenuView: React.FC<MenuViewProps> = ({
                                     <div className="w-[0.4rem] h-[0.4rem] rounded-full bg-[var(--c-primary)]" />
                                     <span className="text-[0.5rem] font-black uppercase tracking-[0.4em] text-[var(--c-text-30)]">Гороскоп v1.0.0</span>
                                 </div>
-                                <h2 className={`${menuTitleSize} font-black text-[var(--c-text)] uppercase italic leading-none`}>Меню</h2>
+                                <h2 className={`${menuTitleSize} font-black text-[var(--c-text)] uppercase leading-none`}>Меню</h2>
                             </div>
 
                             <div className="space-y-[2rem]">

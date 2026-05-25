@@ -38,6 +38,10 @@ const App: React.FC = () => {
     const [activeLegalDoc, setActiveLegalDoc] = useState<'privacy' | 'terms' | null>(null);
     const [isTextSettingsOpen, setIsTextSettingsOpen] = useState(false);
     const [isKnowledgeOpen, setIsKnowledgeOpen] = useState(false);
+    const [backHandler, setBackHandlerState] = useState<(() => void) | null>(null);
+    const setBackHandler = useCallback((handler: (() => void) | null) => {
+        setBackHandlerState(handler);
+    }, []);
 
     const [fontScale, setFontScale] = useState<ScaleType>(() => {
         const saved = localStorage.getItem('app-font-scale');
@@ -85,6 +89,10 @@ const App: React.FC = () => {
             backBtnRef.current = cb;
             bb.show();
             bb.onClick(cb);
+        } else if (backHandler) {
+            backBtnRef.current = backHandler;
+            bb.show();
+            bb.onClick(backHandler);
         } else {
             bb.hide();
         }
@@ -96,7 +104,7 @@ const App: React.FC = () => {
             }
             bb.hide();
         };
-    }, [isTextSettingsOpen, activeLegalDoc, isKnowledgeOpen]);
+    }, [isTextSettingsOpen, activeLegalDoc, isKnowledgeOpen, backHandler]);
 
     useEffect(() => {
         const html = document.documentElement;
@@ -281,12 +289,13 @@ const App: React.FC = () => {
                 onOpenTextSettings={() => setIsTextSettingsOpen(true)}
                 onOpenKnowledge={() => setIsKnowledgeOpen(true)}
                 onOpenLegalDoc={setActiveLegalDoc}
+                onSetBackHandler={setBackHandler}
             />
 
             <div className="flex-1 relative overflow-hidden">
                 <PageLayout className="h-full">
                     <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 pb-6 h-full">
-                        {activeTab === 'rhythm' && <RhythmContainer zodiacName={selectedZodiac} fontScale={fontScale} />}
+                        {activeTab === 'rhythm' && <RhythmContainer zodiacName={selectedZodiac} fontScale={fontScale} onSetBackHandler={setBackHandler} />}
                         {activeTab === 'love' && <LoveContainer zodiacName={selectedZodiac} fontScale={fontScale} />}
                         {activeTab === 'karma' && <KarmaContainer fontScale={fontScale} />}
                     </div>

@@ -11,6 +11,7 @@ interface MenuContainerProps {
     onOpenTextSettings: () => void;
     onOpenKnowledge: () => void;
     onOpenLegalDoc: (doc: 'privacy' | 'terms') => void;
+    onSetBackHandler: (handler: (() => void) | null) => void;
 }
 
 export const MenuContainer: React.FC<MenuContainerProps> = ({
@@ -19,7 +20,8 @@ export const MenuContainer: React.FC<MenuContainerProps> = ({
                                                                 fontScale,
                                                                 onOpenTextSettings,
                                                                 onOpenKnowledge,
-                                                                onOpenLegalDoc
+                                                                onOpenLegalDoc,
+                                                                onSetBackHandler
                                                             }) => {
     const touchStartX = useRef<number>(0);
     const touchEndX = useRef<number>(0);
@@ -55,6 +57,7 @@ export const MenuContainer: React.FC<MenuContainerProps> = ({
             onOpenTextSettings={onOpenTextSettings}
             onOpenKnowledge={onOpenKnowledge}
             onOpenLegalDoc={onOpenLegalDoc}
+            onSetBackHandler={onSetBackHandler}
         />
     );
 };
