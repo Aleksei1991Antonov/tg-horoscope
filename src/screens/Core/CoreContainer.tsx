@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import { CoreView } from './CoreView';
+import { CoreEngine } from '../../core/engines/CoreEngine';
 import { triggerSuccessHaptic } from '../../utils/haptics';
 
 interface CoreContainerProps {
@@ -18,6 +19,10 @@ export const CoreContainer: React.FC<CoreContainerProps> = ({ zodiacName = 'Ск
         };
     }, []);
 
+    const profile = useMemo(() => {
+        return CoreEngine.getProfile(zodiacName);
+    }, [zodiacName]);
+
     const [isPremium, setIsPremium] = useState(() => {
         return localStorage.getItem('core_premium') === 'true';
     });
@@ -33,7 +38,7 @@ export const CoreContainer: React.FC<CoreContainerProps> = ({ zodiacName = 'Ск
         <CoreView
             userName={userData.name}
             userPhotoUrl={userData.photoUrl}
-            zodiacName={zodiacName}
+            profile={profile}
             fontScale={fontScale}
             isPremium={isPremium}
             onTogglePremium={handleTogglePremium}

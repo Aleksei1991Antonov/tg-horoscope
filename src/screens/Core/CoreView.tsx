@@ -1,5 +1,23 @@
 import React from 'react';
+import type { CoreProfile } from '../../core/engines/CoreEngine';
 import { Shield, Zap, Eye, Moon, Flame, Compass, Sparkles } from 'lucide-react';
+
+const PLANET_ICONS: Record<string, string> = {
+    "Марс": "♂",
+    "Венера": "♀",
+    "Меркурий": "☿",
+    "Юпитер": "♃",
+    "Сатурн": "♄",
+    "Солнце": "☉",
+    "Луна": "☽",
+};
+
+const ELEMENT_ICONS: Record<string, string> = {
+    fire: "▲",
+    earth: "■",
+    air: "◆",
+    water: "▼",
+};
 
 const RUNES = [
     { id: 'guard', label: 'Щит', icon: Shield },
@@ -13,7 +31,7 @@ const RUNES = [
 interface CoreViewProps {
     userName: string;
     userPhotoUrl?: string;
-    zodiacName: string;
+    profile: CoreProfile;
     fontScale: 'small' | 'medium' | 'large';
     isPremium: boolean;
     onTogglePremium: () => void;
@@ -22,7 +40,7 @@ interface CoreViewProps {
 export const CoreView: React.FC<CoreViewProps> = ({
     userName,
     userPhotoUrl,
-    zodiacName,
+    profile,
     fontScale,
     isPremium,
     onTogglePremium,
@@ -75,13 +93,91 @@ export const CoreView: React.FC<CoreViewProps> = ({
                     </span>
                 )}
 
-                <div className="text-center px-4">
-                    <div className={`${fontScale === 'large' ? 'text-[1rem]' : 'text-[0.875rem]'} font-bold text-[var(--c-text-40)] tracking-wide mb-2`}>
-                        Твой знак — <span className="text-[var(--c-primary)]">{zodiacName}</span>
+                <div className="w-full max-w-sm">
+                    <div className="rounded-3xl bg-[var(--c-surface)] border border-[var(--c-border)] overflow-hidden">
+                        <div className="p-5 flex items-center gap-4 border-b border-[var(--c-border)]">
+                            <div className="w-14 h-14 rounded-full bg-[var(--c-primary-10)] flex items-center justify-center text-[1.75rem]">
+                                {ELEMENT_ICONS[profile.element]}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                                <div className={`${fontScale === 'large' ? 'text-[1rem]' : 'text-[0.875rem]'} font-black text-[var(--c-text)]`}>
+                                    {profile.zodiacName}
+                                </div>
+                                <div className={`${devBadgeSize} text-[var(--c-text-30)] font-bold tracking-wider mt-0.5`}>
+                                    {profile.elementLabel} · {profile.modality}
+                                </div>
+                            </div>
+                            <div className="text-right">
+                                <div className={`text-[1.2rem]`}>{PLANET_ICONS[profile.rulingPlanet] || '✦'}</div>
+                                <div className={`${devBadgeSize} text-[var(--c-text-30)] font-bold tracking-wider mt-0.5`}>
+                                    {profile.rulingPlanet}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="p-5">
+                            <p className={`${devBadgeSize} text-[var(--c-text-50)] font-medium leading-relaxed`}>
+                                {profile.essence}
+                            </p>
+                        </div>
                     </div>
-                    <p className={`${labelSize} text-[var(--c-text-20)] font-medium leading-relaxed max-w-xs mx-auto`}>
-                        Ежедневная энергия, ритмы и твоя личная карта ресурсов
-                    </p>
+                </div>
+
+                <div className="w-full max-w-sm">
+                    <div className={`${labelSize} font-black uppercase tracking-[0.15em] text-[var(--c-text-30)] mb-3 px-1`}>
+                        Сегодня
+                    </div>
+                    <div className="rounded-3xl bg-[var(--c-surface)] border border-[var(--c-border)] p-5">
+                        <div className="flex items-center justify-between mb-3">
+                            <span className={`${labelSize} font-bold text-[var(--c-text-40)] uppercase tracking-wider`}>Общий заряд</span>
+                            <span className={`${fontScale === 'large' ? 'text-[2rem]' : 'text-[1.6rem]'} font-black text-[var(--c-primary)]`}>
+                                {profile.dayEnergy}%
+                            </span>
+                        </div>
+                        <div className="w-full h-2 bg-black/[0.05] rounded-full overflow-hidden mb-5">
+                            <div className="h-full bg-[var(--c-primary)] rounded-full transition-all duration-1000" style={{ width: `${profile.dayEnergy}%` }} />
+                        </div>
+                        <div className="flex items-center justify-between gap-2">
+                            <div className="text-center flex-1">
+                                <div className={`${fontScale === 'large' ? 'text-[1rem]' : 'text-[0.875rem]'} font-black text-[var(--c-text)]`}>
+                                    {profile.dna.energy}%
+                                </div>
+                                <div className={`${devBadgeSize} text-[var(--c-text-30)] font-bold uppercase tracking-wider mt-1`}>Энергия</div>
+                            </div>
+                            <div className="w-px h-8 bg-[var(--c-border)]" />
+                            <div className="text-center flex-1">
+                                <div className={`${fontScale === 'large' ? 'text-[1rem]' : 'text-[0.875rem]'} font-black text-[var(--c-text)]`}>
+                                    {profile.dna.focus}%
+                                </div>
+                                <div className={`${devBadgeSize} text-[var(--c-text-30)] font-bold uppercase tracking-wider mt-1`}>Фокус</div>
+                            </div>
+                            <div className="w-px h-8 bg-[var(--c-border)]" />
+                            <div className="text-center flex-1">
+                                <div className={`${fontScale === 'large' ? 'text-[1rem]' : 'text-[0.875rem]'} font-black text-[var(--c-text)]`}>
+                                    {profile.dna.intuition}%
+                                </div>
+                                <div className={`${devBadgeSize} text-[var(--c-text-30)] font-bold uppercase tracking-wider mt-1`}>Интуиция</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="w-full max-w-sm">
+                    <div className={`${labelSize} font-black uppercase tracking-[0.15em] text-[var(--c-text-30)] mb-3 px-1`}>
+                        Луна сегодня
+                    </div>
+                    <div className="rounded-3xl bg-[var(--c-surface)] border border-[var(--c-border)] p-5">
+                        <div className="flex items-center gap-4 mb-3">
+                            <Moon size={fontScale === 'large' ? 22 : 18} className="text-[var(--c-primary)] shrink-0" />
+                            <div>
+                                <div className={`${fontScale === 'large' ? 'text-[1rem]' : 'text-[0.875rem]'} font-black text-[var(--c-text)]`}>
+                                    {profile.moonPhase}
+                                </div>
+                                <div className={`${devBadgeSize} text-[var(--c-text-30)] font-bold tracking-wider mt-0.5`}>
+                                    Луна в знаке {profile.moonSign} · {profile.moonPhaseCategory}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div className="w-full max-w-sm">
@@ -103,31 +199,6 @@ export const CoreView: React.FC<CoreViewProps> = ({
                                 </div>
                             );
                         })}
-                    </div>
-                </div>
-
-                <div className="w-full max-w-sm mt-2">
-                    <div className={`${labelSize} font-black uppercase tracking-[0.15em] text-[var(--c-text-30)] mb-4 px-1`}>
-                        DNA ритмов
-                    </div>
-                    <div className="p-6 rounded-3xl bg-[var(--c-surface)] border border-[var(--c-border)]">
-                        <div className="flex items-center justify-between mb-4">
-                            <span className={`${labelSize} font-bold text-[var(--c-text-40)] uppercase tracking-wider`}>Общий заряд</span>
-                            <span className={`${fontScale === 'large' ? 'text-[1.8rem]' : 'text-[1.4rem]'} font-black text-[var(--c-primary)]`}>78%</span>
-                        </div>
-                        <div className="w-full h-2 bg-black/[0.05] rounded-full overflow-hidden">
-                            <div className="h-full bg-[var(--c-primary)] rounded-full" style={{ width: '78%' }} />
-                        </div>
-                        <div className="flex justify-between mt-4 text-center">
-                            {['Энергия', 'Фокус', 'Интуиция'].map((label) => (
-                                <div key={label}>
-                                    <div className={`${fontScale === 'large' ? 'text-[1.2rem]' : 'text-[1rem]'} font-black text-[var(--c-text)]`}>
-                                        {Math.floor(Math.random() * 40 + 60)}%
-                                    </div>
-                                    <div className={`${devBadgeSize} text-[var(--c-text-30)] font-bold uppercase tracking-wider mt-1`}>{label}</div>
-                                </div>
-                            ))}
-                        </div>
                     </div>
                 </div>
 

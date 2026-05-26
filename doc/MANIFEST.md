@@ -12,7 +12,7 @@ PWA-приложение с ежедневными рекомендациями 
 ## Ключевые технические решения
 - **Все размеры в rem** — ни одного `px` в коде. Уважаем системный масштаб шрифта пользователя (Small/Medium/Large).
 - **MAX Bridge API** — все платформенные взаимодействия (share, openLink, BackButton, DeviceStorage) только через `window.WebApp`. Официальная документация: `doc/MAXBridge.md`.
-- **Собственные движки** — SynergyEngine, LoveEngine, CoreEngine. Никаких внешних API.
+- **Собственные движки** — LunarEngine, PowerHourEngine, SynergyEngine, LoveEngine, HoroscopeEngine, CoreEngine. Никаких внешних API.
 - **Темизация через CSS-переменные** — каждый `data-theme` блок задаёт полный набор: `--c-primary`, `--c-secondary`, `--c-bg` (фон), `--c-bg-60/80/85/90` (полупрозрачные слои), `--c-text`, `--c-text-5/10/20/30/40/50/60/70/80/90/95`, `--c-surface`, `--c-surface-elevated`, `--c-border`. Компоненты используют `var(...)`. Переключение темы без перезагрузки.
 - **Фон управляется из CSS** — ни одного `bg-[#050510]` в коде, только `bg-[var(--c-bg)]`. Цвет текста управляется `--c-text`. Границы через `--c-border`. Поверхности через `--c-surface`.
 - **Ни одного хардкода цветов** — все цвета заменены на `var(--c-primary)` / `var(--c-secondary)`. Цвета переключаются темой.
@@ -26,6 +26,7 @@ src/
 ├── index.css                        # Глобальные стили + CSS-переменные тем
 ├── tailwind.config.js               # Кастомные цвета (legacy, заменяются var())
 ├── core/engines/                    # Астрологические движки (свои алгоритмы)
+├── core/constants/                  # Константы: astro, signProfile, lunarInterpretations
 ├── components/
 │   ├── layout/
 │   │   ├── Header/                  # Шапка: имя, знак, меню, настройки
@@ -37,6 +38,18 @@ src/
 │   ├── Love/                        # Любовь: Совместимость + графики
 │   └── Core/                        # Core: аватар, руны, DNA-карта, премиум
 └── types/max-bridge.d.ts            # Типы MAX Bridge API
+doc/                                 # Документация и промпты
+├── MANIFEST.md                      # Этот файл
+├── MAXBridge.md                     # MAX Bridge API
+├── ai-channel.md                    # Промпт для постов канала
+├── gigachat-prompt.md               # Промпт для нейминга
+└── pinterest-search-queries.md      # Запросы для картинок
+.opencode/skills/                    # Скиллы opencode
+├── marketing.md                     # Маркетинг, копирайтинг, реклама
+├── design.md                        # Дизайн-система, Apple HIG
+├── max-bridge.md                    # MAX Bridge справка
+├── max-ui.md                        # MAX UI library (справочно)
+└── astrology-engines.md             # Астрологические движки
 ```
 
 ## ЦА
