@@ -11,7 +11,7 @@ import { AppearanceSettingsView } from './components/layout/Header/Menu/Appearan
 
 import { RhythmContainer } from './screens/Rhythm/RhythmContainer';
 import { LoveContainer } from './screens/Love/LoveContainer';
-import { KarmaContainer } from './screens/Karma/KarmaContainer';
+import { CoreContainer } from './screens/Core/CoreContainer';
 import { RhythmKnowledgeView } from './screens/Knowledge/RhythmKnowledgeView';
 
 // ИМПОРТИРУЕМ РАБОЧИЕ УТИЛИТЫ
@@ -300,7 +300,7 @@ const App: React.FC = () => {
                     <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 pb-6 h-full">
                         {activeTab === 'rhythm' && <RhythmContainer zodiacName={selectedZodiac} fontScale={fontScale} onSetBackHandler={setBackHandler} />}
                         {activeTab === 'love' && <LoveContainer zodiacName={selectedZodiac} fontScale={fontScale} onSetBackHandler={setBackHandler} />}
-                        {activeTab === 'karma' && <KarmaContainer fontScale={fontScale} />}
+                        {activeTab === 'core' && <CoreContainer zodiacName={selectedZodiac} fontScale={fontScale} />}
                     </div>
                 </PageLayout>
             </div>

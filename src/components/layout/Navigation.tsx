@@ -1,11 +1,11 @@
 import React from 'react';
-import { Activity, Heart, Sparkles } from 'lucide-react';
+import { Activity, Heart, Orbit } from 'lucide-react';
 import { triggerSelectionHaptic } from '../../utils/haptics';
 
 const NAV_ITEMS = [
     { id: 'rhythm', label: 'Ритм', icon: Activity },
     { id: 'love', label: 'Любовь', icon: Heart },
-    { id: 'karma', label: 'Карма', icon: Sparkles },
+    { id: 'core', label: 'Core', icon: Orbit },
 ];
 
 interface NavigationProps {
