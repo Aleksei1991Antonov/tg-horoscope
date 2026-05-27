@@ -1,5 +1,5 @@
 import React from 'react';
-import { Zap, Users, ShieldCheck, Info, MoonStar, Sparkles, Heart, type LucideIcon } from 'lucide-react';
+import { Zap, Users, ShieldCheck, Info, Sparkles, Heart, type LucideIcon } from 'lucide-react';
 
 interface Section {
     Icon: LucideIcon;
@@ -19,36 +19,29 @@ export const RhythmKnowledgeView: React.FC<Props> = ({ fontScale = 'medium' }) =
             Icon: Zap,
             title: "Час Силы",
             color: "text-[var(--c-primary)]",
-            description: "Алгоритм вычисляет время, когда ваша планета-покровитель максимально активна в небе. В этот час ваш уровень личной удачи достигает пика. Это лучший момент для того, чтобы проявить инициативу, принять важное решение или начать новое дело.",
-            fact: "Расчет объединяет древнюю систему планетарных часов и текущую фазу Луны."
+            description: "Халдейский ряд планетарных часов определяет планету-управителя каждого часа суток. Когда ваш управитель совпадает с активным планетарным часом, а фаза Луны благоприятна — система фиксирует час силы. Это окно максимальной энергии для действий.",
+            fact: "Используется классический халдейский порядок: Сатурн → Юпитер → Марс → Солнце → Венера → Меркурий → Луна."
         },
         {
             Icon: Heart,
             title: "Любовный радар",
             color: "text-[var(--c-primary)]",
-            description: "Система анализирует совместимость вашей стихии и стихии партнера. Мы строим график на неделю, учитывая естественные энергетические циклы. Это помогает заранее увидеть дни, когда ваши чувства будут в полном резонансе, а когда стоит проявить больше чуткости.",
-            fact: "Учитываются особые кармические пары и природные колебания энергии в отношениях."
+            description: "Анализ совместимости стихий (огонь/земля/воздух/вода) дополняется лунным ритмом и дневной энергией. На каждый день строится вектор притяжения: от полного резонанса до требующего чуткости. Прогноз раскладывается на неделю, месяц и год.",
+            fact: "Дневная энергия вычисляется из фазы Луны и дня недели — это задаёт базовый тон отношениям."
         },
         {
             Icon: Users,
             title: "Синергия дня",
             color: "text-[var(--c-primary)]",
-            description: "Ежедневный расчет притяжения со всеми знаками Зодиака. Мы смотрим, в каком знаке сейчас находится Луна и как она влияет на ваш контакт с окружающими. Если Луна входит в стихию другого человека — ваше взаимопонимание усиливается.",
-            fact: "Добавляется фактор случайности, чтобы отразить непредсказуемость живого общения."
+            description: "Положение Луны в знаке зодиака определяет её влияние на ваш знак: гармоничные аспекты (трин, секстиль — совпадение по стихиям) дают лёгкость, напряжённые (квадрат — знаки одной модальности) требуют осторожности. Добавлен фактор случайности для реалистичности живого общения.",
+            fact: "Стихии: Огня (♈♌♐), Земли (♉♍♑), Воздуха (♊♎♒), Воды (♋♏♓). Одноимённые стихии — гармония, квадрат — напряжение."
         },
         {
             Icon: Sparkles,
-            title: "Красота и уход",
-            color: "text-[var(--c-primary)]",
-            description: "Рекомендации по уходу за собой на основе лунных ритмов. Система подскажет идеальное время для стрижки, чтобы волосы росли быстрее, или лучший период для очищения кожи. Мы сопоставляем вашу стихию с положением Луны для лучшего результата.",
-            fact: "Для знаков Воды эффект от очищения организма удваивается в определенные фазы."
-        },
-        {
-            Icon: MoonStar,
             title: "Личный прогноз",
             color: "text-[var(--c-secondary)]",
-            description: "Это математический расчет связи вашего знака с текущим положением планет. Мы переводим сложные астрологические данные в понятный уровень энергии дня: от спокойного режима накопления сил до максимального драйва и успеха.",
-            fact: "Анализируется геометрия неба: от гармоничных связей до напряженных моментов."
+            description: "Транзит Луны и Солнца накладывается на астрологическую ДНК знака: стихия задаёт темперамент, управитель — сферу удачи, модальность — ритм действий. Из этого складывается ежедневный прогноз: от спокойного накопления до максимального драйва.",
+            fact: "DNA = { element, ruler, modality } × lunarPhase × dayEnergy. Все данные детерминированы от даты."
         },
         {
             Icon: ShieldCheck,
@@ -67,7 +60,7 @@ export const RhythmKnowledgeView: React.FC<Props> = ({ fontScale = 'medium' }) =
             <div className="max-w-2xl mx-auto w-full">
                 {/* Заголовок контента */}
                 <div className="px-6 pt-8 mb-8">
-                    <h1 className={`${titleSize} font-black text-[var(--c-text)] tracking-tighter uppercase italic leading-none mb-3`}>
+                        <h1 className={`${titleSize} font-black text-[var(--c-text)] tracking-tighter uppercase leading-none mb-3`}>
                         База знаний
                     </h1>
                     <p className="text-[var(--c-text-40)] text-sm leading-relaxed max-w-[300px]">
@@ -91,7 +84,7 @@ export const RhythmKnowledgeView: React.FC<Props> = ({ fontScale = 'medium' }) =
 
                                 <div className="flex items-center gap-3 mb-4 relative z-10">
                                     <Icon className={section.color} size="1.25rem" />
-                                    <h2 className="text-lg font-bold text-[var(--c-text)] uppercase tracking-wider italic">{section.title}</h2>
+                                    <h2 className="text-lg font-bold text-[var(--c-text)] uppercase tracking-wider">{section.title}</h2>
                                 </div>
 
                                 <p className={`${bodySize} text-[var(--c-text-60)] leading-relaxed mb-5 relative z-10 font-medium`}>
@@ -100,7 +93,7 @@ export const RhythmKnowledgeView: React.FC<Props> = ({ fontScale = 'medium' }) =
 
                                 <div className="flex items-start gap-3 p-4 bg-[var(--c-surface)] rounded-2xl border border-[var(--c-border)] relative z-10 card-shadow">
                                     <Info size={16} className={`${section.color} mt-0.5 shrink-0 opacity-80`} />
-                                    <span className="text-[0.6875rem] font-medium text-[var(--c-text-40)] leading-snug italic">
+                                    <span className="text-[0.6875rem] font-medium text-[var(--c-text-40)] leading-snug">
                                         {section.fact}
                                     </span>
                                 </div>

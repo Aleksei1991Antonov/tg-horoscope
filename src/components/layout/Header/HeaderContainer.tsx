@@ -74,7 +74,6 @@ export const HeaderContainer: React.FC<HeaderContainerProps> = ({
             <HeaderView
                 userName={userName}
                 zodiacSign={displayZodiac.sign}
-                zodiacName={displayZodiac.name}
                 formattedDate={formattedDate}
                 onMenuClick={() => {
                     void triggerSuccessHaptic();

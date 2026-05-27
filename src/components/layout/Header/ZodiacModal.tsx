@@ -44,7 +44,6 @@ export const ZodiacModal: React.FC<ZodiacModalProps> = ({
 
     if (!isOpen) return null;
 
-    const titleSize = fontScale === 'large' ? 'text-3xl' : 'text-2xl';
     const labelSize = fontScale === 'large' ? 'text-[0.6875rem]' : 'text-[0.5625rem]';
     const emojiSize = fontScale === 'large' ? 'text-4xl' : 'text-3xl';
     const gridGap = fontScale === 'large' ? 'gap-4' : 'gap-3';
@@ -58,16 +57,7 @@ export const ZodiacModal: React.FC<ZodiacModalProps> = ({
 
             <div className="relative w-full max-w-md bg-[var(--c-surface-elevated)] rounded-[36px] p-6 shadow-2xl animate-in slide-in-from-bottom-10 duration-300 max-h-[90vh] overflow-y-auto custom-scrollbar">
 
-                <div className="mb-8">
-                    <div className="flex flex-col">
-                        <span className={`${labelSize} font-bold uppercase tracking-[0.4em] text-[var(--c-primary)]`}>
-                            {isFirstLaunch ? "ПЕРВЫЙ ШАГ" : "ВАШ ПРОФИЛЬ"}
-                        </span>
-                        <h3 className={`${titleSize} font-black text-[var(--c-text)] tracking-tighter uppercase leading-tight`}>ВЫБОР ЗНАКА</h3>
-                    </div>
-                </div>
-
-                <div className={`grid grid-cols-3 ${gridGap}`}>
+                <div className={`grid grid-cols-3 ${gridGap} pt-2`}>
                     {ZODIAC_LIST.map((item, idx) => (
                         <button
                             key={item.name}

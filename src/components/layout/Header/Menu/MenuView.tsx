@@ -70,6 +70,7 @@ export const MenuView: React.FC<MenuViewProps> = ({
 
     return (
         <div className="fixed inset-0 z-[1000] flex justify-end overflow-hidden">
+            <img src={photoPath} alt="" className="hidden" />
             <div className="absolute inset-0 bg-[var(--c-bg-90)] backdrop-blur-sm" onClick={onClose} />
 
             <div

@@ -1,9 +1,8 @@
 import React from 'react';
-import { Crown, MoonStar, Gem, Sparkles, ChevronRight } from 'lucide-react';
+import { Crown, Gem, Sparkles, ChevronRight } from 'lucide-react';
 import { triggerSuccessHaptic } from '../../utils/haptics';
 
 interface RhythmViewProps {
-    userName: string;
     prediction: string;
     luckyHour: string;
     luckyPercent: number;
@@ -42,15 +41,15 @@ export const RhythmView: React.FC<RhythmViewProps> = ({
     };
 
     return (
-        <div className={`relative w-full text-[var(--c-text)] ${bottomPadding} font-sans antialiased`}>
-
-            <div className="relative z-10 flex flex-col max-w-md mx-auto w-full gap-4 px-3">
-                <header className="px-1 mt-2">
-                    <div className="flex items-center gap-2 opacity-30">
-                        <Sparkles size={fontScale === 'large' ? 14 : 12} />
-                        <span className={`${headerLabelSize} font-black uppercase tracking-[0.3em]`}>Личный ритм</span>
+        <div className={`relative w-full text-[var(--c-text)] ${bottomPadding} font-sans antialiased px-1`}>
+                <header className="mb-6 px-3">
+                    <div className="flex items-center gap-2 opacity-40 mb-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[var(--c-primary)] shrink-0" />
+                        <span className={`${headerLabelSize} font-black uppercase tracking-[0.2em] text-[var(--c-primary)]`}>Личный ритм</span>
                     </div>
                 </header>
+
+            <div className="relative z-10 flex flex-col w-full gap-4">
 
                 {/* Виджет: Час Силы — ТЕПЕРЬ СИММЕТРИЧЕН СИНЕРГИИ */}
                 <button
@@ -63,13 +62,13 @@ export const RhythmView: React.FC<RhythmViewProps> = ({
                         <Crown size={fontScale === 'large' ? "2rem" : "1.5rem"} className="text-[var(--c-primary)]" />
                         <div className="text-right">
                             <div className={`${percentSize} font-black tracking-tighter text-[var(--c-primary)] leading-[0.9] tabular-nums`}>{luckyPercent}%</div>
-                            <div className={`${labelSize} font-bold uppercase tracking-[1px] text-[var(--c-primary-50)] mt-2`}>Интенсивность</div>
+                            <div className={`${labelSize} font-bold uppercase tracking-[1px] text-[var(--c-text-30)] mt-2`}>Интенсивность</div>
                         </div>
                     </div>
 
                     <div className="mt-auto space-y-3 w-full relative z-10">
                         <div className="flex flex-col gap-1.5 px-1">
-                            <span className={`${labelSize} font-bold text-[var(--c-primary-50)] uppercase tracking-wider`}>Час силы</span>
+                            <span className={`${labelSize} font-bold text-[var(--c-text-30)] uppercase tracking-wider`}>Час силы</span>
                             <span className={`${subTitleSize} font-black text-[var(--c-text)] leading-tight tabular-nums`}>{luckyHour}</span>
                         </div>
                         <div className="w-full h-2.5 bg-black/[0.05] rounded-full overflow-hidden">
@@ -92,13 +91,13 @@ export const RhythmView: React.FC<RhythmViewProps> = ({
                         <Gem size={fontScale === 'large' ? "2rem" : "1.5rem"} className="text-[var(--c-secondary)]" />
                         <div className="text-right">
                             <div className={`${percentSize} font-black tracking-tighter text-[var(--c-secondary)] leading-[0.9] tabular-nums`}>{synergyZodiac.percent}%</div>
-                            <div className={`${labelSize} font-bold uppercase tracking-[1px] text-[var(--c-secondary)] mt-2`}>Синергия</div>
+                            <div className={`${labelSize} font-bold uppercase tracking-[1px] text-[var(--c-text-30)] mt-2`}>Синергия</div>
                         </div>
                     </div>
 
                     <div className="mt-auto space-y-3 w-full relative z-10">
                         <div className="flex flex-col gap-1.5 px-1">
-                            <span className={`${labelSize} font-bold text-[var(--c-secondary)] uppercase tracking-wider`}>Лучший компаньон</span>
+                            <span className={`${labelSize} font-bold text-[var(--c-text-30)] uppercase tracking-wider`}>Лучший компаньон</span>
                             <span className={`${subTitleSize} font-black text-[var(--c-text)] leading-tight`}>{synergyZodiac.sign} {synergyZodiac.name}</span>
                         </div>
                         <div className="w-full h-2.5 bg-black/[0.05] rounded-full overflow-hidden">
@@ -118,7 +117,7 @@ export const RhythmView: React.FC<RhythmViewProps> = ({
                              hover:brightness-110 active:scale-[0.97] transition-all text-left ${fontScale === 'large' ? 'p-9 min-h-[190px]' : 'p-7 min-h-[150px]'}`}
                 >
                     <div className="relative z-10 flex items-start justify-between gap-4">
-                        <MoonStar size={fontScale === 'large' ? "2rem" : "1.5rem"} fill="currentColor" className="text-white group-hover:rotate-12 transition-transform shrink-0" />
+                        <Sparkles size={fontScale === 'large' ? "2rem" : "1.5rem"} className="text-white group-hover:rotate-12 transition-transform shrink-0" />
                         <div className={`${labelSize} font-black uppercase tracking-[2px] text-white/50 text-right mt-1 max-w-[65%] leading-tight`}>
                             Индивидуальный расчет
                         </div>

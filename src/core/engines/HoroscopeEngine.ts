@@ -75,8 +75,8 @@ export class HoroscopeEngine {
         const phaseText = PHASE_ADVICE[phaseKey][seed % PHASE_ADVICE[phaseKey].length];
 
         // УБРАЛИ % ИЗ ВЫВОДА. Теперь это выглядит как чистое послание.
-        return `${mainEmoji} ${status}\n\n` +
-            `🌙 ${phaseText}\n\n` +
-            `💎 ${elementText}`;
+        return `${status} ${mainEmoji}\n\n` +
+            `${phaseText}\n\n` +
+            `${elementText}`;
     }
 }

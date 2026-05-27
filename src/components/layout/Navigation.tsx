@@ -25,7 +25,7 @@ export const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange, 
     return (
         <nav className="fixed bottom-0 left-0 right-0 z-50 px-6 pb-[calc(12px+env(safe-area-inset-bottom))] pt-2">
             {/* Стеклянная подложка */}
-            <div className="absolute inset-0 bg-white/70 backdrop-blur-3xl border-t border-[var(--c-border)]" />
+            <div className="absolute inset-0 bg-[var(--c-surface)]/80 backdrop-blur-3xl border-t border-[var(--c-border)]" />
 
             <div className={`relative flex justify-around items-center max-w-md mx-auto transition-all duration-300 ${navHeight}`}>
                 {NAV_ITEMS.map((item) => {

@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback, useEffect } from 'react';
+import React, { useMemo, useCallback, useEffect, useState } from 'react';
 import { RhythmView } from './RhythmView';
 import { PowerHourEngine } from '../../core/engines/PowerHourEngine';
 import { SynergyEngine } from '../../core/engines/SynergyEngine';
@@ -15,11 +15,6 @@ interface RhythmContainerProps {
 }
 
 export const RhythmContainer: React.FC<RhythmContainerProps> = ({ zodiacName, fontScale, onSetBackHandler }) => {
-    const [userName] = useState(() => {
-        const name = window.WebApp?.initDataUnsafe?.user?.first_name;
-        return name ? name.toUpperCase() : "ПОЛЬЗОВАТЕЛЬ";
-    });
-
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isPowerModalOpen, setIsPowerModalOpen] = useState(false);
     const [isSynergyModalOpen, setIsSynergyModalOpen] = useState(false);
@@ -66,7 +61,6 @@ export const RhythmContainer: React.FC<RhythmContainerProps> = ({ zodiacName, fo
     return (
         <>
             <RhythmView
-                userName={userName}
                 prediction={astroData.dailyPrediction}
                 luckyHour={astroData.power.luckyHour}
                 luckyPercent={astroData.power.luckyPercent}
@@ -92,12 +86,14 @@ export const RhythmContainer: React.FC<RhythmContainerProps> = ({ zodiacName, fo
             <PowerHourModal
                 isOpen={isPowerModalOpen}
                 onClose={handleCloseAll}
+                data={astroData.power}
                 fontScale={fontScale}
             />
 
             <SynergyModal
                 isOpen={isSynergyModalOpen}
                 onClose={handleCloseAll}
+                data={astroData.synergy}
                 fontScale={fontScale}
             />
         </>

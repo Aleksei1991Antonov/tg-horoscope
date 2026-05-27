@@ -63,7 +63,6 @@ export const LoveContainer: React.FC<LoveContainerProps> = ({ zodiacName, fontSc
         setIsSelecting(false);
     };
 
-    const modalTitleSize = fontScale === 'large' ? 'text-3xl' : 'text-2xl';
     const zodiacLabelSize = fontScale === 'large' ? 'text-[0.6875rem]' : 'text-[0.5625rem]';
     const emojiSize = fontScale === 'large' ? 'text-4xl' : 'text-3xl';
     const gridGap = fontScale === 'large' ? 'gap-4' : 'gap-3';
@@ -71,7 +70,10 @@ export const LoveContainer: React.FC<LoveContainerProps> = ({ zodiacName, fontSc
     return (
         <div className="relative w-full h-full">
             <LoveView
+                zodiacName={zodiacName}
+                zodiacEmoji={ZODIAC_EMOJI[zodiacName] || '✦'}
                 partnerZodiac={partnerName ? ZODIAC_EMOJI[partnerName] : undefined}
+                partnerZodiacName={partnerName || undefined}
                 synergyPercent={data.synergyPercent}
                 weeklyForecast={data.weeklyForecast}
                 monthlyForecast={data.monthlyForecast}
@@ -97,14 +99,7 @@ export const LoveContainer: React.FC<LoveContainerProps> = ({ zodiacName, fontSc
                     />
 
                     <div className="relative w-full max-w-md bg-[var(--c-surface-elevated)] rounded-[36px] p-6 shadow-2xl animate-in slide-in-from-bottom-10 duration-300 max-h-[85vh] overflow-y-auto custom-scrollbar">
-                        <div className="mb-8">
-                            <div className="flex flex-col">
-                                <span className={`${zodiacLabelSize} font-bold uppercase tracking-[0.4em] text-[var(--c-primary)]`}>ЛЮБОВНЫЙ РИТМ</span>
-                                <h3 className={`${modalTitleSize} font-black text-[var(--c-text)] tracking-tighter uppercase`}>Выбор знака</h3>
-                            </div>
-                        </div>
-
-                        <div className={`grid grid-cols-3 ${gridGap}`}>
+                        <div className={`grid grid-cols-3 ${gridGap} pt-2`}>
                             {ALL_ZODIAC.map((name) => (
                                 <button
                                     key={name}

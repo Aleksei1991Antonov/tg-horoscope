@@ -297,7 +297,7 @@ const App: React.FC = () => {
 
             <div className="flex-1 relative overflow-hidden">
                 <PageLayout className="h-full">
-                    <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 pb-6 h-full">
+                    <div className="pb-6 h-full">
                         {activeTab === 'rhythm' && <RhythmContainer zodiacName={selectedZodiac} fontScale={fontScale} onSetBackHandler={setBackHandler} />}
                         {activeTab === 'love' && <LoveContainer zodiacName={selectedZodiac} fontScale={fontScale} onSetBackHandler={setBackHandler} />}
                         {activeTab === 'core' && <CoreContainer zodiacName={selectedZodiac} fontScale={fontScale} />}

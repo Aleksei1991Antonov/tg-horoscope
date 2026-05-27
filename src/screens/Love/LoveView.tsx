@@ -1,5 +1,5 @@
 import React, { useMemo, useCallback } from 'react';
-import { Heart, Plus, BarChart3, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Plus, BarChart3, ChevronLeft, ChevronRight } from 'lucide-react';
 import { triggerSuccessHaptic } from '../../utils/haptics';
 
 interface LoveForecast {
@@ -8,7 +8,10 @@ interface LoveForecast {
 }
 
 interface LoveViewProps {
+    zodiacName: string;
+    zodiacEmoji: string;
     partnerZodiac?: string;
+    partnerZodiacName?: string;
     synergyPercent?: number;
     weeklyForecast?: LoveForecast[];
     monthlyForecast?: LoveForecast[];
@@ -21,17 +24,20 @@ interface LoveViewProps {
 }
 
 export const LoveView: React.FC<LoveViewProps> = ({
+                                                        zodiacName,
+                                                        zodiacEmoji,
                                                         partnerZodiac,
-                                                       synergyPercent = 0,
-                                                       weeklyForecast = [],
-                                                       monthlyForecast = [],
-                                                       yearlyForecast = [],
-                                                       currentYear,
-                                                       onYearPrev,
-                                                       onYearNext,
-                                                       onSelectPartner,
-                                                       fontScale
-                                                   }) => {
+                                                        partnerZodiacName,
+                                                        synergyPercent = 0,
+                                                        weeklyForecast = [],
+                                                        monthlyForecast = [],
+                                                        yearlyForecast = [],
+                                                        currentYear,
+                                                        onYearPrev,
+                                                        onYearNext,
+                                                        onSelectPartner,
+                                                        fontScale
+                                                    }) => {
 
     const safeForecast = useMemo(() => {
         if (weeklyForecast && weeklyForecast.length > 0) return weeklyForecast;
@@ -58,7 +64,6 @@ export const LoveView: React.FC<LoveViewProps> = ({
         return { bestIdx, worstIdx };
     }, [yearlyForecast]);
 
-    const headerSize = fontScale === 'large' ? 'text-[2.4rem]' : fontScale === 'small' ? 'text-[2rem]' : 'text-[2.2rem]';
     const labelSize = fontScale === 'large' ? 'text-[0.8125rem]' : 'text-[0.625rem]';
     const headerLabelSize = fontScale === 'large' ? 'text-[0.75rem]' : 'text-[0.625rem]';
     const percentSize = fontScale === 'large' ? 'text-[1.8rem]' : fontScale === 'small' ? 'text-[1.4rem]' : 'text-[1.6rem]';
@@ -69,27 +74,24 @@ export const LoveView: React.FC<LoveViewProps> = ({
         <div className={`w-full text-[var(--c-text)] ${bottomPadding} px-1 animate-in fade-in duration-500`}>
             <header className="mb-6 px-3">
                 <div className="flex items-center gap-2 opacity-40 mb-1">
-                    <Heart size={fontScale === 'large' ? 14 : 12} className="text-[var(--c-primary)]" fill="currentColor" />
-                    <span className={`${headerLabelSize} font-black uppercase tracking-[0.2em]`}>Любовный радар</span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-[var(--c-primary)] shrink-0" />
+                    <span className={`${headerLabelSize} font-black uppercase tracking-[0.2em] text-[var(--c-primary)]`}>Любовный радар</span>
                 </div>
-                <h1 className={`${headerSize} font-black tracking-normal text-[var(--c-text-90)] leading-tight break-words hyphens-auto`}>
-                    Совместимость
-                </h1>
             </header>
 
             <div className="flex flex-col gap-4">
                 <div className={`bg-[var(--c-surface)] backdrop-blur-2xl border border-[var(--c-border)] rounded-[32px] mx-1 card-shadow ${widgetPadding}`}>
                     <div className="flex items-center justify-around mb-6 gap-2">
                         <div className="flex flex-col items-center gap-2 flex-1">
-                            <Heart size={fontScale === 'large' ? "2rem" : "1.5rem"} fill="currentColor" className="text-[var(--c-primary)]" />
-                            <span className={`${labelSize} font-black opacity-30 uppercase tracking-widest`}>Вы</span>
+                            <span className={fontScale === 'large' ? 'text-[1.5rem]' : 'text-[1.25rem]'}>{zodiacEmoji}</span>
+                            <span className={`${labelSize} font-black opacity-30 uppercase tracking-widest`}>{zodiacName}</span>
                         </div>
 
                         <div className="flex flex-col items-center flex-1 min-w-fit">
                             <div className={`${percentSize} font-black text-[var(--c-primary)] leading-none`}>
                                 {synergyPercent}%
                             </div>
-                            <div className={`${labelSize} font-bold uppercase tracking-[0.1em] text-[var(--c-primary-50)] mt-2 text-center`}>Химия</div>
+                            <div className={`${labelSize} font-bold uppercase tracking-[0.1em] text-[var(--c-text-30)] mt-2 text-center`}>Химия</div>
                         </div>
 
                         <div className="flex flex-col items-center gap-2 flex-1">
@@ -102,7 +104,9 @@ export const LoveView: React.FC<LoveViewProps> = ({
                                     : <Plus size="1.5rem" className="text-[var(--c-primary-40)]" />
                                 }
                             </button>
-                            <span className={`${labelSize} font-black opacity-30 uppercase tracking-widest`}>Партнер</span>
+                            <span className={`${labelSize} font-black opacity-30 uppercase tracking-widest`}>
+                                {partnerZodiacName || 'Партнер'}
+                            </span>
                         </div>
                     </div>
 

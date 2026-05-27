@@ -4,7 +4,6 @@ import { Menu } from 'lucide-react';
 interface HeaderViewProps {
     userName: string;
     zodiacSign: string;
-    zodiacName: string;
     formattedDate: string;
     onMenuClick: () => void;
     onZodiacClick: () => void;
@@ -15,7 +14,6 @@ interface HeaderViewProps {
 export const HeaderView: React.FC<HeaderViewProps> = ({
                                                           userName,
                                                           zodiacSign,
-                                                          zodiacName,
                                                           formattedDate,
                                                           onMenuClick,
                                                           onZodiacClick,
@@ -32,7 +30,6 @@ export const HeaderView: React.FC<HeaderViewProps> = ({
     };
 
     const dateSize = fontScale === 'large' ? 'text-[0.65rem]' : 'text-[0.55rem]';
-    const zodiacLabelSize = fontScale === 'large' ? 'text-[0.75rem]' : 'text-[0.65rem]';
     const iconSize = fontScale === 'large' ? 'w-14 h-14' : 'w-12 h-12';
     const emojiSize = fontScale === 'large' ? 'text-[1.8rem]' : 'text-[1.5rem]';
 
@@ -54,10 +51,6 @@ export const HeaderView: React.FC<HeaderViewProps> = ({
                     <div className="flex items-center gap-[0.4rem] w-full">
                         <span className={`font-black tracking-tight text-[var(--c-text)] uppercase truncate ${getFontSizeClass(userName)}`}>
                             {userName}
-                        </span>
-                        <span className="w-[0.25rem] h-[0.25rem] rounded-full bg-[var(--c-surface-elevated)] flex-shrink-0" />
-                        <span className={`${zodiacLabelSize} font-bold text-[var(--c-primary)] uppercase tracking-widest flex-shrink-0`}>
-                            {zodiacName}
                         </span>
                     </div>
                     <div className="flex items-center gap-[0.25rem] opacity-40">

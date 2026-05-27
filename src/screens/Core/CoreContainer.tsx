@@ -9,16 +9,6 @@ interface CoreContainerProps {
 }
 
 export const CoreContainer: React.FC<CoreContainerProps> = ({ zodiacName = 'Скорпион', fontScale }) => {
-    const userData = useMemo(() => {
-        const data = window.WebApp?.initDataUnsafe?.user;
-        const firstName = data?.first_name || '';
-        const lastName = data?.last_name || '';
-        return {
-            name: [firstName, lastName].filter(Boolean).join(' '),
-            photoUrl: data?.photo_url || undefined,
-        };
-    }, []);
-
     const profile = useMemo(() => {
         return CoreEngine.getProfile(zodiacName);
     }, [zodiacName]);
@@ -34,14 +24,17 @@ export const CoreContainer: React.FC<CoreContainerProps> = ({ zodiacName = 'Ск
         localStorage.setItem('core_premium', next.toString());
     }, [isPremium]);
 
+    const userPhoto = window.WebApp?.initDataUnsafe?.user?.photo_url;
+    const userName = window.WebApp?.initDataUnsafe?.user?.first_name;
+
     return (
         <CoreView
-            userName={userData.name}
-            userPhotoUrl={userData.photoUrl}
             profile={profile}
             fontScale={fontScale}
             isPremium={isPremium}
             onTogglePremium={handleTogglePremium}
+            userPhoto={userPhoto}
+            userName={userName}
         />
     );
 };
