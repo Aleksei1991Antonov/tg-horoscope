@@ -50,12 +50,12 @@ const App: React.FC = () => {
     });
 
     const [theme, setTheme] = useState<string>(() => {
-        const saved = localStorage.getItem('user_theme') || 'morning-magic';
+        const saved = localStorage.getItem('user_theme') || 'max-light';
         return saved;
     });
 
     const [darkTheme, setDarkTheme] = useState<string>(() => {
-        return localStorage.getItem('user_dark_theme') || 'velvety-midnight';
+        return localStorage.getItem('user_dark_theme') || 'max-dark';
     });
 
     const [colorScheme, setColorScheme] = useState<'system' | 'light' | 'dark'>(() => {

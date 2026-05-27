@@ -106,8 +106,46 @@ html {
   color-scheme: light;
 }
 
-/* ========== Тема: Магия Утра — Morning Magic (по умолчанию) ========== */
+/* ========== MAX: Светлая тема (Pure Light — по умолчанию) ========== */
 :root,
+[data-theme="max-light"] {
+  --c-bg: #FFFFFF;
+  --c-bg-60: rgba(255,255,255,0.6);
+  --c-bg-80: rgba(255,255,255,0.8);
+  --c-bg-85: rgba(255,255,255,0.85);
+  --c-bg-90: rgba(255,255,255,0.9);
+  --c-primary: #471AFF;
+  --c-primary-10: rgba(71,26,255,0.08);
+  --c-primary-20: rgba(71,26,255,0.15);
+  --c-primary-40: rgba(71,26,255,0.4);
+  --c-primary-50: rgba(71,26,255,0.5);
+  --c-primary-60: rgba(71,26,255,0.6);
+  --c-primary-80: rgba(71,26,255,0.8);
+  --c-secondary: #9500FF;
+  --c-secondary-10: rgba(149,0,255,0.1);
+  --c-secondary-20: rgba(149,0,255,0.2);
+  --c-secondary-40: rgba(149,0,255,0.4);
+  --c-secondary-50: rgba(149,0,255,0.5);
+  --c-secondary-60: rgba(149,0,255,0.6);
+  --c-secondary-80: rgba(149,0,255,0.8);
+  --c-text: #0D001A;
+  --c-text-5: rgba(13,0,26,0.05);
+  --c-text-10: rgba(13,0,26,0.1);
+  --c-text-20: rgba(13,0,26,0.2);
+  --c-text-30: rgba(13,0,26,0.3);
+  --c-text-40: rgba(13,0,26,0.4);
+  --c-text-50: rgba(13,0,26,0.5);
+  --c-text-60: rgba(13,0,26,0.6);
+  --c-text-70: rgba(13,0,26,0.7);
+  --c-text-80: rgba(13,0,26,0.8);
+  --c-text-90: rgba(13,0,26,0.9);
+  --c-text-95: rgba(13,0,26,0.95);
+  --c-border: rgba(13,0,26,0.06);
+  --c-surface: rgba(13,0,26,0.03);
+  --c-surface-elevated: rgba(13,0,26,0.05);
+}
+
+/* ========== Тема: Магия Утра — Morning Magic ========== */
 [data-theme="morning-magic"] {
   --c-bg: #FBF6F0;
   --c-bg-60: rgba(251,246,240,0.6);
@@ -1019,6 +1057,44 @@ html {
   --c-border: rgba(255,255,255,0.05);
   --c-surface: rgba(255,255,255,0.07);
   --c-surface-elevated: rgba(255,255,255,0.11);
+}
+
+/* ========== MAX: Тёмная тема (Deep Universe) ========== */
+[data-theme="max-dark"] {
+  --c-bg: #0D001A;
+  --c-bg-60: rgba(13,0,26,0.6);
+  --c-bg-80: rgba(13,0,26,0.8);
+  --c-bg-85: rgba(13,0,26,0.85);
+  --c-bg-90: rgba(13,0,26,0.9);
+  --c-primary: #6E1AFF;
+  --c-primary-10: rgba(110,26,255,0.1);
+  --c-primary-20: rgba(110,26,255,0.2);
+  --c-primary-40: rgba(110,26,255,0.4);
+  --c-primary-50: rgba(110,26,255,0.5);
+  --c-primary-60: rgba(110,26,255,0.6);
+  --c-primary-80: rgba(110,26,255,0.8);
+  --c-secondary: #00BFFF;
+  --c-secondary-10: rgba(0,191,255,0.1);
+  --c-secondary-20: rgba(0,191,255,0.2);
+  --c-secondary-40: rgba(0,191,255,0.4);
+  --c-secondary-50: rgba(0,191,255,0.5);
+  --c-secondary-60: rgba(0,191,255,0.6);
+  --c-secondary-80: rgba(0,191,255,0.8);
+  --c-text: #FFFFFF;
+  --c-text-5: rgba(255,255,255,0.05);
+  --c-text-10: rgba(255,255,255,0.1);
+  --c-text-20: rgba(255,255,255,0.2);
+  --c-text-30: rgba(255,255,255,0.3);
+  --c-text-40: rgba(255,255,255,0.4);
+  --c-text-50: rgba(255,255,255,0.5);
+  --c-text-60: rgba(255,255,255,0.6);
+  --c-text-70: rgba(255,255,255,0.7);
+  --c-text-80: rgba(255,255,255,0.8);
+  --c-text-90: rgba(255,255,255,0.9);
+  --c-text-95: rgba(255,255,255,0.95);
+  --c-border: rgba(255,255,255,0.06);
+  --c-surface: rgba(255,255,255,0.04);
+  --c-surface-elevated: rgba(255,255,255,0.08);
 }
 
 @layer base {

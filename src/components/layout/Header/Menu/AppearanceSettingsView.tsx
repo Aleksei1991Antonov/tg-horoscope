@@ -60,8 +60,9 @@ export const AppearanceSettingsView: React.FC<AppearanceSettingsViewProps> = mem
     ] as const;
 
     const isDark = colorScheme === 'dark';
-    const activeTheme = isDark ? darkTheme : theme;
-    const setActiveTheme = isDark ? setDarkTheme : setTheme;
+    const resolvedIsDark = isDark || (colorScheme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    const activeTheme = resolvedIsDark ? darkTheme : theme;
+    const setActiveTheme = resolvedIsDark ? setDarkTheme : setTheme;
 
     // Размеры из PredictionModal
     const predictionTextSize = fontScale === 'large' ? 'text-[1.25rem]' : 'text-[1rem]';
