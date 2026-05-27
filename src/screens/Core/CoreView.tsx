@@ -1,93 +1,96 @@
 import React from 'react';
-import { Sparkles } from 'lucide-react';
+import { Wind, Droplets, Flame, Mountain, Orbit } from 'lucide-react';
 
 interface CoreProfile {
     element: 'fire' | 'earth' | 'air' | 'water';
     elementLabel: string;
+    elementDesc: string;
     zodiacName: string;
     rulingPlanet: string;
+    rulingDesc: string;
     essence: string;
 }
 
 interface CoreViewProps {
     profile: CoreProfile;
     fontScale: 'small' | 'medium' | 'large';
-    isPremium: boolean;
-    onTogglePremium: () => void;
 }
 
 export const CoreView: React.FC<CoreViewProps> = ({
-    profile,
-    fontScale,
-    isPremium,
-    onTogglePremium,
-}) => {
-    const m = fontScale === 'large' ? 'text-[0.875rem]' : 'text-[0.75rem]';
-    const s = fontScale === 'large' ? 'text-[0.6875rem]' : 'text-[0.5625rem]';
-    const headerLabelSize = fontScale === 'large' ? 'text-[0.75rem]' : 'text-[0.625rem]';
+                                                      profile,
+                                                      fontScale,
+                                                  }) => {
+    const m = fontScale === 'large' ? 'text-[0.9375rem]' : 'text-[0.8125rem]';
+    const s = fontScale === 'large' ? 'text-[0.75rem]' : 'text-[0.625rem]';
+
+    const ElementIcon = {
+        fire: Flame,
+        earth: Mountain,
+        air: Wind,
+        water: Droplets
+    }[profile.element];
 
     return (
-        <div className="w-full bg-[var(--c-bg)] text-[var(--c-text)] animate-in fade-in duration-1000 pb-16 px-1">
-            <header className="mb-6 px-3">
-                <div className="flex items-center gap-2 opacity-40 mb-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[var(--c-primary)] shrink-0" />
-                    <span className={`${headerLabelSize} font-black uppercase tracking-[0.2em] text-[var(--c-primary)]`}>Твоя энергия</span>
+        <div className="w-full min-h-screen bg-[var(--c-bg)] text-[var(--c-text)] animate-in fade-in duration-700 pb-20">
+            <header className="pt-8 pb-12 px-6 text-center">
+                <div className="inline-flex items-center justify-center gap-2 opacity-30 mb-4">
+                    <div className="w-8 h-[1px] bg-[var(--c-text)]" />
+                    <span className="text-[0.625rem] font-black uppercase tracking-[0.3em]">Energy Core</span>
+                    <div className="w-8 h-[1px] bg-[var(--c-text)]" />
+                </div>
+
+                <h1 className="text-[3.5rem] font-black tracking-tighter leading-none mb-8">
+                    {profile.zodiacName}
+                </h1>
+
+                <div className="flex justify-between items-start w-full max-w-xs mx-auto">
+                    <div className="flex flex-col items-start">
+                        <span className={`${s} font-black uppercase tracking-widest text-[var(--c-text-30)] mb-2`}>Стихия</span>
+                        <div className="flex items-center gap-2">
+                            <ElementIcon size={14} className="text-[var(--c-primary)]" strokeWidth={2.5} />
+                            <span className={`${m} font-bold`}>{profile.elementLabel}</span>
+                        </div>
+                    </div>
+
+                    <div className="w-px h-10 bg-[var(--c-border)] self-center" />
+
+                    <div className="flex flex-col items-end">
+                        <span className={`${s} font-black uppercase tracking-widest text-[var(--c-text-30)] mb-2`}>Управитель</span>
+                        <span className={`${m} font-bold`}>{profile.rulingPlanet}</span>
+                    </div>
                 </div>
             </header>
 
-            <div className="flex flex-col gap-8">
-
-                <div className="space-y-6 px-3 pt-4">
-                    <div>
-                        <div className="text-[var(--c-text)] text-[2rem] font-black tracking-tight leading-none">{profile.zodiacName}</div>
-                    </div>
-
-                    <div className="flex items-center gap-6">
-                        <div>
-                            <div className={`${m} font-bold text-[var(--c-text)]`}>{profile.elementLabel}</div>
-                            <div className={`${s} font-bold text-[var(--c-text-30)] uppercase tracking-wider mt-0.5`}>Стихия</div>
-                        </div>
-                        <div className="w-px h-8 bg-[var(--c-border)]" />
-                        <div>
-                            <div className={`${m} font-bold text-[var(--c-text)]`}>{profile.rulingPlanet}</div>
-                            <div className={`${s} font-bold text-[var(--c-text-30)] uppercase tracking-wider mt-0.5`}>Управитель</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="rounded-[32px] bg-[var(--c-surface)] backdrop-blur-3xl border border-[var(--c-border)] p-7 mx-1">
-                    <p className={`${m} text-[var(--c-text-60)] font-medium leading-[1.7] tracking-tight`}>
+            <div className="px-4 space-y-4">
+                <div className="bg-[var(--c-surface)] rounded-[32px] border border-[var(--c-border)] p-6">
+                    <p className={`${m} text-[var(--c-text-70)] font-medium leading-[1.8] tracking-tight text-left`}>
                         {profile.essence}
                     </p>
                 </div>
 
-                <div className="mx-1">
-                    <div className="bg-[var(--c-surface)] backdrop-blur-3xl rounded-[32px] border border-[var(--c-border)] p-5">
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-3">
-                                <Sparkles size={16} className="text-[var(--c-primary)]" />
-                                <div>
-                                    <div className="font-bold text-sm">Премиум</div>
-                                    <div className={`${s} text-[var(--c-text-30)] font-bold uppercase tracking-widest`}>Конфигурация</div>
-                                </div>
-                            </div>
-                            <button
-                                onClick={onTogglePremium}
-                                className={`relative w-12 h-7 rounded-full transition-all p-0.5 ${
-                                    isPremium ? 'bg-[var(--c-primary)]' : 'bg-[var(--c-border)]'
-                                }`}
-                            >
-                                <div className={`w-6 h-6 rounded-full bg-white shadow-sm transition-transform ${
-                                    isPremium ? 'translate-x-5' : 'translate-x-0'
-                                }`} />
-                            </button>
+                <div className="bg-[var(--c-surface)] rounded-[32px] border border-[var(--c-border)] p-6">
+                    <div className="flex items-start gap-4">
+                        <ElementIcon size={24} className="text-[var(--c-primary)] shrink-0 mt-0.5" strokeWidth={1.5} />
+                        <div className="space-y-1">
+                            <div className="font-black text-[0.9375rem] tracking-tight">{profile.elementLabel}</div>
+                            <p className={`${s} text-[var(--c-text-60)] font-medium leading-relaxed`}>
+                                {profile.elementDesc}
+                            </p>
                         </div>
-                        <p className={`${s} text-[var(--c-text-30)] font-medium leading-relaxed mt-4 px-1`}>
-                            Полный доступ ко всем ритмам и глубокие расшифровки DNA
-                        </p>
                     </div>
                 </div>
 
+                <div className="bg-[var(--c-surface)] rounded-[32px] border border-[var(--c-border)] p-6">
+                    <div className="flex items-start gap-4">
+                        <Orbit size={24} className="text-[var(--c-primary)] shrink-0 mt-0.5" strokeWidth={1.5} />
+                        <div className="space-y-1">
+                            <div className="font-black text-[0.9375rem] tracking-tight">{profile.rulingPlanet}</div>
+                            <p className={`${s} text-[var(--c-text-60)] font-medium leading-relaxed`}>
+                                {profile.rulingDesc}
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );

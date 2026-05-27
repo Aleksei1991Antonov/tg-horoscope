@@ -40,11 +40,7 @@ export const HeaderView: React.FC<HeaderViewProps> = ({
                     onClick={onZodiacClick}
                     className="flex-shrink-0 outline-none"
                 >
-                    <div className={`relative ${iconSize} flex items-center justify-center bg-gradient-to-br from-[var(--c-primary)] to-[var(--c-secondary)] p-[2px] rounded-2xl overflow-hidden active:scale-90 transition-all`}>
-                        <div className="w-full h-full rounded-[calc(1rem-2px)] bg-[var(--c-bg)] flex items-center justify-center">
-                            <span className={`${emojiSize}`}>{zodiacSign}</span>
-                        </div>
-                    </div>
+                    <span className={`${iconSize} flex items-center justify-center ${emojiSize} active:scale-90 transition-all`}>{zodiacSign}</span>
                 </button>
 
                 <div className="flex flex-col min-w-0 flex-1 text-left">
@@ -62,9 +58,13 @@ export const HeaderView: React.FC<HeaderViewProps> = ({
 
                 <button
                     onClick={onMenuClick}
-                    className="w-9 h-9 rounded-full bg-[var(--c-surface-elevated)] flex items-center justify-center active:scale-90 transition-all shrink-0"
+                    className="flex-shrink-0 outline-none active:scale-90 transition-all"
                 >
-                    <Menu size="1.25rem" strokeWidth={2.5} className="text-[var(--c-text-50)]" />
+                    <div className="w-11 h-11 flex items-center justify-center bg-gradient-to-br from-[var(--c-primary)] to-[var(--c-secondary)] p-[2px] rounded-full overflow-hidden">
+                        <div className="w-full h-full rounded-full bg-[var(--c-bg)] flex items-center justify-center">
+                            <Menu size="1.25rem" strokeWidth={2.5} className="text-[var(--c-text-50)]" />
+                        </div>
+                    </div>
                 </button>
             </div>
         </header>

@@ -33,5 +33,9 @@
 ### `overscroll-behavior: none` на html
 - Блокировка pull-to-refresh на уровне CSS
 
-### `disableVerticalSwipes()` в App.tsx init
-- Блокировка жестов MAX на уровне API
+### Theme — simplified Light/Dark
+- Удалён системный режим (`colorScheme`, `getResolvedTheme`, matchMedia listener)
+- Только Светлая / Тёмная (переключатель Sun/Moon)
+- Единый `theme` key в localStorage, без `user_dark_theme` / `user_color_scheme`
+- `LIGHT_TO_DARK` / `DARK_TO_LIGHT` маппинг в AppearanceSettingsView
+- `document.documentElement.dataset.theme` устанавливается в одном useEffect

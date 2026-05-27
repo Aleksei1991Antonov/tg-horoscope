@@ -1,4 +1,4 @@
-# Project Manifest — Гороскоп Core
+# Project Manifest — MAX • Гороскоп
 
 ## Стек
 React 18 + TypeScript, Vite, Tailwind CSS v4, Lucide React, Manrope

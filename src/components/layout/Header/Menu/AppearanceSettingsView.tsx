@@ -2,15 +2,23 @@ import React, { memo } from 'react';
 import { Trash2, MoonStar, Sparkles, Sun, Moon } from 'lucide-react';
 import { triggerSuccessHaptic } from '../../../../utils/haptics';
 
+const LIGHT_TO_DARK: Record<string, string> = {
+    'max-light': 'max-dark',
+    'morning-magic': 'night-ether',
+};
+
+const DARK_TO_LIGHT: Record<string, string> = {};
+for (const [k, v] of Object.entries(LIGHT_TO_DARK)) {
+    DARK_TO_LIGHT[v] = k;
+}
+
+const ALL_DARK_KEYS = new Set(Object.values(LIGHT_TO_DARK));
+
 interface AppearanceSettingsViewProps {
     fontScale: 'small' | 'medium' | 'large';
     setFontScale: (scale: 'small' | 'medium' | 'large') => void;
     theme: string;
     setTheme: (theme: string) => void;
-    darkTheme: string;
-    setDarkTheme: (theme: string) => void;
-    colorScheme: 'system' | 'light' | 'dark';
-    setColorScheme: (mode: 'system' | 'light' | 'dark') => void;
 }
 
 export const AppearanceSettingsView: React.FC<AppearanceSettingsViewProps> = memo(({
@@ -18,22 +26,22 @@ export const AppearanceSettingsView: React.FC<AppearanceSettingsViewProps> = mem
     setFontScale,
     theme,
     setTheme,
-    darkTheme,
-    setDarkTheme,
-    colorScheme,
-    setColorScheme,
 }) => {
+    const isDark = ALL_DARK_KEYS.has(theme);
+
+    const handleToggleDark = (dark: boolean) => {
+        void triggerSuccessHaptic();
+        if (dark && !isDark) {
+            setTheme(LIGHT_TO_DARK[theme] || 'max-dark');
+        } else if (!dark && isDark) {
+            setTheme(DARK_TO_LIGHT[theme] || 'max-light');
+        }
+    };
 
     const handleScaleChange = (newScale: 'small' | 'medium' | 'large') => {
         if (newScale === fontScale) return;
         void triggerSuccessHaptic();
         setFontScale(newScale);
-    };
-
-    const handleColorSchemeChange = (mode: 'system' | 'light' | 'dark') => {
-        if (mode === colorScheme) return;
-        void triggerSuccessHaptic();
-        setColorScheme(mode);
     };
 
     const handleFullReset = async () => {
@@ -53,18 +61,6 @@ export const AppearanceSettingsView: React.FC<AppearanceSettingsViewProps> = mem
         { id: 'large', label: 'А', name: 'Крупный' }
     ] as const;
 
-    const colorSchemes = [
-        { id: 'system', label: 'Системная', Icon: Sun },
-        { id: 'light', label: 'Светлая', Icon: Sun },
-        { id: 'dark', label: 'Тёмная', Icon: Moon },
-    ] as const;
-
-    const isDark = colorScheme === 'dark';
-    const resolvedIsDark = isDark || (colorScheme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
-    const activeTheme = resolvedIsDark ? darkTheme : theme;
-    const setActiveTheme = resolvedIsDark ? setDarkTheme : setTheme;
-
-    // Размеры из PredictionModal
     const predictionTextSize = fontScale === 'large' ? 'text-[1.25rem]' : 'text-[1rem]';
     const labelSize = fontScale === 'large' ? 'text-[0.8125rem]' : 'text-[0.625rem]';
     const iconSize = fontScale === 'large' ? 32 : 24;
@@ -82,7 +78,7 @@ export const AppearanceSettingsView: React.FC<AppearanceSettingsViewProps> = mem
             {/* Content */}
             <div className="flex-1 p-6 space-y-10 overflow-y-auto no-scrollbar">
 
-                {/* Scale Selector (как в WelcomeScreen) */}
+                {/* Scale Selector */}
                 <div className="space-y-4">
                     <div className="flex justify-between items-center px-1">
                         <span className="text-[0.6875rem] font-bold text-[var(--c-text-30)] uppercase tracking-[0.2em]">Размер текста</span>
@@ -108,7 +104,6 @@ export const AppearanceSettingsView: React.FC<AppearanceSettingsViewProps> = mem
                             </button>
                         ))}
 
-                        {/* Sliding Background Indicator */}
                         <div
                             className="absolute top-1 bottom-1 transition-all duration-300 ease-out bg-[var(--c-surface-elevated)] rounded-xl border border-[var(--c-border)]"
                             style={{
@@ -142,24 +137,28 @@ export const AppearanceSettingsView: React.FC<AppearanceSettingsViewProps> = mem
                     </div>
                 </div>
 
-                {/* Theme Mode Selector */}
+                {/* Dark Mode Toggle */}
                 <div className="space-y-4">
                     <div className="text-[0.6875rem] font-bold text-[var(--c-text-30)] uppercase tracking-[0.2em] px-1">Режим</div>
                     <div className="bg-[var(--c-surface)] p-1 rounded-2xl flex items-center relative border border-[var(--c-border)]">
-                        {colorSchemes.map((cs) => {
-                            const Icon = cs.Icon;
+                        {[
+                            { id: false, label: 'Светлая', Icon: Sun },
+                            { id: true, label: 'Тёмная', Icon: Moon },
+                        ].map(mode => {
+                            const Icon = mode.Icon;
+                            const active = isDark === mode.id;
                             return (
                                 <button
-                                    key={cs.id}
-                                    onClick={() => handleColorSchemeChange(cs.id)}
+                                    key={String(mode.id)}
+                                    onClick={() => handleToggleDark(mode.id)}
                                     className="relative z-10 flex-1 py-3 flex items-center justify-center gap-2"
                                 >
                                     <Icon
                                         size={16}
-                                        className={colorScheme === cs.id ? 'text-[var(--c-text)]' : 'text-[var(--c-text-20)]'}
+                                        className={active ? 'text-[var(--c-text)]' : 'text-[var(--c-text-20)]'}
                                     />
-                                    <span className={`text-[0.625rem] font-black uppercase tracking-wider ${colorScheme === cs.id ? 'text-[var(--c-text)]' : 'text-[var(--c-text-20)]'}`}>
-                                        {cs.label}
+                                    <span className={`text-[0.625rem] font-black uppercase tracking-wider ${active ? 'text-[var(--c-text)]' : 'text-[var(--c-text-20)]'}`}>
+                                        {mode.label}
                                     </span>
                                 </button>
                             );
@@ -167,8 +166,8 @@ export const AppearanceSettingsView: React.FC<AppearanceSettingsViewProps> = mem
                         <div
                             className="absolute top-1 bottom-1 transition-all duration-300 ease-out bg-[var(--c-surface-elevated)] rounded-xl border border-[var(--c-border)]"
                             style={{
-                                width: 'calc(33.33% - 4px)',
-                                left: colorScheme === 'system' ? '4px' : colorScheme === 'light' ? '33.33%' : 'calc(66.66% - 4px)'
+                                width: 'calc(50% - 4px)',
+                                left: isDark ? 'calc(50% + 2px)' : '4px'
                             }}
                         />
                     </div>
@@ -181,31 +180,23 @@ export const AppearanceSettingsView: React.FC<AppearanceSettingsViewProps> = mem
                     </div>
                     <div className="grid grid-cols-4 gap-2">
                         {[
-                            { id: 'morning-magic', label: 'Магия Утра', color: '#C4756B', secondary: '#E8C4A0', darkId: 'velvety-midnight', darkLabel: 'Бархат. Полночь', darkColor: '#D4A5A5' },
-                            { id: 'silk-dawn', label: 'Шёлк. Рассвет', color: '#0A7C8B', secondary: '#D4B78F', darkId: 'silk-noir', darkLabel: 'Шёлк. Нуар', darkColor: '#78A5A5' },
-                            { id: 'linen-silence', label: 'Льняная Тиш.', color: '#8E9775', secondary: '#D2B48C', darkId: 'linen-dusk', darkLabel: 'Льнян. Сумерки', darkColor: '#A5B095' },
-                            { id: 'powder-ether', label: 'Пудр. Эфир', color: '#B08998', secondary: '#E5D1D0', darkId: 'powder-eclipse', darkLabel: 'Пудр. Затмение', darkColor: '#B5A5D4' },
-                            { id: 'azure-tea', label: 'Лазур. Чай', color: '#6B8E9E', secondary: '#C9D6D6', darkId: 'azure-night', darkLabel: 'Лазур. Ночь', darkColor: '#8AB8C2' },
-                            { id: 'golden-flow', label: 'Золот. Поток', color: '#C5A059', secondary: '#E8E2D0', darkId: 'golden-eclipse', darkLabel: 'Золот. Затмение', darkColor: '#C9B08E' },
-                            { id: 'muscat-sage', label: 'Мускат. Шалф.', color: '#7C9082', secondary: '#B5C0B7', darkId: 'sage-shadow', darkLabel: 'Тень Шалф.', darkColor: '#95B0A5' },
-                            { id: 'terracotta-breeze', label: 'Терракот. Бриз', color: '#B98D7A', secondary: '#D9C5B2', darkId: 'terracotta-dusk', darkLabel: 'Терракот. Сумерки', darkColor: '#C28A7A' },
-                            { id: 'porcelain-mist', label: 'Фарфор. Мист', color: '#5F6B7D', secondary: '#A9B2C0', darkId: 'porcelain-shadow', darkLabel: 'Фарфор. Тень', darkColor: '#95A5B0' },
-                            { id: 'amber-glow', label: 'Янтар. Сияние', color: '#C87D4F', secondary: '#E8D5C0', darkId: 'amber-ember', darkLabel: 'Янтар. Уголь', darkColor: '#D4A373' },
-                            { id: 'lilac-veil', label: 'Сирен. Флёр', color: '#9B7FA6', secondary: '#DDD0E3', darkId: 'lilac-mist', darkLabel: 'Сирен. Туман', darkColor: '#A5A5D4' },
-                            { id: 'matcha-cream', label: 'Матча-крем', color: '#7A9B6A', secondary: '#C8D5BE', darkId: 'matcha-shadow', darkLabel: 'Тень Матчи', darkColor: '#B8C28A' },
+                            { lightId: 'morning-magic', lightLabel: 'Тихая Роскошь', lightColor: '#C4756B', secondary: '#E8C4A0', darkId: 'night-ether', darkLabel: 'Ночной Эфир', darkColor: '#8E9AAF' },
+                            { lightId: 'max-light', lightLabel: 'MAX Чистый', lightColor: '#471AFF', secondary: '#9500FF', darkId: 'max-dark', darkLabel: 'MAX Глубокий', darkColor: '#6E1AFF' },
                         ].map(t => {
-                            const item = isDark ? { id: t.darkId, label: t.darkLabel, color: t.darkColor, secondary: t.secondary } : { id: t.id, label: t.label, color: t.color, secondary: t.secondary };
+                            const item = isDark
+                                ? { id: t.darkId, label: t.darkLabel, color: t.darkColor, secondary: t.secondary }
+                                : { id: t.lightId, label: t.lightLabel, color: t.lightColor, secondary: t.secondary };
                             return (
                                 <button
                                     key={item.id}
-                                    onClick={() => setActiveTheme(item.id)}
-                                    className={`flex flex-col items-center gap-2 p-3 rounded-2xl transition-all active:scale-90 ${activeTheme === item.id ? 'bg-[var(--c-surface-elevated)] border border-[var(--c-border)]' : 'bg-[var(--c-surface)] border border-[var(--c-border)]'}`}
+                                    onClick={() => { void triggerSuccessHaptic(); setTheme(item.id); }}
+                                    className={`flex flex-col items-center gap-2 p-3 rounded-2xl ${theme === item.id ? 'bg-[var(--c-surface-elevated)] border border-[var(--c-border)]' : 'bg-[var(--c-surface)] border border-[var(--c-border)]'}`}
                                 >
                                     <div className="flex -space-x-1.5">
                                         <div className="w-7 h-7 rounded-full border-2 border-[var(--c-border)]" style={{ backgroundColor: item.color }} />
                                         <div className="w-7 h-7 rounded-full border-2 border-[var(--c-border)]" style={{ backgroundColor: item.secondary }} />
                                     </div>
-                                    <span className={`text-[0.5625rem] font-black uppercase tracking-wider ${activeTheme === item.id ? 'text-[var(--c-text)]' : 'text-[var(--c-text-30)]'}`}>{item.label}</span>
+                                    <span className={`text-[0.5625rem] font-black uppercase tracking-wider ${theme === item.id ? 'text-[var(--c-text)]' : 'text-[var(--c-text-30)]'}`}>{item.label}</span>
                                 </button>
                             );
                         })}

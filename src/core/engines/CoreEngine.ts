@@ -7,6 +7,8 @@ export interface CoreProfile {
     rulingPlanet: string;
     element: 'fire' | 'earth' | 'air' | 'water';
     elementLabel: string;
+    elementDesc: string;
+    rulingDesc: string;
     modality: string;
     essence: string;
     moonSign: string;
@@ -61,6 +63,8 @@ export const CoreEngine = {
             rulingPlanet,
             element,
             elementLabel: profile?.elementLabel || '—',
+            elementDesc: profile?.elementDesc || '—',
+            rulingDesc: profile?.rulingDesc || '—',
             modality: profile?.modality || '—',
             essence: profile?.essence || '—',
             moonSign: moonZodiac.name,

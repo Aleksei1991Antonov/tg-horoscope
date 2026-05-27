@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import {
-    Shield, FileText, BookOpen, Building2,
-    ChevronDown, Copy, Check, Mail, Type, Heart, ChevronRight, ExternalLink
+    Shield, FileText, BookOpen, Apple,
+    ChevronDown, Copy, Check, Mail, Type, ChevronRight, ExternalLink
 } from 'lucide-react';
 
 import { triggerSuccessHaptic } from '../../../../utils/haptics';
@@ -35,7 +35,7 @@ export const MenuView: React.FC<MenuViewProps> = ({
     const inn = "760407796785";
     const ogrnip = "326760000001804";
     const address = "Россия, г. Ярославль";
-    const donatePageUrl = "https://yoomoney.ru/fundraise/1H8OQHE6EJA.260420";
+
     const photoPath = "my-photo.webp?v5";
 
     const menuTitleSize = fontScale === 'large' ? 'text-[2.2rem]' : 'text-[1.8rem]';
@@ -123,67 +123,84 @@ export const MenuView: React.FC<MenuViewProps> = ({
                                         <Mail size="1.25rem" className="text-[var(--c-primary)] shrink-0" />
                                         <div className="text-left">
                                             <div className={`${itemTitleSize} font-black text-[var(--c-text)] uppercase`}>Техподдержка</div>
-                                            <div className={`${itemSubtextSize} text-[var(--c-primary-60)] uppercase font-bold tracking-tighter`}>{supportEmail}</div>
+                                            <div className={`${itemSubtextSize} text-[var(--c-text-30)] uppercase font-bold tracking-tighter`}>{supportEmail}</div>
                                         </div>
                                     </button>
                                 </div>
 
+                                {/* Заголовок в стиле Apple Settings */}
                                 <div className="space-y-[0.75rem]" ref={creatorRef}>
-                                    <h3 className="text-[0.55rem] font-bold uppercase tracking-widest text-[var(--c-text-20)] ml-[0.25rem]">Автор проекта</h3>
-                                    <div className={`border rounded-[1.2rem] overflow-hidden ${isLegalOpen ? 'bg-[var(--c-surface)] border-[var(--c-primary-20)]' : 'bg-[var(--c-surface)] border-[var(--c-border)]'}`}>
-                                        <button onClick={toggleLegal} className="w-full p-[1.25rem] flex items-center justify-between">
-                                            <div className="flex items-center gap-[0.75rem] text-[var(--c-primary)]">
-                                                <Building2 size="1.1rem" />
-                                                <span className="text-[0.65rem] font-black uppercase tracking-widest">ИП АНТОНОВ А.О.</span>
+                                    <h3 className="text-[0.55rem] font-black uppercase tracking-[0.2em] text-[var(--c-text-30)] ml-[0.5rem]">
+                                        Project Studio
+                                    </h3>
+
+                                    <div className={`border rounded-[1.5rem] transition-all duration-500 overflow-hidden ${
+                                        isLegalOpen ? 'bg-[var(--c-surface)] border-[var(--c-primary-20)] shadow-sm' : 'bg-[var(--c-surface)] border-[var(--c-border)]'
+                                    }`}>
+                                        <button onClick={toggleLegal} className="w-full p-[1.25rem] flex items-center justify-between active:opacity-70 transition-opacity">
+                                            <div className="flex items-center gap-[0.8rem]">
+                                                {/* Иконка яблока или стилизованная "А" */}
+                                                <div className="w-6 h-6 rounded-full bg-[var(--c-text-5)] flex items-center justify-center">
+                                                    <Apple size="0.9rem" className="text-[var(--c-text-40)]" />
+                                                </div>
+                                                <span className="text-[0.7rem] font-black text-[var(--c-text)] uppercase tracking-[0.15em]">
+                    Antonovka · Co
+                </span>
                                             </div>
-                                            <ChevronDown size="1rem" className={`text-[var(--c-text-20)] transition-transform ${isLegalOpen ? 'rotate-180' : ''}`} />
+                                            <ChevronDown size="0.9rem" className={`text-[var(--c-text-20)] transition-transform duration-500 ${isLegalOpen ? 'rotate-180' : ''}`} />
                                         </button>
 
                                         {isLegalOpen && (
-                                            <div className="px-[1.25rem] pb-[1.25rem] space-y-[1rem] pt-[0.5rem] border-t border-[var(--c-border)]">
+                                            <div className="px-[1.25rem] pb-[1.5rem] space-y-[1.25rem] pt-[0.5rem] border-t border-[var(--c-border)] animate-in fade-in slide-in-from-top-2 duration-500">
+
+                                                {/* Founder Profile */}
                                                 <div className="flex items-center gap-[1rem] pt-[1rem]">
-                                                    <div onClick={() => { void triggerSuccessHaptic(); setIsPhotoModalOpen(true); }} className="w-[3rem] h-[3rem] rounded-[0.75rem] bg-[var(--c-surface-elevated)] border border-[var(--c-primary-20)] overflow-hidden relative cursor-pointer">
-                                                        <img src={photoPath} alt="Founder" className="w-full h-full object-cover opacity-80" />
+                                                    <div
+                                                        onClick={() => { void triggerSuccessHaptic(); setIsPhotoModalOpen(true); }}
+                                                        className="w-[3.5rem] h-[3.5rem] rounded-[1rem] bg-[var(--c-surface-elevated)] border border-[var(--c-border)] overflow-hidden relative cursor-pointer group"
+                                                    >
+                                                        <img src={photoPath} alt="Founder" className="w-full h-full object-cover grayscale opacity-90 group-hover:grayscale-0 transition-all duration-500" />
+                                                        <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors" />
                                                     </div>
                                                     <div>
-                                                        <div className="text-[0.65rem] font-black text-[var(--c-text)] uppercase tracking-tight">Антонов Алексей Олегович</div>
-                                                        <div className="text-[0.5rem] text-[var(--c-primary-60)] uppercase font-bold">Автор</div>
+                                                        <div className="text-[0.7rem] font-black text-[var(--c-text)] uppercase tracking-tight">
+                                                            Антонов Алексей
+                                                        </div>
+                                                        <div className="text-[0.55rem] text-[var(--c-text-30)] uppercase font-bold tracking-widest mt-0.5">
+                                                            Founder & Lead
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div className="space-y-[0.5rem] bg-black/[0.03] p-[0.75rem] rounded-[0.8rem] border border-[var(--c-border)] text-[0.55rem] font-mono">
-                                                    <div className="flex justify-between items-center text-[var(--c-text-70)]">
-                                                        <span className="text-[var(--c-text-30)] uppercase tracking-tighter">ИНН</span>
-                                                        <div className="flex items-center gap-[0.5rem]">
+
+                                                {/* Legal Data Card - "The Receipt Style" */}
+                                                <div className="space-y-[0.6rem] bg-[var(--c-text-5)] p-[1rem] rounded-[1rem] border border-[var(--c-border)] font-mono text-[0.55rem]">
+                                                    <div className="flex justify-between items-center">
+                                                        <span className="text-[var(--c-text-30)] uppercase tracking-tighter">Tax ID / ИНН</span>
+                                                        <div className="flex items-center gap-[0.5rem] text-[var(--c-text-60)]">
                                                             {inn}
-                                                            <button onClick={() => handleCopy(inn, 'inn')}>
-                                                                {copiedField === 'inn' ? <Check size="0.6rem" className="text-[var(--c-primary)]"/> : <Copy size="0.6rem"/>}
+                                                            <button onClick={() => handleCopy(inn, 'inn')} className="hover:text-[var(--c-primary)] transition-colors">
+                                                                {copiedField === 'inn' ? <Check size="0.6rem" /> : <Copy size="0.6rem"/>}
                                                             </button>
                                                         </div>
                                                     </div>
-                                                    <div className="flex justify-between items-center text-[var(--c-text-70)]">
-                                                        <span className="text-[var(--c-text-30)] uppercase tracking-tighter">ОГРНИП</span>
-                                                        <div className="flex items-center gap-[0.5rem]">
+                                                    <div className="flex justify-between items-center">
+                                                        <span className="text-[var(--c-text-30)] uppercase tracking-tighter">Reg / ОГРНИП</span>
+                                                        <div className="flex items-center gap-[0.5rem] text-[var(--c-text-60)]">
                                                             {ogrnip}
-                                                            <button onClick={() => handleCopy(ogrnip, 'ogrnip')}>
-                                                                {copiedField === 'ogrnip' ? <Check size="0.6rem" className="text-[var(--c-primary)]"/> : <Copy size="0.6rem"/>}
+                                                            <button onClick={() => handleCopy(ogrnip, 'ogrnip')} className="hover:text-[var(--c-primary)] transition-colors">
+                                                                {copiedField === 'ogrnip' ? <Check size="0.6rem" /> : <Copy size="0.6rem"/>}
                                                             </button>
                                                         </div>
                                                     </div>
-                                                    <div className="flex items-start justify-between pt-[0.25rem] text-[var(--c-text-70)]">
-                                                        <span className="text-[var(--c-text-30)] uppercase tracking-tighter">Адрес</span>
+                                                    <div className="h-px bg-[var(--c-border)] my-1 opacity-50" />
+                                                    <div className="flex items-start justify-between text-[var(--c-text-60)]">
+                                                        <span className="text-[var(--c-text-30)] uppercase tracking-tighter">Location</span>
                                                         <div className="flex items-center gap-[0.5rem]">
-                                                            <span className="text-right max-w-[8.75rem]">{address}</span>
-                                                            <button onClick={() => handleCopy(address, 'address')}>
-                                                                {copiedField === 'address' ? <Check size="0.6rem" className="text-[var(--c-primary)]"/> : <Copy size="0.6rem"/>}
+                                                            <span className="text-right max-w-[9rem] leading-relaxed">{address}</span>
+                                                            <button onClick={() => handleCopy(address, 'address')} className="hover:text-[var(--c-primary)] transition-colors">
+                                                                {copiedField === 'address' ? <Check size="0.6rem" /> : <Copy size="0.6rem"/>}
                                                             </button>
                                                         </div>
-                                                    </div>
-                                                    <div className="pt-[0.5rem] border-t border-[var(--c-border)] flex justify-between items-center">
-                                                        <div className="flex items-center gap-2">
-                                                            <Heart size={10} className="text-[var(--c-primary)]" />
-                                                            <span className="text-[var(--c-text-30)] uppercase tracking-tighter">Поддержать</span>
-                                                        </div>
-                                                        <button onClick={() => { void triggerSuccessHaptic(); window.WebApp?.openLink(donatePageUrl); }} className="text-[var(--c-primary)] font-bold">ЮMoney</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -216,7 +233,7 @@ export const MenuView: React.FC<MenuViewProps> = ({
                         <div className="p-[2rem] border-t border-[var(--c-border)] mt-auto">
                             <div className="flex flex-col items-center text-center gap-[0.5rem]">
                                 <div className={`${footerTextSize} font-black text-[var(--c-text-10)] uppercase tracking-[0.5em]`}>ИП Антонов Алексей Олегович</div>
-                                <div className={`${footerTextSize} font-bold text-[var(--c-primary-60)] opacity-30 uppercase tracking-[0.2em]`}>© 2026 Все права защищены</div>
+                                <div className={`${footerTextSize} font-bold text-[var(--c-text-10)] uppercase tracking-[0.2em]`}>© 2026 Все права защищены</div>
                             </div>
                         </div>
                     </div>

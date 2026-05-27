@@ -50,56 +50,15 @@ const App: React.FC = () => {
     });
 
     const [theme, setTheme] = useState<string>(() => {
-        const saved = localStorage.getItem('user_theme') || 'max-light';
+        const saved = localStorage.getItem('user_theme') || 'morning-magic';
+        document.documentElement.dataset.theme = saved;
         return saved;
     });
 
-    const [darkTheme, setDarkTheme] = useState<string>(() => {
-        return localStorage.getItem('user_dark_theme') || 'max-dark';
-    });
-
-    const [colorScheme, setColorScheme] = useState<'system' | 'light' | 'dark'>(() => {
-        return (localStorage.getItem('user_color_scheme') as 'system' | 'light' | 'dark') || 'system';
-    });
-
-    // Resolve current theme based on colorScheme
-    const getResolvedTheme = useCallback(() => {
-        if (colorScheme === 'light') return theme;
-        if (colorScheme === 'dark') return darkTheme;
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        return prefersDark ? darkTheme : theme;
-    }, [colorScheme, theme, darkTheme]);
-
     useEffect(() => {
-        const resolved = getResolvedTheme();
-        document.documentElement.dataset.theme = resolved;
-    }, [getResolvedTheme]);
-
-    // Listen for system color scheme changes
-    useEffect(() => {
-        const mq = window.matchMedia('(prefers-color-scheme: dark)');
-        const handler = () => {
-            if (colorScheme === 'system') {
-                const resolved = getResolvedTheme();
-                document.documentElement.dataset.theme = resolved;
-            }
-        };
-        mq.addEventListener('change', handler);
-        return () => mq.removeEventListener('change', handler);
-    }, [colorScheme, getResolvedTheme]);
-
-    // Persist
-    useEffect(() => {
+        document.documentElement.dataset.theme = theme;
         localStorage.setItem('user_theme', theme);
     }, [theme]);
-
-    useEffect(() => {
-        localStorage.setItem('user_dark_theme', darkTheme);
-    }, [darkTheme]);
-
-    useEffect(() => {
-        localStorage.setItem('user_color_scheme', colorScheme);
-    }, [colorScheme]);
 
     useEffect(() => {
         (window.WebApp as any)?.disableVerticalSwipes?.();
@@ -272,10 +231,6 @@ const App: React.FC = () => {
                 setFontScale={setFontScale}
                 theme={theme}
                 setTheme={setTheme}
-                darkTheme={darkTheme}
-                setDarkTheme={setDarkTheme}
-                colorScheme={colorScheme}
-                setColorScheme={setColorScheme}
             />
         );
     }

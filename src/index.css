@@ -80,20 +80,32 @@ html {
 }
 
 :root {
-  --max-ui-bg-primary: #FBF6F0;
-  --max-ui-text-primary: #2C2824;
-  --max-ui-accent: #C4756B;
   --c-bg: #FBF6F0;
   --c-bg-60: rgba(251,246,240,0.6);
   --c-bg-80: rgba(251,246,240,0.8);
   --c-bg-85: rgba(251,246,240,0.85);
   --c-bg-90: rgba(251,246,240,0.9);
+  --c-primary: #C4756B;
+  --c-primary-10: rgba(196,117,107,0.1);
+  --c-primary-20: rgba(196,117,107,0.2);
+  --c-primary-40: rgba(196,117,107,0.4);
+  --c-primary-50: rgba(196,117,107,0.5);
+  --c-primary-60: rgba(196,117,107,0.6);
+  --c-primary-80: rgba(196,117,107,0.8);
+  --c-secondary: #E8C4A0;
+  --c-secondary-10: rgba(232,196,160,0.1);
+  --c-secondary-20: rgba(232,196,160,0.2);
+  --c-secondary-40: rgba(232,196,160,0.4);
+  --c-secondary-50: rgba(232,196,160,0.5);
+  --c-secondary-60: rgba(232,196,160,0.6);
+  --c-secondary-80: rgba(232,196,160,0.8);
   --c-text: #2C2824;
   --c-text-5: rgba(44,40,36,0.05);
   --c-text-10: rgba(44,40,36,0.1);
   --c-text-20: rgba(44,40,36,0.2);
   --c-text-30: rgba(44,40,36,0.3);
   --c-text-40: rgba(44,40,36,0.4);
+  --c-text-45: rgba(44,40,36,0.45);
   --c-text-50: rgba(44,40,36,0.5);
   --c-text-60: rgba(44,40,36,0.6);
   --c-text-70: rgba(44,40,36,0.7);
@@ -101,13 +113,15 @@ html {
   --c-text-90: rgba(44,40,36,0.9);
   --c-text-95: rgba(44,40,36,0.95);
   --c-border: rgba(0,0,0,0.03);
-  --c-surface: #FFFFFF;
-  --c-surface-elevated: #FFFFFF;
+  --c-surface: rgba(255,255,255,0.7);
+  --c-surface-elevated: rgba(255,255,255,0.9);
+  --c-fill: rgba(44,40,36,0.05);
+  --c-overlay: rgba(0,0,0,0.2);
+  --c-shadow: 0 10px 40px -10px rgba(44,40,36,0.05);
   color-scheme: light;
 }
 
-/* ========== MAX: Светлая тема (Pure Light — по умолчанию) ========== */
-:root,
+/* ========== MAX: Светлая тема (Pure Light) ========== */
 [data-theme="max-light"] {
   --c-bg: #FFFFFF;
   --c-bg-60: rgba(255,255,255,0.6);
@@ -115,7 +129,7 @@ html {
   --c-bg-85: rgba(255,255,255,0.85);
   --c-bg-90: rgba(255,255,255,0.9);
   --c-primary: #471AFF;
-  --c-primary-10: rgba(71,26,255,0.08);
+  --c-primary-10: rgba(71,26,255,0.12);
   --c-primary-20: rgba(71,26,255,0.15);
   --c-primary-40: rgba(71,26,255,0.4);
   --c-primary-50: rgba(71,26,255,0.5);
@@ -134,18 +148,22 @@ html {
   --c-text-20: rgba(13,0,26,0.2);
   --c-text-30: rgba(13,0,26,0.3);
   --c-text-40: rgba(13,0,26,0.4);
+  --c-text-45: rgba(13,0,26,0.45);
   --c-text-50: rgba(13,0,26,0.5);
   --c-text-60: rgba(13,0,26,0.6);
   --c-text-70: rgba(13,0,26,0.7);
   --c-text-80: rgba(13,0,26,0.8);
   --c-text-90: rgba(13,0,26,0.9);
   --c-text-95: rgba(13,0,26,0.95);
-  --c-border: rgba(13,0,26,0.06);
-  --c-surface: rgba(13,0,26,0.03);
-  --c-surface-elevated: rgba(13,0,26,0.05);
+  --c-border: rgba(13,0,26,0.08);
+  --c-surface: rgba(255,255,255,0.7);
+  --c-surface-elevated: rgba(255,255,255,0.9);
+  --c-fill: rgba(13,0,26,0.05);
+  --c-overlay: rgba(0,0,0,0.2);
+  --c-shadow: 0 10px 40px -10px rgba(13,0,26,0.05);
 }
 
-/* ========== Тема: Магия Утра — Morning Magic ========== */
+/* ========== Тема: Тихая Роскошь ========== */
 [data-theme="morning-magic"] {
   --c-bg: #FBF6F0;
   --c-bg-60: rgba(251,246,240,0.6);
@@ -172,6 +190,7 @@ html {
   --c-text-20: rgba(44,40,36,0.2);
   --c-text-30: rgba(44,40,36,0.3);
   --c-text-40: rgba(44,40,36,0.4);
+  --c-text-45: rgba(44,40,36,0.45);
   --c-text-50: rgba(44,40,36,0.5);
   --c-text-60: rgba(44,40,36,0.6);
   --c-text-70: rgba(44,40,36,0.7);
@@ -179,885 +198,59 @@ html {
   --c-text-90: rgba(44,40,36,0.9);
   --c-text-95: rgba(44,40,36,0.95);
   --c-border: rgba(0,0,0,0.03);
-  --c-surface: #FFFFFF;
-  --c-surface-elevated: #FFFFFF;
+  --c-surface: rgba(255,255,255,0.7);
+  --c-surface-elevated: rgba(255,255,255,0.9);
+  --c-fill: rgba(44,40,36,0.05);
+  --c-overlay: rgba(0,0,0,0.2);
+  --c-shadow: 0 10px 40px -10px rgba(44,40,36,0.05);
 }
 
-/* ========== Тема: Шелковый Рассвет (Silk Dawn) ========== */
-[data-theme="silk-dawn"] {
-  --c-bg: #FDFBF7;
-  --c-bg-60: rgba(253,251,247,0.6);
-  --c-bg-80: rgba(253,251,247,0.8);
-  --c-bg-85: rgba(253,251,247,0.85);
-  --c-bg-90: rgba(253,251,247,0.9);
-  --c-primary: #0A7C8B;
-  --c-primary-10: rgba(10,124,139,0.1);
-  --c-primary-20: rgba(10,124,139,0.2);
-  --c-primary-40: rgba(10,124,139,0.4);
-  --c-primary-50: rgba(10,124,139,0.5);
-  --c-primary-60: rgba(10,124,139,0.6);
-  --c-primary-80: rgba(10,124,139,0.8);
-  --c-secondary: #D4B78F;
-  --c-secondary-10: rgba(212,183,143,0.1);
-  --c-secondary-20: rgba(212,183,143,0.2);
-  --c-secondary-40: rgba(212,183,143,0.4);
-  --c-secondary-50: rgba(212,183,143,0.5);
-  --c-secondary-60: rgba(212,183,143,0.6);
-  --c-secondary-80: rgba(212,183,143,0.8);
-  --c-text: #1A1C1E;
-  --c-text-5: rgba(26,28,30,0.05);
-  --c-text-10: rgba(26,28,30,0.1);
-  --c-text-20: rgba(26,28,30,0.2);
-  --c-text-30: rgba(26,28,30,0.3);
-  --c-text-40: rgba(26,28,30,0.4);
-  --c-text-50: rgba(26,28,30,0.5);
-  --c-text-60: rgba(26,28,30,0.6);
-  --c-text-70: rgba(26,28,30,0.7);
-  --c-text-80: rgba(26,28,30,0.8);
-  --c-text-90: rgba(26,28,30,0.9);
-  --c-text-95: rgba(26,28,30,0.95);
-  --c-border: rgba(0,0,0,0.03);
-  --c-surface: #FFFFFF;
-  --c-surface-elevated: #FFFFFF;
-}
 
-/* ========== Тема: Льняная Тишина (Linen Silence) ========== */
-[data-theme="linen-silence"] {
-  --c-bg: #F7F6F2;
-  --c-bg-60: rgba(247,246,242,0.6);
-  --c-bg-80: rgba(247,246,242,0.8);
-  --c-bg-85: rgba(247,246,242,0.85);
-  --c-bg-90: rgba(247,246,242,0.9);
-  --c-primary: #8E9775;
-  --c-primary-10: rgba(142,151,117,0.1);
-  --c-primary-20: rgba(142,151,117,0.2);
-  --c-primary-40: rgba(142,151,117,0.4);
-  --c-primary-50: rgba(142,151,117,0.5);
-  --c-primary-60: rgba(142,151,117,0.6);
-  --c-primary-80: rgba(142,151,117,0.8);
-  --c-secondary: #D2B48C;
-  --c-secondary-10: rgba(210,180,140,0.1);
-  --c-secondary-20: rgba(210,180,140,0.2);
-  --c-secondary-40: rgba(210,180,140,0.4);
-  --c-secondary-50: rgba(210,180,140,0.5);
-  --c-secondary-60: rgba(210,180,140,0.6);
-  --c-secondary-80: rgba(210,180,140,0.8);
-  --c-text: #323426;
-  --c-text-5: rgba(50,52,38,0.05);
-  --c-text-10: rgba(50,52,38,0.1);
-  --c-text-20: rgba(50,52,38,0.2);
-  --c-text-30: rgba(50,52,38,0.3);
-  --c-text-40: rgba(50,52,38,0.4);
-  --c-text-50: rgba(50,52,38,0.5);
-  --c-text-60: rgba(50,52,38,0.6);
-  --c-text-70: rgba(50,52,38,0.7);
-  --c-text-80: rgba(50,52,38,0.8);
-  --c-text-90: rgba(50,52,38,0.9);
-  --c-text-95: rgba(50,52,38,0.95);
-  --c-border: rgba(0,0,0,0.03);
-  --c-surface: #FFFFFF;
-  --c-surface-elevated: #FFFFFF;
-}
-
-/* ========== Тема: Пудровый Эфир (Powder Ether) ========== */
-[data-theme="powder-ether"] {
-  --c-bg: #FCF8F8;
-  --c-bg-60: rgba(252,248,248,0.6);
-  --c-bg-80: rgba(252,248,248,0.8);
-  --c-bg-85: rgba(252,248,248,0.85);
-  --c-bg-90: rgba(252,248,248,0.9);
-  --c-primary: #B08998;
-  --c-primary-10: rgba(176,137,152,0.1);
-  --c-primary-20: rgba(176,137,152,0.2);
-  --c-primary-40: rgba(176,137,152,0.4);
-  --c-primary-50: rgba(176,137,152,0.5);
-  --c-primary-60: rgba(176,137,152,0.6);
-  --c-primary-80: rgba(176,137,152,0.8);
-  --c-secondary: #E5D1D0;
-  --c-secondary-10: rgba(229,209,208,0.1);
-  --c-secondary-20: rgba(229,209,208,0.2);
-  --c-secondary-40: rgba(229,209,208,0.4);
-  --c-secondary-50: rgba(229,209,208,0.5);
-  --c-secondary-60: rgba(229,209,208,0.6);
-  --c-secondary-80: rgba(229,209,208,0.8);
-  --c-text: #3E2F35;
-  --c-text-5: rgba(62,47,53,0.05);
-  --c-text-10: rgba(62,47,53,0.1);
-  --c-text-20: rgba(62,47,53,0.2);
-  --c-text-30: rgba(62,47,53,0.3);
-  --c-text-40: rgba(62,47,53,0.4);
-  --c-text-50: rgba(62,47,53,0.5);
-  --c-text-60: rgba(62,47,53,0.6);
-  --c-text-70: rgba(62,47,53,0.7);
-  --c-text-80: rgba(62,47,53,0.8);
-  --c-text-90: rgba(62,47,53,0.9);
-  --c-text-95: rgba(62,47,53,0.95);
-  --c-border: rgba(0,0,0,0.03);
-  --c-surface: #FFFFFF;
-  --c-surface-elevated: #FFFFFF;
-}
-
-/* ========== Тема: Лазурный Чай (Azure Tea) ========== */
-[data-theme="azure-tea"] {
-  --c-bg: #F5F9FA;
-  --c-bg-60: rgba(245,249,250,0.6);
-  --c-bg-80: rgba(245,249,250,0.8);
-  --c-bg-85: rgba(245,249,250,0.85);
-  --c-bg-90: rgba(245,249,250,0.9);
-  --c-primary: #6B8E9E;
-  --c-primary-10: rgba(107,142,158,0.1);
-  --c-primary-20: rgba(107,142,158,0.2);
-  --c-primary-40: rgba(107,142,158,0.4);
-  --c-primary-50: rgba(107,142,158,0.5);
-  --c-primary-60: rgba(107,142,158,0.6);
-  --c-primary-80: rgba(107,142,158,0.8);
-  --c-secondary: #C9D6D6;
-  --c-secondary-10: rgba(201,214,214,0.1);
-  --c-secondary-20: rgba(201,214,214,0.2);
-  --c-secondary-40: rgba(201,214,214,0.4);
-  --c-secondary-50: rgba(201,214,214,0.5);
-  --c-secondary-60: rgba(201,214,214,0.6);
-  --c-secondary-80: rgba(201,214,214,0.8);
-  --c-text: #242D32;
-  --c-text-5: rgba(36,45,50,0.05);
-  --c-text-10: rgba(36,45,50,0.1);
-  --c-text-20: rgba(36,45,50,0.2);
-  --c-text-30: rgba(36,45,50,0.3);
-  --c-text-40: rgba(36,45,50,0.4);
-  --c-text-50: rgba(36,45,50,0.5);
-  --c-text-60: rgba(36,45,50,0.6);
-  --c-text-70: rgba(36,45,50,0.7);
-  --c-text-80: rgba(36,45,50,0.8);
-  --c-text-90: rgba(36,45,50,0.9);
-  --c-text-95: rgba(36,45,50,0.95);
-  --c-border: rgba(0,0,0,0.03);
-  --c-surface: #FFFFFF;
-  --c-surface-elevated: #FFFFFF;
-}
-
-/* ========== Тема: Золотой Поток (Golden Flow) ========== */
-[data-theme="golden-flow"] {
-  --c-bg: #FAF9F3;
-  --c-bg-60: rgba(250,249,243,0.6);
-  --c-bg-80: rgba(250,249,243,0.8);
-  --c-bg-85: rgba(250,249,243,0.85);
-  --c-bg-90: rgba(250,249,243,0.9);
-  --c-primary: #C5A059;
-  --c-primary-10: rgba(197,160,89,0.1);
-  --c-primary-20: rgba(197,160,89,0.2);
-  --c-primary-40: rgba(197,160,89,0.4);
-  --c-primary-50: rgba(197,160,89,0.5);
-  --c-primary-60: rgba(197,160,89,0.6);
-  --c-primary-80: rgba(197,160,89,0.8);
-  --c-secondary: #E8E2D0;
-  --c-secondary-10: rgba(232,226,208,0.1);
-  --c-secondary-20: rgba(232,226,208,0.2);
-  --c-secondary-40: rgba(232,226,208,0.4);
-  --c-secondary-50: rgba(232,226,208,0.5);
-  --c-secondary-60: rgba(232,226,208,0.6);
-  --c-secondary-80: rgba(232,226,208,0.8);
-  --c-text: #2C2824;
-  --c-text-5: rgba(44,40,36,0.05);
-  --c-text-10: rgba(44,40,36,0.1);
-  --c-text-20: rgba(44,40,36,0.2);
-  --c-text-30: rgba(44,40,36,0.3);
-  --c-text-40: rgba(44,40,36,0.4);
-  --c-text-50: rgba(44,40,36,0.5);
-  --c-text-60: rgba(44,40,36,0.6);
-  --c-text-70: rgba(44,40,36,0.7);
-  --c-text-80: rgba(44,40,36,0.8);
-  --c-text-90: rgba(44,40,36,0.9);
-  --c-text-95: rgba(44,40,36,0.95);
-  --c-border: rgba(0,0,0,0.03);
-  --c-surface: #FFFFFF;
-  --c-surface-elevated: #FFFFFF;
-}
-
-/* ========== Тема: Мускатный Шалфей (Muscat Sage) ========== */
-[data-theme="muscat-sage"] {
-  --c-bg: #F8F9F5;
-  --c-bg-60: rgba(248,249,245,0.6);
-  --c-bg-80: rgba(248,249,245,0.8);
-  --c-bg-85: rgba(248,249,245,0.85);
-  --c-bg-90: rgba(248,249,245,0.9);
-  --c-primary: #7C9082;
-  --c-primary-10: rgba(124,144,130,0.1);
-  --c-primary-20: rgba(124,144,130,0.2);
-  --c-primary-40: rgba(124,144,130,0.4);
-  --c-primary-50: rgba(124,144,130,0.5);
-  --c-primary-60: rgba(124,144,130,0.6);
-  --c-primary-80: rgba(124,144,130,0.8);
-  --c-secondary: #B5C0B7;
-  --c-secondary-10: rgba(181,192,183,0.1);
-  --c-secondary-20: rgba(181,192,183,0.2);
-  --c-secondary-40: rgba(181,192,183,0.4);
-  --c-secondary-50: rgba(181,192,183,0.5);
-  --c-secondary-60: rgba(181,192,183,0.6);
-  --c-secondary-80: rgba(181,192,183,0.8);
-  --c-text: #2A312C;
-  --c-text-5: rgba(42,49,44,0.05);
-  --c-text-10: rgba(42,49,44,0.1);
-  --c-text-20: rgba(42,49,44,0.2);
-  --c-text-30: rgba(42,49,44,0.3);
-  --c-text-40: rgba(42,49,44,0.4);
-  --c-text-50: rgba(42,49,44,0.5);
-  --c-text-60: rgba(42,49,44,0.6);
-  --c-text-70: rgba(42,49,44,0.7);
-  --c-text-80: rgba(42,49,44,0.8);
-  --c-text-90: rgba(42,49,44,0.9);
-  --c-text-95: rgba(42,49,44,0.95);
-  --c-border: rgba(0,0,0,0.03);
-  --c-surface: #FFFFFF;
-  --c-surface-elevated: #FFFFFF;
-}
-
-/* ========== Тема: Терракотовый Бриз (Terracotta Breeze) ========== */
-[data-theme="terracotta-breeze"] {
-  --c-bg: #FBF8F4;
-  --c-bg-60: rgba(251,248,244,0.6);
-  --c-bg-80: rgba(251,248,244,0.8);
-  --c-bg-85: rgba(251,248,244,0.85);
-  --c-bg-90: rgba(251,248,244,0.9);
-  --c-primary: #B98D7A;
-  --c-primary-10: rgba(185,141,122,0.1);
-  --c-primary-20: rgba(185,141,122,0.2);
-  --c-primary-40: rgba(185,141,122,0.4);
-  --c-primary-50: rgba(185,141,122,0.5);
-  --c-primary-60: rgba(185,141,122,0.6);
-  --c-primary-80: rgba(185,141,122,0.8);
-  --c-secondary: #D9C5B2;
-  --c-secondary-10: rgba(217,197,178,0.1);
-  --c-secondary-20: rgba(217,197,178,0.2);
-  --c-secondary-40: rgba(217,197,178,0.4);
-  --c-secondary-50: rgba(217,197,178,0.5);
-  --c-secondary-60: rgba(217,197,178,0.6);
-  --c-secondary-80: rgba(217,197,178,0.8);
-  --c-text: #3D2B24;
-  --c-text-5: rgba(61,43,36,0.05);
-  --c-text-10: rgba(61,43,36,0.1);
-  --c-text-20: rgba(61,43,36,0.2);
-  --c-text-30: rgba(61,43,36,0.3);
-  --c-text-40: rgba(61,43,36,0.4);
-  --c-text-50: rgba(61,43,36,0.5);
-  --c-text-60: rgba(61,43,36,0.6);
-  --c-text-70: rgba(61,43,36,0.7);
-  --c-text-80: rgba(61,43,36,0.8);
-  --c-text-90: rgba(61,43,36,0.9);
-  --c-text-95: rgba(61,43,36,0.95);
-  --c-border: rgba(0,0,0,0.03);
-  --c-surface: #FFFFFF;
-  --c-surface-elevated: #FFFFFF;
-}
-
-/* ========== Тема: Фарфоровый Мист (Porcelain Mist) ========== */
-[data-theme="porcelain-mist"] {
-  --c-bg: #F9FAFB;
-  --c-bg-60: rgba(249,250,251,0.6);
-  --c-bg-80: rgba(249,250,251,0.8);
-  --c-bg-85: rgba(249,250,251,0.85);
-  --c-bg-90: rgba(249,250,251,0.9);
-  --c-primary: #5F6B7D;
-  --c-primary-10: rgba(95,107,125,0.1);
-  --c-primary-20: rgba(95,107,125,0.2);
-  --c-primary-40: rgba(95,107,125,0.4);
-  --c-primary-50: rgba(95,107,125,0.5);
-  --c-primary-60: rgba(95,107,125,0.6);
-  --c-primary-80: rgba(95,107,125,0.8);
-  --c-secondary: #A9B2C0;
-  --c-secondary-10: rgba(169,178,192,0.1);
-  --c-secondary-20: rgba(169,178,192,0.2);
-  --c-secondary-40: rgba(169,178,192,0.4);
-  --c-secondary-50: rgba(169,178,192,0.5);
-  --c-secondary-60: rgba(169,178,192,0.6);
-  --c-secondary-80: rgba(169,178,192,0.8);
-  --c-text: #1F242D;
-  --c-text-5: rgba(31,36,45,0.05);
-  --c-text-10: rgba(31,36,45,0.1);
-  --c-text-20: rgba(31,36,45,0.2);
-  --c-text-30: rgba(31,36,45,0.3);
-  --c-text-40: rgba(31,36,45,0.4);
-  --c-text-50: rgba(31,36,45,0.5);
-  --c-text-60: rgba(31,36,45,0.6);
-  --c-text-70: rgba(31,36,45,0.7);
-  --c-text-80: rgba(31,36,45,0.8);
-  --c-text-90: rgba(31,36,45,0.9);
-  --c-text-95: rgba(31,36,45,0.95);
-  --c-border: rgba(0,0,0,0.03);
-  --c-surface: #FFFFFF;
-  --c-surface-elevated: #FFFFFF;
-}
-
-/* ========== Тема: Янтарное Сияние (Amber Glow) ========== */
-[data-theme="amber-glow"] {
-  --c-bg: #FCF7F0;
-  --c-bg-60: rgba(252,247,240,0.6);
-  --c-bg-80: rgba(252,247,240,0.8);
-  --c-bg-85: rgba(252,247,240,0.85);
-  --c-bg-90: rgba(252,247,240,0.9);
-  --c-primary: #C87D4F;
-  --c-primary-10: rgba(200,125,79,0.1);
-  --c-primary-20: rgba(200,125,79,0.2);
-  --c-primary-40: rgba(200,125,79,0.4);
-  --c-primary-50: rgba(200,125,79,0.5);
-  --c-primary-60: rgba(200,125,79,0.6);
-  --c-primary-80: rgba(200,125,79,0.8);
-  --c-secondary: #E8D5C0;
-  --c-secondary-10: rgba(232,213,192,0.1);
-  --c-secondary-20: rgba(232,213,192,0.2);
-  --c-secondary-40: rgba(232,213,192,0.4);
-  --c-secondary-50: rgba(232,213,192,0.5);
-  --c-secondary-60: rgba(232,213,192,0.6);
-  --c-secondary-80: rgba(232,213,192,0.8);
-  --c-text: #2C2420;
-  --c-text-5: rgba(44,36,32,0.05);
-  --c-text-10: rgba(44,36,32,0.1);
-  --c-text-20: rgba(44,36,32,0.2);
-  --c-text-30: rgba(44,36,32,0.3);
-  --c-text-40: rgba(44,36,32,0.4);
-  --c-text-50: rgba(44,36,32,0.5);
-  --c-text-60: rgba(44,36,32,0.6);
-  --c-text-70: rgba(44,36,32,0.7);
-  --c-text-80: rgba(44,36,32,0.8);
-  --c-text-90: rgba(44,36,32,0.9);
-  --c-text-95: rgba(44,36,32,0.95);
-  --c-border: rgba(0,0,0,0.03);
-  --c-surface: #FFFFFF;
-  --c-surface-elevated: #FFFFFF;
-}
-
-/* ========== Тема: Сиреневый Флёр (Lilac Veil) ========== */
-[data-theme="lilac-veil"] {
-  --c-bg: #FBF8FC;
-  --c-bg-60: rgba(251,248,252,0.6);
-  --c-bg-80: rgba(251,248,252,0.8);
-  --c-bg-85: rgba(251,248,252,0.85);
-  --c-bg-90: rgba(251,248,252,0.9);
-  --c-primary: #9B7FA6;
-  --c-primary-10: rgba(155,127,166,0.1);
-  --c-primary-20: rgba(155,127,166,0.2);
-  --c-primary-40: rgba(155,127,166,0.4);
-  --c-primary-50: rgba(155,127,166,0.5);
-  --c-primary-60: rgba(155,127,166,0.6);
-  --c-primary-80: rgba(155,127,166,0.8);
-  --c-secondary: #DDD0E3;
-  --c-secondary-10: rgba(221,208,227,0.1);
-  --c-secondary-20: rgba(221,208,227,0.2);
-  --c-secondary-40: rgba(221,208,227,0.4);
-  --c-secondary-50: rgba(221,208,227,0.5);
-  --c-secondary-60: rgba(221,208,227,0.6);
-  --c-secondary-80: rgba(221,208,227,0.8);
-  --c-text: #2D2830;
-  --c-text-5: rgba(45,40,48,0.05);
-  --c-text-10: rgba(45,40,48,0.1);
-  --c-text-20: rgba(45,40,48,0.2);
-  --c-text-30: rgba(45,40,48,0.3);
-  --c-text-40: rgba(45,40,48,0.4);
-  --c-text-50: rgba(45,40,48,0.5);
-  --c-text-60: rgba(45,40,48,0.6);
-  --c-text-70: rgba(45,40,48,0.7);
-  --c-text-80: rgba(45,40,48,0.8);
-  --c-text-90: rgba(45,40,48,0.9);
-  --c-text-95: rgba(45,40,48,0.95);
-  --c-border: rgba(0,0,0,0.03);
-  --c-surface: #FFFFFF;
-  --c-surface-elevated: #FFFFFF;
-}
-
-/* ========== Тема: Матча-крем (Matcha Cream) ========== */
-[data-theme="matcha-cream"] {
-  --c-bg: #F6F8F3;
-  --c-bg-60: rgba(246,248,243,0.6);
-  --c-bg-80: rgba(246,248,243,0.8);
-  --c-bg-85: rgba(246,248,243,0.85);
-  --c-bg-90: rgba(246,248,243,0.9);
-  --c-primary: #7A9B6A;
-  --c-primary-10: rgba(122,155,106,0.1);
-  --c-primary-20: rgba(122,155,106,0.2);
-  --c-primary-40: rgba(122,155,106,0.4);
-  --c-primary-50: rgba(122,155,106,0.5);
-  --c-primary-60: rgba(122,155,106,0.6);
-  --c-primary-80: rgba(122,155,106,0.8);
-  --c-secondary: #C8D5BE;
-  --c-secondary-10: rgba(200,213,190,0.1);
-  --c-secondary-20: rgba(200,213,190,0.2);
-  --c-secondary-40: rgba(200,213,190,0.4);
-  --c-secondary-50: rgba(200,213,190,0.5);
-  --c-secondary-60: rgba(200,213,190,0.6);
-  --c-secondary-80: rgba(200,213,190,0.8);
-  --c-text: #2A3028;
-  --c-text-5: rgba(42,48,40,0.05);
-  --c-text-10: rgba(42,48,40,0.1);
-  --c-text-20: rgba(42,48,40,0.2);
-  --c-text-30: rgba(42,48,40,0.3);
-  --c-text-40: rgba(42,48,40,0.4);
-  --c-text-50: rgba(42,48,40,0.5);
-  --c-text-60: rgba(42,48,40,0.6);
-  --c-text-70: rgba(42,48,40,0.7);
-  --c-text-80: rgba(42,48,40,0.8);
-  --c-text-90: rgba(42,48,40,0.9);
-  --c-text-95: rgba(42,48,40,0.95);
-  --c-border: rgba(0,0,0,0.03);
-  --c-surface: #FFFFFF;
-  --c-surface-elevated: #FFFFFF;
-}
 
 /* ========== Тёмные темы ========== */
 
-/* ========== Тема: Бархатная полночь — Velvety Midnight ========== */
-[data-theme="velvety-midnight"] {
-  --c-bg: #1A1816;
-  --c-bg-60: rgba(26,24,22,0.6);
-  --c-bg-80: rgba(26,24,22,0.8);
-  --c-bg-85: rgba(26,24,22,0.85);
-  --c-bg-90: rgba(26,24,22,0.9);
-  --c-primary: #D4A5A5;
-  --c-primary-10: rgba(212,165,165,0.1);
-  --c-primary-20: rgba(212,165,165,0.2);
-  --c-primary-40: rgba(212,165,165,0.4);
-  --c-primary-50: rgba(212,165,165,0.5);
-  --c-primary-60: rgba(212,165,165,0.6);
-  --c-primary-80: rgba(212,165,165,0.8);
-  --c-secondary: #B89090;
-  --c-secondary-10: rgba(184,144,144,0.1);
-  --c-secondary-20: rgba(184,144,144,0.2);
-  --c-secondary-40: rgba(184,144,144,0.4);
-  --c-secondary-50: rgba(184,144,144,0.5);
-  --c-secondary-60: rgba(184,144,144,0.6);
-  --c-secondary-80: rgba(184,144,144,0.8);
-  --c-text: #E8E4E0;
-  --c-text-5: rgba(232,228,224,0.05);
-  --c-text-10: rgba(232,228,224,0.1);
-  --c-text-20: rgba(232,228,224,0.2);
-  --c-text-30: rgba(232,228,224,0.3);
-  --c-text-40: rgba(232,228,224,0.4);
-  --c-text-50: rgba(232,228,224,0.5);
-  --c-text-60: rgba(232,228,224,0.6);
-  --c-text-70: rgba(232,228,224,0.7);
-  --c-text-80: rgba(232,228,224,0.8);
-  --c-text-90: rgba(232,228,224,0.9);
-  --c-text-95: rgba(232,228,224,0.95);
-  --c-border: rgba(255,255,255,0.05);
-  --c-surface: rgba(255,255,255,0.06);
-  --c-surface-elevated: rgba(255,255,255,0.1);
-}
-
-/* ========== Тема: Шелковый нуар — Silk Noir ========== */
-[data-theme="silk-noir"] {
-  --c-bg: #0F0E13;
-  --c-bg-60: rgba(15,14,19,0.6);
-  --c-bg-80: rgba(15,14,19,0.8);
-  --c-bg-85: rgba(15,14,19,0.85);
-  --c-bg-90: rgba(15,14,19,0.9);
-  --c-primary: #78A5A5;
-  --c-primary-10: rgba(120,165,165,0.1);
-  --c-primary-20: rgba(120,165,165,0.2);
-  --c-primary-40: rgba(120,165,165,0.4);
-  --c-primary-50: rgba(120,165,165,0.5);
-  --c-primary-60: rgba(120,165,165,0.6);
-  --c-primary-80: rgba(120,165,165,0.8);
-  --c-secondary: #5E8282;
-  --c-secondary-10: rgba(94,130,130,0.1);
-  --c-secondary-20: rgba(94,130,130,0.2);
-  --c-secondary-40: rgba(94,130,130,0.4);
-  --c-secondary-50: rgba(94,130,130,0.5);
-  --c-secondary-60: rgba(94,130,130,0.6);
-  --c-secondary-80: rgba(94,130,130,0.8);
-  --c-text: #E0E4E8;
-  --c-text-5: rgba(224,228,232,0.05);
-  --c-text-10: rgba(224,228,232,0.1);
-  --c-text-20: rgba(224,228,232,0.2);
-  --c-text-30: rgba(224,228,232,0.3);
-  --c-text-40: rgba(224,228,232,0.4);
-  --c-text-50: rgba(224,228,232,0.5);
-  --c-text-60: rgba(224,228,232,0.6);
-  --c-text-70: rgba(224,228,232,0.7);
-  --c-text-80: rgba(224,228,232,0.8);
-  --c-text-90: rgba(224,228,232,0.9);
-  --c-text-95: rgba(224,228,232,0.95);
-  --c-border: rgba(255,255,255,0.04);
+/* ========== Тема: Ночной Эфир — Night Ether (Тёмная пара Тихая Роскошь) ========== */
+[data-theme="night-ether"] {
+  --c-bg: #0F1115;
+  --c-bg-60: rgba(15,17,21,0.6);
+  --c-bg-80: rgba(15,17,21,0.8);
+  --c-bg-85: rgba(15,17,21,0.85);
+  --c-bg-90: rgba(15,17,21,0.9);
+  --c-primary: #8E9AAF;
+  --c-primary-10: rgba(142,154,175,0.1);
+  --c-primary-20: rgba(142,154,175,0.2);
+  --c-primary-40: rgba(142,154,175,0.4);
+  --c-primary-50: rgba(142,154,175,0.5);
+  --c-primary-60: rgba(142,154,175,0.6);
+  --c-primary-80: rgba(142,154,175,0.8);
+  --c-secondary: #CBC0AD;
+  --c-secondary-10: rgba(203,192,173,0.1);
+  --c-secondary-20: rgba(203,192,173,0.2);
+  --c-secondary-40: rgba(203,192,173,0.4);
+  --c-secondary-50: rgba(203,192,173,0.5);
+  --c-secondary-60: rgba(203,192,173,0.6);
+  --c-secondary-80: rgba(203,192,173,0.8);
+  --c-text: #F5F5F3;
+  --c-text-5: rgba(245,245,243,0.05);
+  --c-text-10: rgba(245,245,243,0.1);
+  --c-text-20: rgba(245,245,243,0.2);
+  --c-text-30: rgba(245,245,243,0.3);
+  --c-text-40: rgba(245,245,243,0.4);
+  --c-text-45: rgba(245,245,243,0.45);
+  --c-text-50: rgba(245,245,243,0.5);
+  --c-text-60: rgba(245,245,243,0.6);
+  --c-text-70: rgba(245,245,243,0.7);
+  --c-text-80: rgba(245,245,243,0.8);
+  --c-text-90: rgba(245,245,243,0.9);
+  --c-text-95: rgba(245,245,243,0.95);
+  --c-border: rgba(255,255,255,0.06);
   --c-surface: rgba(255,255,255,0.05);
   --c-surface-elevated: rgba(255,255,255,0.09);
+  --c-fill: rgba(255,255,255,0.08);
+  --c-overlay: rgba(0,0,0,0.6);
+  --c-shadow: inset 0 0 0 1px rgba(255,255,255,0.04), 0 20px 40px rgba(0,0,0,0.4);
 }
 
-/* ========== Тема: Льняные сумерки — Linen Dusk ========== */
-[data-theme="linen-dusk"] {
-  --c-bg: #141612;
-  --c-bg-60: rgba(20,22,18,0.6);
-  --c-bg-80: rgba(20,22,18,0.8);
-  --c-bg-85: rgba(20,22,18,0.85);
-  --c-bg-90: rgba(20,22,18,0.9);
-  --c-primary: #A5B095;
-  --c-primary-10: rgba(165,176,149,0.1);
-  --c-primary-20: rgba(165,176,149,0.2);
-  --c-primary-40: rgba(165,176,149,0.4);
-  --c-primary-50: rgba(165,176,149,0.5);
-  --c-primary-60: rgba(165,176,149,0.6);
-  --c-primary-80: rgba(165,176,149,0.8);
-  --c-secondary: #8A947A;
-  --c-secondary-10: rgba(138,148,122,0.1);
-  --c-secondary-20: rgba(138,148,122,0.2);
-  --c-secondary-40: rgba(138,148,122,0.4);
-  --c-secondary-50: rgba(138,148,122,0.5);
-  --c-secondary-60: rgba(138,148,122,0.6);
-  --c-secondary-80: rgba(138,148,122,0.8);
-  --c-text: #E4E8E0;
-  --c-text-5: rgba(228,232,224,0.05);
-  --c-text-10: rgba(228,232,224,0.1);
-  --c-text-20: rgba(228,232,224,0.2);
-  --c-text-30: rgba(228,232,224,0.3);
-  --c-text-40: rgba(228,232,224,0.4);
-  --c-text-50: rgba(228,232,224,0.5);
-  --c-text-60: rgba(228,232,224,0.6);
-  --c-text-70: rgba(228,232,224,0.7);
-  --c-text-80: rgba(228,232,224,0.8);
-  --c-text-90: rgba(228,232,224,0.9);
-  --c-text-95: rgba(228,232,224,0.95);
-  --c-border: rgba(255,255,255,0.05);
-  --c-surface: rgba(255,255,255,0.07);
-  --c-surface-elevated: rgba(255,255,255,0.11);
-}
-
-/* ========== Тема: Пудровое затмение — Powder Eclipse ========== */
-[data-theme="powder-eclipse"] {
-  --c-bg: #141216;
-  --c-bg-60: rgba(20,18,22,0.6);
-  --c-bg-80: rgba(20,18,22,0.8);
-  --c-bg-85: rgba(20,18,22,0.85);
-  --c-bg-90: rgba(20,18,22,0.9);
-  --c-primary: #B5A5D4;
-  --c-primary-10: rgba(181,165,212,0.1);
-  --c-primary-20: rgba(181,165,212,0.2);
-  --c-primary-40: rgba(181,165,212,0.4);
-  --c-primary-50: rgba(181,165,212,0.5);
-  --c-primary-60: rgba(181,165,212,0.6);
-  --c-primary-80: rgba(181,165,212,0.8);
-  --c-secondary: #9284AD;
-  --c-secondary-10: rgba(146,132,173,0.1);
-  --c-secondary-20: rgba(146,132,173,0.2);
-  --c-secondary-40: rgba(146,132,173,0.4);
-  --c-secondary-50: rgba(146,132,173,0.5);
-  --c-secondary-60: rgba(146,132,173,0.6);
-  --c-secondary-80: rgba(146,132,173,0.8);
-  --c-text: #E6E0E8;
-  --c-text-5: rgba(230,224,232,0.05);
-  --c-text-10: rgba(230,224,232,0.1);
-  --c-text-20: rgba(230,224,232,0.2);
-  --c-text-30: rgba(230,224,232,0.3);
-  --c-text-40: rgba(230,224,232,0.4);
-  --c-text-50: rgba(230,224,232,0.5);
-  --c-text-60: rgba(230,224,232,0.6);
-  --c-text-70: rgba(230,224,232,0.7);
-  --c-text-80: rgba(230,224,232,0.8);
-  --c-text-90: rgba(230,224,232,0.9);
-  --c-text-95: rgba(230,224,232,0.95);
-  --c-border: rgba(255,255,255,0.04);
-  --c-surface: rgba(255,255,255,0.06);
-  --c-surface-elevated: rgba(255,255,255,0.1);
-}
-
-/* ========== Тема: Лазурная ночь — Azure Night ========== */
-[data-theme="azure-night"] {
-  --c-bg: #121416;
-  --c-bg-60: rgba(18,20,22,0.6);
-  --c-bg-80: rgba(18,20,22,0.8);
-  --c-bg-85: rgba(18,20,22,0.85);
-  --c-bg-90: rgba(18,20,22,0.9);
-  --c-primary: #8AB8C2;
-  --c-primary-10: rgba(138,184,194,0.1);
-  --c-primary-20: rgba(138,184,194,0.2);
-  --c-primary-40: rgba(138,184,194,0.4);
-  --c-primary-50: rgba(138,184,194,0.5);
-  --c-primary-60: rgba(138,184,194,0.6);
-  --c-primary-80: rgba(138,184,194,0.8);
-  --c-secondary: #6B8F96;
-  --c-secondary-10: rgba(107,143,150,0.1);
-  --c-secondary-20: rgba(107,143,150,0.2);
-  --c-secondary-40: rgba(107,143,150,0.4);
-  --c-secondary-50: rgba(107,143,150,0.5);
-  --c-secondary-60: rgba(107,143,150,0.6);
-  --c-secondary-80: rgba(107,143,150,0.8);
-  --c-text: #E0E6E8;
-  --c-text-5: rgba(224,230,232,0.05);
-  --c-text-10: rgba(224,230,232,0.1);
-  --c-text-20: rgba(224,230,232,0.2);
-  --c-text-30: rgba(224,230,232,0.3);
-  --c-text-40: rgba(224,230,232,0.4);
-  --c-text-50: rgba(224,230,232,0.5);
-  --c-text-60: rgba(224,230,232,0.6);
-  --c-text-70: rgba(224,230,232,0.7);
-  --c-text-80: rgba(224,230,232,0.8);
-  --c-text-90: rgba(224,230,232,0.9);
-  --c-text-95: rgba(224,230,232,0.95);
-  --c-border: rgba(255,255,255,0.05);
-  --c-surface: rgba(255,255,255,0.06);
-  --c-surface-elevated: rgba(255,255,255,0.1);
-}
-
-/* ========== Тема: Золотое затмение — Golden Eclipse ========== */
-[data-theme="golden-eclipse"] {
-  --c-bg: #161412;
-  --c-bg-60: rgba(22,20,18,0.6);
-  --c-bg-80: rgba(22,20,18,0.8);
-  --c-bg-85: rgba(22,20,18,0.85);
-  --c-bg-90: rgba(22,20,18,0.9);
-  --c-primary: #C9B08E;
-  --c-primary-10: rgba(201,176,142,0.1);
-  --c-primary-20: rgba(201,176,142,0.2);
-  --c-primary-40: rgba(201,176,142,0.4);
-  --c-primary-50: rgba(201,176,142,0.5);
-  --c-primary-60: rgba(201,176,142,0.6);
-  --c-primary-80: rgba(201,176,142,0.8);
-  --c-secondary: #A38E72;
-  --c-secondary-10: rgba(163,142,114,0.1);
-  --c-secondary-20: rgba(163,142,114,0.2);
-  --c-secondary-40: rgba(163,142,114,0.4);
-  --c-secondary-50: rgba(163,142,114,0.5);
-  --c-secondary-60: rgba(163,142,114,0.6);
-  --c-secondary-80: rgba(163,142,114,0.8);
-  --c-text: #E8E4E0;
-  --c-text-5: rgba(232,228,224,0.05);
-  --c-text-10: rgba(232,228,224,0.1);
-  --c-text-20: rgba(232,228,224,0.2);
-  --c-text-30: rgba(232,228,224,0.3);
-  --c-text-40: rgba(232,228,224,0.4);
-  --c-text-50: rgba(232,228,224,0.5);
-  --c-text-60: rgba(232,228,224,0.6);
-  --c-text-70: rgba(232,228,224,0.7);
-  --c-text-80: rgba(232,228,224,0.8);
-  --c-text-90: rgba(232,228,224,0.9);
-  --c-text-95: rgba(232,228,224,0.95);
-  --c-border: rgba(255,255,255,0.06);
-  --c-surface: rgba(255,255,255,0.08);
-  --c-surface-elevated: rgba(255,255,255,0.12);
-}
-
-/* ========== Тема: Тень шалфея — Sage Shadow ========== */
-[data-theme="sage-shadow"] {
-  --c-bg: #121614;
-  --c-bg-60: rgba(18,22,20,0.6);
-  --c-bg-80: rgba(18,22,20,0.8);
-  --c-bg-85: rgba(18,22,20,0.85);
-  --c-bg-90: rgba(18,22,20,0.9);
-  --c-primary: #95B0A5;
-  --c-primary-10: rgba(149,176,165,0.1);
-  --c-primary-20: rgba(149,176,165,0.2);
-  --c-primary-40: rgba(149,176,165,0.4);
-  --c-primary-50: rgba(149,176,165,0.5);
-  --c-primary-60: rgba(149,176,165,0.6);
-  --c-primary-80: rgba(149,176,165,0.8);
-  --c-secondary: #7A9488;
-  --c-secondary-10: rgba(122,148,136,0.1);
-  --c-secondary-20: rgba(122,148,136,0.2);
-  --c-secondary-40: rgba(122,148,136,0.4);
-  --c-secondary-50: rgba(122,148,136,0.5);
-  --c-secondary-60: rgba(122,148,136,0.6);
-  --c-secondary-80: rgba(122,148,136,0.8);
-  --c-text: #E0E8E4;
-  --c-text-5: rgba(224,232,228,0.05);
-  --c-text-10: rgba(224,232,228,0.1);
-  --c-text-20: rgba(224,232,228,0.2);
-  --c-text-30: rgba(224,232,228,0.3);
-  --c-text-40: rgba(224,232,228,0.4);
-  --c-text-50: rgba(224,232,228,0.5);
-  --c-text-60: rgba(224,232,228,0.6);
-  --c-text-70: rgba(224,232,228,0.7);
-  --c-text-80: rgba(224,232,228,0.8);
-  --c-text-90: rgba(224,232,228,0.9);
-  --c-text-95: rgba(224,232,228,0.95);
-  --c-border: rgba(255,255,255,0.05);
-  --c-surface: rgba(255,255,255,0.07);
-  --c-surface-elevated: rgba(255,255,255,0.11);
-}
-
-/* ========== Тема: Терракотовые сумерки — Terracotta Dusk ========== */
-[data-theme="terracotta-dusk"] {
-  --c-bg: #1A1412;
-  --c-bg-60: rgba(26,20,18,0.6);
-  --c-bg-80: rgba(26,20,18,0.8);
-  --c-bg-85: rgba(26,20,18,0.85);
-  --c-bg-90: rgba(26,20,18,0.9);
-  --c-primary: #C28A7A;
-  --c-primary-10: rgba(194,138,122,0.1);
-  --c-primary-20: rgba(194,138,122,0.2);
-  --c-primary-40: rgba(194,138,122,0.4);
-  --c-primary-50: rgba(194,138,122,0.5);
-  --c-primary-60: rgba(194,138,122,0.6);
-  --c-primary-80: rgba(194,138,122,0.8);
-  --c-secondary: #9E6F62;
-  --c-secondary-10: rgba(158,111,98,0.1);
-  --c-secondary-20: rgba(158,111,98,0.2);
-  --c-secondary-40: rgba(158,111,98,0.4);
-  --c-secondary-50: rgba(158,111,98,0.5);
-  --c-secondary-60: rgba(158,111,98,0.6);
-  --c-secondary-80: rgba(158,111,98,0.8);
-  --c-text: #E8E2E0;
-  --c-text-5: rgba(232,226,224,0.05);
-  --c-text-10: rgba(232,226,224,0.1);
-  --c-text-20: rgba(232,226,224,0.2);
-  --c-text-30: rgba(232,226,224,0.3);
-  --c-text-40: rgba(232,226,224,0.4);
-  --c-text-50: rgba(232,226,224,0.5);
-  --c-text-60: rgba(232,226,224,0.6);
-  --c-text-70: rgba(232,226,224,0.7);
-  --c-text-80: rgba(232,226,224,0.8);
-  --c-text-90: rgba(232,226,224,0.9);
-  --c-text-95: rgba(232,226,224,0.95);
-  --c-border: rgba(255,255,255,0.04);
-  --c-surface: rgba(255,255,255,0.06);
-  --c-surface-elevated: rgba(255,255,255,0.1);
-}
-
-/* ========== Тема: Фарфоровая тень — Porcelain Shadow ========== */
-[data-theme="porcelain-shadow"] {
-  --c-bg: #121216;
-  --c-bg-60: rgba(18,18,22,0.6);
-  --c-bg-80: rgba(18,18,22,0.8);
-  --c-bg-85: rgba(18,18,22,0.85);
-  --c-bg-90: rgba(18,18,22,0.9);
-  --c-primary: #95A5B0;
-  --c-primary-10: rgba(149,165,176,0.1);
-  --c-primary-20: rgba(149,165,176,0.2);
-  --c-primary-40: rgba(149,165,176,0.4);
-  --c-primary-50: rgba(149,165,176,0.5);
-  --c-primary-60: rgba(149,165,176,0.6);
-  --c-primary-80: rgba(149,165,176,0.8);
-  --c-secondary: #7A8894;
-  --c-secondary-10: rgba(122,136,148,0.1);
-  --c-secondary-20: rgba(122,136,148,0.2);
-  --c-secondary-40: rgba(122,136,148,0.4);
-  --c-secondary-50: rgba(122,136,148,0.5);
-  --c-secondary-60: rgba(122,136,148,0.6);
-  --c-secondary-80: rgba(122,136,148,0.8);
-  --c-text: #E0E2E8;
-  --c-text-5: rgba(224,226,232,0.05);
-  --c-text-10: rgba(224,226,232,0.1);
-  --c-text-20: rgba(224,226,232,0.2);
-  --c-text-30: rgba(224,226,232,0.3);
-  --c-text-40: rgba(224,226,232,0.4);
-  --c-text-50: rgba(224,226,232,0.5);
-  --c-text-60: rgba(224,226,232,0.6);
-  --c-text-70: rgba(224,226,232,0.7);
-  --c-text-80: rgba(224,226,232,0.8);
-  --c-text-90: rgba(224,226,232,0.9);
-  --c-text-95: rgba(224,226,232,0.95);
-  --c-border: rgba(255,255,255,0.05);
-  --c-surface: rgba(255,255,255,0.06);
-  --c-surface-elevated: rgba(255,255,255,0.1);
-}
-
-/* ========== Тема: Янтарный уголь — Amber Ember ========== */
-[data-theme="amber-ember"] {
-  --c-bg: #14110F;
-  --c-bg-60: rgba(20,17,15,0.6);
-  --c-bg-80: rgba(20,17,15,0.8);
-  --c-bg-85: rgba(20,17,15,0.85);
-  --c-bg-90: rgba(20,17,15,0.9);
-  --c-primary: #D4A373;
-  --c-primary-10: rgba(212,163,115,0.1);
-  --c-primary-20: rgba(212,163,115,0.2);
-  --c-primary-40: rgba(212,163,115,0.4);
-  --c-primary-50: rgba(212,163,115,0.5);
-  --c-primary-60: rgba(212,163,115,0.6);
-  --c-primary-80: rgba(212,163,115,0.8);
-  --c-secondary: #AD855E;
-  --c-secondary-10: rgba(173,133,94,0.1);
-  --c-secondary-20: rgba(173,133,94,0.2);
-  --c-secondary-40: rgba(173,133,94,0.4);
-  --c-secondary-50: rgba(173,133,94,0.5);
-  --c-secondary-60: rgba(173,133,94,0.6);
-  --c-secondary-80: rgba(173,133,94,0.8);
-  --c-text: #E8E4E0;
-  --c-text-5: rgba(232,228,224,0.05);
-  --c-text-10: rgba(232,228,224,0.1);
-  --c-text-20: rgba(232,228,224,0.2);
-  --c-text-30: rgba(232,228,224,0.3);
-  --c-text-40: rgba(232,228,224,0.4);
-  --c-text-50: rgba(232,228,224,0.5);
-  --c-text-60: rgba(232,228,224,0.6);
-  --c-text-70: rgba(232,228,224,0.7);
-  --c-text-80: rgba(232,228,224,0.8);
-  --c-text-90: rgba(232,228,224,0.9);
-  --c-text-95: rgba(232,228,224,0.95);
-  --c-border: rgba(255,255,255,0.06);
-  --c-surface: rgba(255,255,255,0.08);
-  --c-surface-elevated: rgba(255,255,255,0.12);
-}
-
-/* ========== Тема: Сиреневый туман — Lilac Mist ========== */
-[data-theme="lilac-mist"] {
-  --c-bg: #121014;
-  --c-bg-60: rgba(18,16,20,0.6);
-  --c-bg-80: rgba(18,16,20,0.8);
-  --c-bg-85: rgba(18,16,20,0.85);
-  --c-bg-90: rgba(18,16,20,0.9);
-  --c-primary: #A5A5D4;
-  --c-primary-10: rgba(165,165,212,0.1);
-  --c-primary-20: rgba(165,165,212,0.2);
-  --c-primary-40: rgba(165,165,212,0.4);
-  --c-primary-50: rgba(165,165,212,0.5);
-  --c-primary-60: rgba(165,165,212,0.6);
-  --c-primary-80: rgba(165,165,212,0.8);
-  --c-secondary: #8484AD;
-  --c-secondary-10: rgba(132,132,173,0.1);
-  --c-secondary-20: rgba(132,132,173,0.2);
-  --c-secondary-40: rgba(132,132,173,0.4);
-  --c-secondary-50: rgba(132,132,173,0.5);
-  --c-secondary-60: rgba(132,132,173,0.6);
-  --c-secondary-80: rgba(132,132,173,0.8);
-  --c-text: #E4E0E8;
-  --c-text-5: rgba(228,224,232,0.05);
-  --c-text-10: rgba(228,224,232,0.1);
-  --c-text-20: rgba(228,224,232,0.2);
-  --c-text-30: rgba(228,224,232,0.3);
-  --c-text-40: rgba(228,224,232,0.4);
-  --c-text-50: rgba(228,224,232,0.5);
-  --c-text-60: rgba(228,224,232,0.6);
-  --c-text-70: rgba(228,224,232,0.7);
-  --c-text-80: rgba(228,224,232,0.8);
-  --c-text-90: rgba(228,224,232,0.9);
-  --c-text-95: rgba(228,224,232,0.95);
-  --c-border: rgba(255,255,255,0.04);
-  --c-surface: rgba(255,255,255,0.06);
-  --c-surface-elevated: rgba(255,255,255,0.1);
-}
-
-/* ========== Тема: Тень матчи — Matcha Shadow ========== */
-[data-theme="matcha-shadow"] {
-  --c-bg: #10120F;
-  --c-bg-60: rgba(16,18,15,0.6);
-  --c-bg-80: rgba(16,18,15,0.8);
-  --c-bg-85: rgba(16,18,15,0.85);
-  --c-bg-90: rgba(16,18,15,0.9);
-  --c-primary: #B8C28A;
-  --c-primary-10: rgba(184,194,138,0.1);
-  --c-primary-20: rgba(184,194,138,0.2);
-  --c-primary-40: rgba(184,194,138,0.4);
-  --c-primary-50: rgba(184,194,138,0.5);
-  --c-primary-60: rgba(184,194,138,0.6);
-  --c-primary-80: rgba(184,194,138,0.8);
-  --c-secondary: #969E6F;
-  --c-secondary-10: rgba(150,158,111,0.1);
-  --c-secondary-20: rgba(150,158,111,0.2);
-  --c-secondary-40: rgba(150,158,111,0.4);
-  --c-secondary-50: rgba(150,158,111,0.5);
-  --c-secondary-60: rgba(150,158,111,0.6);
-  --c-secondary-80: rgba(150,158,111,0.8);
-  --c-text: #E4E8E0;
-  --c-text-5: rgba(228,232,224,0.05);
-  --c-text-10: rgba(228,232,224,0.1);
-  --c-text-20: rgba(228,232,224,0.2);
-  --c-text-30: rgba(228,232,224,0.3);
-  --c-text-40: rgba(228,232,224,0.4);
-  --c-text-50: rgba(228,232,224,0.5);
-  --c-text-60: rgba(228,232,224,0.6);
-  --c-text-70: rgba(228,232,224,0.7);
-  --c-text-80: rgba(228,232,224,0.8);
-  --c-text-90: rgba(228,232,224,0.9);
-  --c-text-95: rgba(228,232,224,0.95);
-  --c-border: rgba(255,255,255,0.05);
-  --c-surface: rgba(255,255,255,0.07);
-  --c-surface-elevated: rgba(255,255,255,0.11);
-}
 
 /* ========== MAX: Тёмная тема (Deep Universe) ========== */
 [data-theme="max-dark"] {
@@ -1067,7 +260,7 @@ html {
   --c-bg-85: rgba(13,0,26,0.85);
   --c-bg-90: rgba(13,0,26,0.9);
   --c-primary: #6E1AFF;
-  --c-primary-10: rgba(110,26,255,0.1);
+  --c-primary-10: rgba(110,26,255,0.15);
   --c-primary-20: rgba(110,26,255,0.2);
   --c-primary-40: rgba(110,26,255,0.4);
   --c-primary-50: rgba(110,26,255,0.5);
@@ -1086,15 +279,19 @@ html {
   --c-text-20: rgba(255,255,255,0.2);
   --c-text-30: rgba(255,255,255,0.3);
   --c-text-40: rgba(255,255,255,0.4);
+  --c-text-45: rgba(255,255,255,0.45);
   --c-text-50: rgba(255,255,255,0.5);
   --c-text-60: rgba(255,255,255,0.6);
   --c-text-70: rgba(255,255,255,0.7);
   --c-text-80: rgba(255,255,255,0.8);
   --c-text-90: rgba(255,255,255,0.9);
   --c-text-95: rgba(255,255,255,0.95);
-  --c-border: rgba(255,255,255,0.06);
-  --c-surface: rgba(255,255,255,0.04);
-  --c-surface-elevated: rgba(255,255,255,0.08);
+  --c-border: rgba(255,255,255,0.1);
+  --c-surface: rgba(255,255,255,0.06);
+  --c-surface-elevated: rgba(255,255,255,0.12);
+  --c-fill: rgba(255,255,255,0.1);
+  --c-overlay: rgba(0,0,0,0.6);
+  --c-shadow: inset 0 0 0 1px rgba(255,255,255,0.05), 0 20px 40px rgba(0,0,0,0.4);
 }
 
 @layer base {
@@ -1141,5 +338,24 @@ html {
 }
 
 @utility card-shadow {
-  box-shadow: 0 10px 40px -10px rgba(0,0,0,0.05);
+  box-shadow: var(--c-shadow, 0 10px 40px -10px rgba(13,0,26,0.05));
+}
+
+@utility bg-accent-cta {
+  background-image: linear-gradient(135deg, var(--c-primary) 0%, var(--c-secondary) 100%);
+}
+
+@utility bg-surface-glass {
+  background-image: linear-gradient(165deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.02) 100%);
+}
+
+@utility bg-ambient-glow {
+  background-image: radial-gradient(circle at top left, var(--c-primary-20, transparent), transparent 70%);
+}
+
+@utility text-gradient-accent {
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-image: linear-gradient(to right, var(--c-primary), var(--c-secondary));
 }
