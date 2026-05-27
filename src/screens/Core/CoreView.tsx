@@ -31,9 +31,9 @@ export const CoreView: React.FC<CoreViewProps> = ({
 
     const handleShare = async () => {
         void triggerSuccessHaptic();
-        const text = `${profile.zodiacName} — «${profile.essence}»`;
+        const text = `${profile.zodiacName} — «${profile.essence}»\n\nГороскоп: https://max.ru/id760407796785_biz`;
         try {
-            await window.WebApp?.shareContent({ text, link: 'https://aleksei1991antonov.github.io/horoscope/' });
+            await window.WebApp?.shareContent({ text, link: 'https://max.ru/id760407796785_biz' });
         } catch {
             try {
                 await navigator.clipboard.writeText(text);
@@ -46,6 +46,7 @@ export const CoreView: React.FC<CoreViewProps> = ({
     const m = fontScale === 'large' ? 'text-[0.875rem]' : 'text-[0.75rem]';
     const s = fontScale === 'large' ? 'text-[0.6875rem]' : 'text-[0.5625rem]';
     const headerLabelSize = fontScale === 'large' ? 'text-[0.75rem]' : 'text-[0.625rem]';
+    const photoSize = fontScale === 'large' ? 'w-12 h-12' : 'w-10 h-10';
 
     return (
         <div className="w-full bg-[var(--c-bg)] text-[var(--c-text)] animate-in fade-in duration-1000 pb-16 px-1">
@@ -80,7 +81,7 @@ export const CoreView: React.FC<CoreViewProps> = ({
                                     <img
                                         src={userPhoto}
                                         alt={userName || ''}
-                                        className="w-8 h-8 rounded-full object-cover ring-2 ring-[var(--c-border)]"
+                                        className={`${photoSize} rounded-full object-cover ring-2 ring-[var(--c-border)]`}
                                     />
                                 </div>
                             </>
