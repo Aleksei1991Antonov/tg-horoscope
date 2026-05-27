@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { Sparkles, Share2 } from 'lucide-react';
-import { triggerSuccessHaptic } from '../../utils/haptics';
+import React from 'react';
+import { Sparkles } from 'lucide-react';
 
 interface CoreProfile {
     element: 'fire' | 'earth' | 'air' | 'water';
@@ -15,8 +14,6 @@ interface CoreViewProps {
     fontScale: 'small' | 'medium' | 'large';
     isPremium: boolean;
     onTogglePremium: () => void;
-    userPhoto?: string;
-    userName?: string;
 }
 
 export const CoreView: React.FC<CoreViewProps> = ({
@@ -24,29 +21,10 @@ export const CoreView: React.FC<CoreViewProps> = ({
     fontScale,
     isPremium,
     onTogglePremium,
-    userPhoto,
-    userName,
 }) => {
-    const [shareDone, setShareDone] = useState(false);
-
-    const handleShare = async () => {
-        void triggerSuccessHaptic();
-        const text = `${profile.zodiacName} — «${profile.essence}»\n\nГороскоп: https://max.ru/id760407796785_biz`;
-        try {
-            await window.WebApp?.shareContent({ text, link: 'https://max.ru/id760407796785_biz' });
-        } catch {
-            try {
-                await navigator.clipboard.writeText(text);
-            } catch { /* ignore */ }
-        }
-        setShareDone(true);
-        setTimeout(() => setShareDone(false), 2000);
-    };
-
     const m = fontScale === 'large' ? 'text-[0.875rem]' : 'text-[0.75rem]';
     const s = fontScale === 'large' ? 'text-[0.6875rem]' : 'text-[0.5625rem]';
     const headerLabelSize = fontScale === 'large' ? 'text-[0.75rem]' : 'text-[0.625rem]';
-    const photoSize = fontScale === 'large' ? 'w-12 h-12' : 'w-10 h-10';
 
     return (
         <div className="w-full bg-[var(--c-bg)] text-[var(--c-text)] animate-in fade-in duration-1000 pb-16 px-1">
@@ -74,18 +52,6 @@ export const CoreView: React.FC<CoreViewProps> = ({
                             <div className={`${m} font-bold text-[var(--c-text)]`}>{profile.rulingPlanet}</div>
                             <div className={`${s} font-bold text-[var(--c-text-30)] uppercase tracking-wider mt-0.5`}>Управитель</div>
                         </div>
-                        {userPhoto && (
-                            <>
-                                <div className="w-px h-8 bg-[var(--c-border)]" />
-                                <div className="flex items-center gap-2">
-                                    <img
-                                        src={userPhoto}
-                                        alt={userName || ''}
-                                        className={`${photoSize} rounded-full object-cover ring-2 ring-[var(--c-border)]`}
-                                    />
-                                </div>
-                            </>
-                        )}
                     </div>
                 </div>
 
@@ -120,18 +86,6 @@ export const CoreView: React.FC<CoreViewProps> = ({
                             Полный доступ ко всем ритмам и глубокие расшифровки DNA
                         </p>
                     </div>
-                </div>
-
-                <div className="mx-1">
-                    <button
-                        onClick={handleShare}
-                        className="w-full bg-[var(--c-surface)] backdrop-blur-3xl rounded-[32px] border border-[var(--c-border)] p-5 flex items-center justify-center gap-3 active:scale-[0.98] transition-all"
-                    >
-                        <Share2 size={16} className="text-[var(--c-text-40)]" />
-                        <span className={`${s} font-bold uppercase tracking-widest text-[var(--c-text-40)]`}>
-                            {shareDone ? 'Скопировано' : 'Поделиться'}
-                        </span>
-                    </button>
                 </div>
 
             </div>

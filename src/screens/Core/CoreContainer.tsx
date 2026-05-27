@@ -24,17 +24,12 @@ export const CoreContainer: React.FC<CoreContainerProps> = ({ zodiacName = 'Ск
         localStorage.setItem('core_premium', next.toString());
     }, [isPremium]);
 
-    const userPhoto = window.WebApp?.initDataUnsafe?.user?.photo_url;
-    const userName = window.WebApp?.initDataUnsafe?.user?.first_name;
-
     return (
         <CoreView
             profile={profile}
             fontScale={fontScale}
             isPremium={isPremium}
             onTogglePremium={handleTogglePremium}
-            userPhoto={userPhoto}
-            userName={userName}
         />
     );
 };

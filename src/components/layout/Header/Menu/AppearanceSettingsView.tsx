@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { Trash2, MoonStar, Sparkles } from 'lucide-react';
+import { Trash2, MoonStar, Sparkles, Sun, Moon } from 'lucide-react';
 import { triggerSuccessHaptic } from '../../../../utils/haptics';
 
 interface AppearanceSettingsViewProps {
@@ -7,19 +7,33 @@ interface AppearanceSettingsViewProps {
     setFontScale: (scale: 'small' | 'medium' | 'large') => void;
     theme: string;
     setTheme: (theme: string) => void;
+    darkTheme: string;
+    setDarkTheme: (theme: string) => void;
+    colorScheme: 'system' | 'light' | 'dark';
+    setColorScheme: (mode: 'system' | 'light' | 'dark') => void;
 }
 
 export const AppearanceSettingsView: React.FC<AppearanceSettingsViewProps> = memo(({
-                                                                            fontScale,
-                                                                            setFontScale,
-                                                                            theme,
-                                                                            setTheme
-                                                                        }) => {
+    fontScale,
+    setFontScale,
+    theme,
+    setTheme,
+    darkTheme,
+    setDarkTheme,
+    colorScheme,
+    setColorScheme,
+}) => {
 
     const handleScaleChange = (newScale: 'small' | 'medium' | 'large') => {
         if (newScale === fontScale) return;
         void triggerSuccessHaptic();
         setFontScale(newScale);
+    };
+
+    const handleColorSchemeChange = (mode: 'system' | 'light' | 'dark') => {
+        if (mode === colorScheme) return;
+        void triggerSuccessHaptic();
+        setColorScheme(mode);
     };
 
     const handleFullReset = async () => {
@@ -38,6 +52,16 @@ export const AppearanceSettingsView: React.FC<AppearanceSettingsViewProps> = mem
         { id: 'medium', label: 'А', name: 'Стандарт' },
         { id: 'large', label: 'А', name: 'Крупный' }
     ] as const;
+
+    const colorSchemes = [
+        { id: 'system', label: 'Системная', Icon: Sun },
+        { id: 'light', label: 'Светлая', Icon: Sun },
+        { id: 'dark', label: 'Тёмная', Icon: Moon },
+    ] as const;
+
+    const isDark = colorScheme === 'dark';
+    const activeTheme = isDark ? darkTheme : theme;
+    const setActiveTheme = isDark ? setDarkTheme : setTheme;
 
     // Размеры из PredictionModal
     const predictionTextSize = fontScale === 'large' ? 'text-[1.25rem]' : 'text-[1rem]';
@@ -117,36 +141,73 @@ export const AppearanceSettingsView: React.FC<AppearanceSettingsViewProps> = mem
                     </div>
                 </div>
 
+                {/* Theme Mode Selector */}
+                <div className="space-y-4">
+                    <div className="text-[0.6875rem] font-bold text-[var(--c-text-30)] uppercase tracking-[0.2em] px-1">Режим</div>
+                    <div className="bg-[var(--c-surface)] p-1 rounded-2xl flex items-center relative border border-[var(--c-border)]">
+                        {colorSchemes.map((cs) => {
+                            const Icon = cs.Icon;
+                            return (
+                                <button
+                                    key={cs.id}
+                                    onClick={() => handleColorSchemeChange(cs.id)}
+                                    className="relative z-10 flex-1 py-3 flex items-center justify-center gap-2"
+                                >
+                                    <Icon
+                                        size={16}
+                                        className={colorScheme === cs.id ? 'text-[var(--c-text)]' : 'text-[var(--c-text-20)]'}
+                                    />
+                                    <span className={`text-[0.625rem] font-black uppercase tracking-wider ${colorScheme === cs.id ? 'text-[var(--c-text)]' : 'text-[var(--c-text-20)]'}`}>
+                                        {cs.label}
+                                    </span>
+                                </button>
+                            );
+                        })}
+                        <div
+                            className="absolute top-1 bottom-1 transition-all duration-300 ease-out bg-[var(--c-surface-elevated)] rounded-xl border border-[var(--c-border)]"
+                            style={{
+                                width: 'calc(33.33% - 4px)',
+                                left: colorScheme === 'system' ? '4px' : colorScheme === 'light' ? '33.33%' : 'calc(66.66% - 4px)'
+                            }}
+                        />
+                    </div>
+                </div>
+
                 {/* Theme Selector */}
                 <div className="space-y-4">
-                    <div className="text-[0.6875rem] font-bold text-[var(--c-text-30)] uppercase tracking-[0.2em] px-1">Тема оформления</div>
+                    <div className="text-[0.6875rem] font-bold text-[var(--c-text-30)] uppercase tracking-[0.2em] px-1">
+                        {isDark ? 'Тёмная тема' : 'Светлая тема'}
+                    </div>
                     <div className="grid grid-cols-4 gap-2">
                         {[
-                            { id: 'morning-magic', label: 'Магия Утра', color: '#C4756B', secondary: '#E8C4A0' },
-                            { id: 'silk-dawn', label: 'Шёлк. Рассвет', color: '#0A7C8B', secondary: '#D4B78F' },
-                            { id: 'linen-silence', label: 'Льняная Тиш.', color: '#8E9775', secondary: '#D2B48C' },
-                            { id: 'powder-ether', label: 'Пудр. Эфир', color: '#B08998', secondary: '#E5D1D0' },
-                            { id: 'azure-tea', label: 'Лазур. Чай', color: '#6B8E9E', secondary: '#C9D6D6' },
-                            { id: 'golden-flow', label: 'Золот. Поток', color: '#C5A059', secondary: '#E8E2D0' },
-                            { id: 'muscat-sage', label: 'Мускат. Шалф.', color: '#7C9082', secondary: '#B5C0B7' },
-                            { id: 'terracotta-breeze', label: 'Терракот. Бриз', color: '#B98D7A', secondary: '#D9C5B2' },
-                            { id: 'porcelain-mist', label: 'Фарфор. Мист', color: '#5F6B7D', secondary: '#A9B2C0' },
-                            { id: 'amber-glow', label: 'Янтар. Сияние', color: '#C87D4F', secondary: '#E8D5C0' },
-                            { id: 'lilac-veil', label: 'Сирен. Флёр', color: '#9B7FA6', secondary: '#DDD0E3' },
-                            { id: 'matcha-cream', label: 'Матча-крем', color: '#7A9B6A', secondary: '#C8D5BE' },
-                        ].map(t => (
-                            <button
-                                key={t.id}
-                                onClick={() => setTheme(t.id)}
-                                className={`flex flex-col items-center gap-2 p-3 rounded-2xl transition-all active:scale-90 ${theme === t.id ? 'bg-[var(--c-surface-elevated)] border border-[var(--c-border)]' : 'bg-[var(--c-surface)] border border-[var(--c-border)]'}`}
-                            >
-                                <div className="flex -space-x-1.5">
-                                    <div className="w-7 h-7 rounded-full border-2 border-[var(--c-border)]" style={{ backgroundColor: t.color }} />
-                                    <div className="w-7 h-7 rounded-full border-2 border-[var(--c-border)]" style={{ backgroundColor: t.secondary }} />
-                                </div>
-                                <span className={`text-[0.5625rem] font-black uppercase tracking-wider ${theme === t.id ? 'text-[var(--c-text)]' : 'text-[var(--c-text-30)]'}`}>{t.label}</span>
-                            </button>
-                        ))}
+                            { id: 'morning-magic', label: 'Магия Утра', color: '#C4756B', secondary: '#E8C4A0', darkId: 'velvety-midnight', darkLabel: 'Бархат. Полночь', darkColor: '#D4A5A5' },
+                            { id: 'silk-dawn', label: 'Шёлк. Рассвет', color: '#0A7C8B', secondary: '#D4B78F', darkId: 'silk-noir', darkLabel: 'Шёлк. Нуар', darkColor: '#78A5A5' },
+                            { id: 'linen-silence', label: 'Льняная Тиш.', color: '#8E9775', secondary: '#D2B48C', darkId: 'linen-dusk', darkLabel: 'Льнян. Сумерки', darkColor: '#A5B095' },
+                            { id: 'powder-ether', label: 'Пудр. Эфир', color: '#B08998', secondary: '#E5D1D0', darkId: 'powder-eclipse', darkLabel: 'Пудр. Затмение', darkColor: '#B5A5D4' },
+                            { id: 'azure-tea', label: 'Лазур. Чай', color: '#6B8E9E', secondary: '#C9D6D6', darkId: 'azure-night', darkLabel: 'Лазур. Ночь', darkColor: '#8AB8C2' },
+                            { id: 'golden-flow', label: 'Золот. Поток', color: '#C5A059', secondary: '#E8E2D0', darkId: 'golden-eclipse', darkLabel: 'Золот. Затмение', darkColor: '#C9B08E' },
+                            { id: 'muscat-sage', label: 'Мускат. Шалф.', color: '#7C9082', secondary: '#B5C0B7', darkId: 'sage-shadow', darkLabel: 'Тень Шалф.', darkColor: '#95B0A5' },
+                            { id: 'terracotta-breeze', label: 'Терракот. Бриз', color: '#B98D7A', secondary: '#D9C5B2', darkId: 'terracotta-dusk', darkLabel: 'Терракот. Сумерки', darkColor: '#C28A7A' },
+                            { id: 'porcelain-mist', label: 'Фарфор. Мист', color: '#5F6B7D', secondary: '#A9B2C0', darkId: 'porcelain-shadow', darkLabel: 'Фарфор. Тень', darkColor: '#95A5B0' },
+                            { id: 'amber-glow', label: 'Янтар. Сияние', color: '#C87D4F', secondary: '#E8D5C0', darkId: 'amber-ember', darkLabel: 'Янтар. Уголь', darkColor: '#D4A373' },
+                            { id: 'lilac-veil', label: 'Сирен. Флёр', color: '#9B7FA6', secondary: '#DDD0E3', darkId: 'lilac-mist', darkLabel: 'Сирен. Туман', darkColor: '#A5A5D4' },
+                            { id: 'matcha-cream', label: 'Матча-крем', color: '#7A9B6A', secondary: '#C8D5BE', darkId: 'matcha-shadow', darkLabel: 'Тень Матчи', darkColor: '#B8C28A' },
+                        ].map(t => {
+                            const item = isDark ? { id: t.darkId, label: t.darkLabel, color: t.darkColor, secondary: t.secondary } : { id: t.id, label: t.label, color: t.color, secondary: t.secondary };
+                            return (
+                                <button
+                                    key={item.id}
+                                    onClick={() => setActiveTheme(item.id)}
+                                    className={`flex flex-col items-center gap-2 p-3 rounded-2xl transition-all active:scale-90 ${activeTheme === item.id ? 'bg-[var(--c-surface-elevated)] border border-[var(--c-border)]' : 'bg-[var(--c-surface)] border border-[var(--c-border)]'}`}
+                                >
+                                    <div className="flex -space-x-1.5">
+                                        <div className="w-7 h-7 rounded-full border-2 border-[var(--c-border)]" style={{ backgroundColor: item.color }} />
+                                        <div className="w-7 h-7 rounded-full border-2 border-[var(--c-border)]" style={{ backgroundColor: item.secondary }} />
+                                    </div>
+                                    <span className={`text-[0.5625rem] font-black uppercase tracking-wider ${activeTheme === item.id ? 'text-[var(--c-text)]' : 'text-[var(--c-text-30)]'}`}>{item.label}</span>
+                                </button>
+                            );
+                        })}
                     </div>
                 </div>
 

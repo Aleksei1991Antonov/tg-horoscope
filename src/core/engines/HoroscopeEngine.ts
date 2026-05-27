@@ -47,24 +47,29 @@ export class HoroscopeEngine {
 
         let status: string;
         let mainEmoji: string;
+        let band: string;
 
-        // Процент используем только внутри логики для выбора статуса
         if (intensity > 82) {
             mainEmoji = "✨";
             status = "Абсолютное сияние";
+            band = "high";
         } else if (intensity > 65) {
             mainEmoji = "💃";
             status = "Энергия расцвета";
+            band = "mediumHigh";
         } else if (intensity > 45) {
             mainEmoji = "🌊";
             status = "Гармония потока";
+            band = "mediumLow";
         } else {
             mainEmoji = "☁️";
             status = "Время нежности";
+            band = "low";
         }
 
         const element = this.getElement(userSign);
-        const elementText = ELEMENT_ADVICE[element][seed % ELEMENT_ADVICE[element].length];
+        const elementTexts = ELEMENT_ADVICE[element]?.[band];
+        const elementText = elementTexts ? elementTexts[seed % elementTexts.length] : '';
 
         let phaseKey: string;
         if (lunar.phase < 0.03 || lunar.phase > 0.97) phaseKey = "Новолуние";
@@ -72,7 +77,8 @@ export class HoroscopeEngine {
         else if (lunar.phase < 0.5) phaseKey = "Растущая";
         else phaseKey = "Убывающая";
 
-        const phaseText = PHASE_ADVICE[phaseKey][seed % PHASE_ADVICE[phaseKey].length];
+        const phaseTexts = PHASE_ADVICE[phaseKey]?.[moonZodiac];
+        const phaseText = phaseTexts ? phaseTexts[seed % phaseTexts.length] : '';
 
         // УБРАЛИ % ИЗ ВЫВОДА. Теперь это выглядит как чистое послание.
         return `${status} ${mainEmoji}\n\n` +

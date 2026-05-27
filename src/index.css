@@ -1,8 +1,78 @@
 @import "tailwindcss";
 
+@font-face {
+    font-family: "Max Sans";
+    src: url("./assets/fonts/Max_Sans_Light.woff2") format("woff2");
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Max Sans";
+    src: url("./assets/fonts/Max_Sans_Light_Italic.woff2") format("woff2");
+    font-weight: 300;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "Max Sans";
+    src: url("./assets/fonts/Max_Sans_Regular.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Max Sans";
+    src: url("./assets/fonts/Max_Sans_Italic.woff2") format("woff2");
+    font-weight: 400;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "Max Sans";
+    src: url("./assets/fonts/Max_Sans_Medium.woff2") format("woff2");
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Max Sans";
+    src: url("./assets/fonts/Max_Sans_Medium_Italic.woff2") format("woff2");
+    font-weight: 500;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "Max Sans";
+    src: url("./assets/fonts/Max_Sans_DemiBold.woff2") format("woff2");
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Max Sans";
+    src: url("./assets/fonts/Max_Sans_DemiBold_Italic.woff2") format("woff2");
+    font-weight: 600;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "Max Sans";
+    src: url("./assets/fonts/Max_Sans_Bold.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Max Sans";
+    src: url("./assets/fonts/Max_Sans_Bold_Italic.woff2") format("woff2");
+    font-weight: 700;
+    font-style: italic;
+}
+
 @theme {
-  --radius-3xl: 28px;
-  --font-manrope: "Manrope", sans-serif;
+    --radius-3xl: 28px;
+    --font-sans: "Max Sans", sans-serif;
 }
 
 html {
@@ -493,6 +563,464 @@ html {
   --c-surface-elevated: #FFFFFF;
 }
 
+/* ========== Тёмные темы ========== */
+
+/* ========== Тема: Бархатная полночь — Velvety Midnight ========== */
+[data-theme="velvety-midnight"] {
+  --c-bg: #1A1816;
+  --c-bg-60: rgba(26,24,22,0.6);
+  --c-bg-80: rgba(26,24,22,0.8);
+  --c-bg-85: rgba(26,24,22,0.85);
+  --c-bg-90: rgba(26,24,22,0.9);
+  --c-primary: #D4A5A5;
+  --c-primary-10: rgba(212,165,165,0.1);
+  --c-primary-20: rgba(212,165,165,0.2);
+  --c-primary-40: rgba(212,165,165,0.4);
+  --c-primary-50: rgba(212,165,165,0.5);
+  --c-primary-60: rgba(212,165,165,0.6);
+  --c-primary-80: rgba(212,165,165,0.8);
+  --c-secondary: #B89090;
+  --c-secondary-10: rgba(184,144,144,0.1);
+  --c-secondary-20: rgba(184,144,144,0.2);
+  --c-secondary-40: rgba(184,144,144,0.4);
+  --c-secondary-50: rgba(184,144,144,0.5);
+  --c-secondary-60: rgba(184,144,144,0.6);
+  --c-secondary-80: rgba(184,144,144,0.8);
+  --c-text: #E8E4E0;
+  --c-text-5: rgba(232,228,224,0.05);
+  --c-text-10: rgba(232,228,224,0.1);
+  --c-text-20: rgba(232,228,224,0.2);
+  --c-text-30: rgba(232,228,224,0.3);
+  --c-text-40: rgba(232,228,224,0.4);
+  --c-text-50: rgba(232,228,224,0.5);
+  --c-text-60: rgba(232,228,224,0.6);
+  --c-text-70: rgba(232,228,224,0.7);
+  --c-text-80: rgba(232,228,224,0.8);
+  --c-text-90: rgba(232,228,224,0.9);
+  --c-text-95: rgba(232,228,224,0.95);
+  --c-border: rgba(255,255,255,0.05);
+  --c-surface: rgba(255,255,255,0.06);
+  --c-surface-elevated: rgba(255,255,255,0.1);
+}
+
+/* ========== Тема: Шелковый нуар — Silk Noir ========== */
+[data-theme="silk-noir"] {
+  --c-bg: #0F0E13;
+  --c-bg-60: rgba(15,14,19,0.6);
+  --c-bg-80: rgba(15,14,19,0.8);
+  --c-bg-85: rgba(15,14,19,0.85);
+  --c-bg-90: rgba(15,14,19,0.9);
+  --c-primary: #78A5A5;
+  --c-primary-10: rgba(120,165,165,0.1);
+  --c-primary-20: rgba(120,165,165,0.2);
+  --c-primary-40: rgba(120,165,165,0.4);
+  --c-primary-50: rgba(120,165,165,0.5);
+  --c-primary-60: rgba(120,165,165,0.6);
+  --c-primary-80: rgba(120,165,165,0.8);
+  --c-secondary: #5E8282;
+  --c-secondary-10: rgba(94,130,130,0.1);
+  --c-secondary-20: rgba(94,130,130,0.2);
+  --c-secondary-40: rgba(94,130,130,0.4);
+  --c-secondary-50: rgba(94,130,130,0.5);
+  --c-secondary-60: rgba(94,130,130,0.6);
+  --c-secondary-80: rgba(94,130,130,0.8);
+  --c-text: #E0E4E8;
+  --c-text-5: rgba(224,228,232,0.05);
+  --c-text-10: rgba(224,228,232,0.1);
+  --c-text-20: rgba(224,228,232,0.2);
+  --c-text-30: rgba(224,228,232,0.3);
+  --c-text-40: rgba(224,228,232,0.4);
+  --c-text-50: rgba(224,228,232,0.5);
+  --c-text-60: rgba(224,228,232,0.6);
+  --c-text-70: rgba(224,228,232,0.7);
+  --c-text-80: rgba(224,228,232,0.8);
+  --c-text-90: rgba(224,228,232,0.9);
+  --c-text-95: rgba(224,228,232,0.95);
+  --c-border: rgba(255,255,255,0.04);
+  --c-surface: rgba(255,255,255,0.05);
+  --c-surface-elevated: rgba(255,255,255,0.09);
+}
+
+/* ========== Тема: Льняные сумерки — Linen Dusk ========== */
+[data-theme="linen-dusk"] {
+  --c-bg: #141612;
+  --c-bg-60: rgba(20,22,18,0.6);
+  --c-bg-80: rgba(20,22,18,0.8);
+  --c-bg-85: rgba(20,22,18,0.85);
+  --c-bg-90: rgba(20,22,18,0.9);
+  --c-primary: #A5B095;
+  --c-primary-10: rgba(165,176,149,0.1);
+  --c-primary-20: rgba(165,176,149,0.2);
+  --c-primary-40: rgba(165,176,149,0.4);
+  --c-primary-50: rgba(165,176,149,0.5);
+  --c-primary-60: rgba(165,176,149,0.6);
+  --c-primary-80: rgba(165,176,149,0.8);
+  --c-secondary: #8A947A;
+  --c-secondary-10: rgba(138,148,122,0.1);
+  --c-secondary-20: rgba(138,148,122,0.2);
+  --c-secondary-40: rgba(138,148,122,0.4);
+  --c-secondary-50: rgba(138,148,122,0.5);
+  --c-secondary-60: rgba(138,148,122,0.6);
+  --c-secondary-80: rgba(138,148,122,0.8);
+  --c-text: #E4E8E0;
+  --c-text-5: rgba(228,232,224,0.05);
+  --c-text-10: rgba(228,232,224,0.1);
+  --c-text-20: rgba(228,232,224,0.2);
+  --c-text-30: rgba(228,232,224,0.3);
+  --c-text-40: rgba(228,232,224,0.4);
+  --c-text-50: rgba(228,232,224,0.5);
+  --c-text-60: rgba(228,232,224,0.6);
+  --c-text-70: rgba(228,232,224,0.7);
+  --c-text-80: rgba(228,232,224,0.8);
+  --c-text-90: rgba(228,232,224,0.9);
+  --c-text-95: rgba(228,232,224,0.95);
+  --c-border: rgba(255,255,255,0.05);
+  --c-surface: rgba(255,255,255,0.07);
+  --c-surface-elevated: rgba(255,255,255,0.11);
+}
+
+/* ========== Тема: Пудровое затмение — Powder Eclipse ========== */
+[data-theme="powder-eclipse"] {
+  --c-bg: #141216;
+  --c-bg-60: rgba(20,18,22,0.6);
+  --c-bg-80: rgba(20,18,22,0.8);
+  --c-bg-85: rgba(20,18,22,0.85);
+  --c-bg-90: rgba(20,18,22,0.9);
+  --c-primary: #B5A5D4;
+  --c-primary-10: rgba(181,165,212,0.1);
+  --c-primary-20: rgba(181,165,212,0.2);
+  --c-primary-40: rgba(181,165,212,0.4);
+  --c-primary-50: rgba(181,165,212,0.5);
+  --c-primary-60: rgba(181,165,212,0.6);
+  --c-primary-80: rgba(181,165,212,0.8);
+  --c-secondary: #9284AD;
+  --c-secondary-10: rgba(146,132,173,0.1);
+  --c-secondary-20: rgba(146,132,173,0.2);
+  --c-secondary-40: rgba(146,132,173,0.4);
+  --c-secondary-50: rgba(146,132,173,0.5);
+  --c-secondary-60: rgba(146,132,173,0.6);
+  --c-secondary-80: rgba(146,132,173,0.8);
+  --c-text: #E6E0E8;
+  --c-text-5: rgba(230,224,232,0.05);
+  --c-text-10: rgba(230,224,232,0.1);
+  --c-text-20: rgba(230,224,232,0.2);
+  --c-text-30: rgba(230,224,232,0.3);
+  --c-text-40: rgba(230,224,232,0.4);
+  --c-text-50: rgba(230,224,232,0.5);
+  --c-text-60: rgba(230,224,232,0.6);
+  --c-text-70: rgba(230,224,232,0.7);
+  --c-text-80: rgba(230,224,232,0.8);
+  --c-text-90: rgba(230,224,232,0.9);
+  --c-text-95: rgba(230,224,232,0.95);
+  --c-border: rgba(255,255,255,0.04);
+  --c-surface: rgba(255,255,255,0.06);
+  --c-surface-elevated: rgba(255,255,255,0.1);
+}
+
+/* ========== Тема: Лазурная ночь — Azure Night ========== */
+[data-theme="azure-night"] {
+  --c-bg: #121416;
+  --c-bg-60: rgba(18,20,22,0.6);
+  --c-bg-80: rgba(18,20,22,0.8);
+  --c-bg-85: rgba(18,20,22,0.85);
+  --c-bg-90: rgba(18,20,22,0.9);
+  --c-primary: #8AB8C2;
+  --c-primary-10: rgba(138,184,194,0.1);
+  --c-primary-20: rgba(138,184,194,0.2);
+  --c-primary-40: rgba(138,184,194,0.4);
+  --c-primary-50: rgba(138,184,194,0.5);
+  --c-primary-60: rgba(138,184,194,0.6);
+  --c-primary-80: rgba(138,184,194,0.8);
+  --c-secondary: #6B8F96;
+  --c-secondary-10: rgba(107,143,150,0.1);
+  --c-secondary-20: rgba(107,143,150,0.2);
+  --c-secondary-40: rgba(107,143,150,0.4);
+  --c-secondary-50: rgba(107,143,150,0.5);
+  --c-secondary-60: rgba(107,143,150,0.6);
+  --c-secondary-80: rgba(107,143,150,0.8);
+  --c-text: #E0E6E8;
+  --c-text-5: rgba(224,230,232,0.05);
+  --c-text-10: rgba(224,230,232,0.1);
+  --c-text-20: rgba(224,230,232,0.2);
+  --c-text-30: rgba(224,230,232,0.3);
+  --c-text-40: rgba(224,230,232,0.4);
+  --c-text-50: rgba(224,230,232,0.5);
+  --c-text-60: rgba(224,230,232,0.6);
+  --c-text-70: rgba(224,230,232,0.7);
+  --c-text-80: rgba(224,230,232,0.8);
+  --c-text-90: rgba(224,230,232,0.9);
+  --c-text-95: rgba(224,230,232,0.95);
+  --c-border: rgba(255,255,255,0.05);
+  --c-surface: rgba(255,255,255,0.06);
+  --c-surface-elevated: rgba(255,255,255,0.1);
+}
+
+/* ========== Тема: Золотое затмение — Golden Eclipse ========== */
+[data-theme="golden-eclipse"] {
+  --c-bg: #161412;
+  --c-bg-60: rgba(22,20,18,0.6);
+  --c-bg-80: rgba(22,20,18,0.8);
+  --c-bg-85: rgba(22,20,18,0.85);
+  --c-bg-90: rgba(22,20,18,0.9);
+  --c-primary: #C9B08E;
+  --c-primary-10: rgba(201,176,142,0.1);
+  --c-primary-20: rgba(201,176,142,0.2);
+  --c-primary-40: rgba(201,176,142,0.4);
+  --c-primary-50: rgba(201,176,142,0.5);
+  --c-primary-60: rgba(201,176,142,0.6);
+  --c-primary-80: rgba(201,176,142,0.8);
+  --c-secondary: #A38E72;
+  --c-secondary-10: rgba(163,142,114,0.1);
+  --c-secondary-20: rgba(163,142,114,0.2);
+  --c-secondary-40: rgba(163,142,114,0.4);
+  --c-secondary-50: rgba(163,142,114,0.5);
+  --c-secondary-60: rgba(163,142,114,0.6);
+  --c-secondary-80: rgba(163,142,114,0.8);
+  --c-text: #E8E4E0;
+  --c-text-5: rgba(232,228,224,0.05);
+  --c-text-10: rgba(232,228,224,0.1);
+  --c-text-20: rgba(232,228,224,0.2);
+  --c-text-30: rgba(232,228,224,0.3);
+  --c-text-40: rgba(232,228,224,0.4);
+  --c-text-50: rgba(232,228,224,0.5);
+  --c-text-60: rgba(232,228,224,0.6);
+  --c-text-70: rgba(232,228,224,0.7);
+  --c-text-80: rgba(232,228,224,0.8);
+  --c-text-90: rgba(232,228,224,0.9);
+  --c-text-95: rgba(232,228,224,0.95);
+  --c-border: rgba(255,255,255,0.06);
+  --c-surface: rgba(255,255,255,0.08);
+  --c-surface-elevated: rgba(255,255,255,0.12);
+}
+
+/* ========== Тема: Тень шалфея — Sage Shadow ========== */
+[data-theme="sage-shadow"] {
+  --c-bg: #121614;
+  --c-bg-60: rgba(18,22,20,0.6);
+  --c-bg-80: rgba(18,22,20,0.8);
+  --c-bg-85: rgba(18,22,20,0.85);
+  --c-bg-90: rgba(18,22,20,0.9);
+  --c-primary: #95B0A5;
+  --c-primary-10: rgba(149,176,165,0.1);
+  --c-primary-20: rgba(149,176,165,0.2);
+  --c-primary-40: rgba(149,176,165,0.4);
+  --c-primary-50: rgba(149,176,165,0.5);
+  --c-primary-60: rgba(149,176,165,0.6);
+  --c-primary-80: rgba(149,176,165,0.8);
+  --c-secondary: #7A9488;
+  --c-secondary-10: rgba(122,148,136,0.1);
+  --c-secondary-20: rgba(122,148,136,0.2);
+  --c-secondary-40: rgba(122,148,136,0.4);
+  --c-secondary-50: rgba(122,148,136,0.5);
+  --c-secondary-60: rgba(122,148,136,0.6);
+  --c-secondary-80: rgba(122,148,136,0.8);
+  --c-text: #E0E8E4;
+  --c-text-5: rgba(224,232,228,0.05);
+  --c-text-10: rgba(224,232,228,0.1);
+  --c-text-20: rgba(224,232,228,0.2);
+  --c-text-30: rgba(224,232,228,0.3);
+  --c-text-40: rgba(224,232,228,0.4);
+  --c-text-50: rgba(224,232,228,0.5);
+  --c-text-60: rgba(224,232,228,0.6);
+  --c-text-70: rgba(224,232,228,0.7);
+  --c-text-80: rgba(224,232,228,0.8);
+  --c-text-90: rgba(224,232,228,0.9);
+  --c-text-95: rgba(224,232,228,0.95);
+  --c-border: rgba(255,255,255,0.05);
+  --c-surface: rgba(255,255,255,0.07);
+  --c-surface-elevated: rgba(255,255,255,0.11);
+}
+
+/* ========== Тема: Терракотовые сумерки — Terracotta Dusk ========== */
+[data-theme="terracotta-dusk"] {
+  --c-bg: #1A1412;
+  --c-bg-60: rgba(26,20,18,0.6);
+  --c-bg-80: rgba(26,20,18,0.8);
+  --c-bg-85: rgba(26,20,18,0.85);
+  --c-bg-90: rgba(26,20,18,0.9);
+  --c-primary: #C28A7A;
+  --c-primary-10: rgba(194,138,122,0.1);
+  --c-primary-20: rgba(194,138,122,0.2);
+  --c-primary-40: rgba(194,138,122,0.4);
+  --c-primary-50: rgba(194,138,122,0.5);
+  --c-primary-60: rgba(194,138,122,0.6);
+  --c-primary-80: rgba(194,138,122,0.8);
+  --c-secondary: #9E6F62;
+  --c-secondary-10: rgba(158,111,98,0.1);
+  --c-secondary-20: rgba(158,111,98,0.2);
+  --c-secondary-40: rgba(158,111,98,0.4);
+  --c-secondary-50: rgba(158,111,98,0.5);
+  --c-secondary-60: rgba(158,111,98,0.6);
+  --c-secondary-80: rgba(158,111,98,0.8);
+  --c-text: #E8E2E0;
+  --c-text-5: rgba(232,226,224,0.05);
+  --c-text-10: rgba(232,226,224,0.1);
+  --c-text-20: rgba(232,226,224,0.2);
+  --c-text-30: rgba(232,226,224,0.3);
+  --c-text-40: rgba(232,226,224,0.4);
+  --c-text-50: rgba(232,226,224,0.5);
+  --c-text-60: rgba(232,226,224,0.6);
+  --c-text-70: rgba(232,226,224,0.7);
+  --c-text-80: rgba(232,226,224,0.8);
+  --c-text-90: rgba(232,226,224,0.9);
+  --c-text-95: rgba(232,226,224,0.95);
+  --c-border: rgba(255,255,255,0.04);
+  --c-surface: rgba(255,255,255,0.06);
+  --c-surface-elevated: rgba(255,255,255,0.1);
+}
+
+/* ========== Тема: Фарфоровая тень — Porcelain Shadow ========== */
+[data-theme="porcelain-shadow"] {
+  --c-bg: #121216;
+  --c-bg-60: rgba(18,18,22,0.6);
+  --c-bg-80: rgba(18,18,22,0.8);
+  --c-bg-85: rgba(18,18,22,0.85);
+  --c-bg-90: rgba(18,18,22,0.9);
+  --c-primary: #95A5B0;
+  --c-primary-10: rgba(149,165,176,0.1);
+  --c-primary-20: rgba(149,165,176,0.2);
+  --c-primary-40: rgba(149,165,176,0.4);
+  --c-primary-50: rgba(149,165,176,0.5);
+  --c-primary-60: rgba(149,165,176,0.6);
+  --c-primary-80: rgba(149,165,176,0.8);
+  --c-secondary: #7A8894;
+  --c-secondary-10: rgba(122,136,148,0.1);
+  --c-secondary-20: rgba(122,136,148,0.2);
+  --c-secondary-40: rgba(122,136,148,0.4);
+  --c-secondary-50: rgba(122,136,148,0.5);
+  --c-secondary-60: rgba(122,136,148,0.6);
+  --c-secondary-80: rgba(122,136,148,0.8);
+  --c-text: #E0E2E8;
+  --c-text-5: rgba(224,226,232,0.05);
+  --c-text-10: rgba(224,226,232,0.1);
+  --c-text-20: rgba(224,226,232,0.2);
+  --c-text-30: rgba(224,226,232,0.3);
+  --c-text-40: rgba(224,226,232,0.4);
+  --c-text-50: rgba(224,226,232,0.5);
+  --c-text-60: rgba(224,226,232,0.6);
+  --c-text-70: rgba(224,226,232,0.7);
+  --c-text-80: rgba(224,226,232,0.8);
+  --c-text-90: rgba(224,226,232,0.9);
+  --c-text-95: rgba(224,226,232,0.95);
+  --c-border: rgba(255,255,255,0.05);
+  --c-surface: rgba(255,255,255,0.06);
+  --c-surface-elevated: rgba(255,255,255,0.1);
+}
+
+/* ========== Тема: Янтарный уголь — Amber Ember ========== */
+[data-theme="amber-ember"] {
+  --c-bg: #14110F;
+  --c-bg-60: rgba(20,17,15,0.6);
+  --c-bg-80: rgba(20,17,15,0.8);
+  --c-bg-85: rgba(20,17,15,0.85);
+  --c-bg-90: rgba(20,17,15,0.9);
+  --c-primary: #D4A373;
+  --c-primary-10: rgba(212,163,115,0.1);
+  --c-primary-20: rgba(212,163,115,0.2);
+  --c-primary-40: rgba(212,163,115,0.4);
+  --c-primary-50: rgba(212,163,115,0.5);
+  --c-primary-60: rgba(212,163,115,0.6);
+  --c-primary-80: rgba(212,163,115,0.8);
+  --c-secondary: #AD855E;
+  --c-secondary-10: rgba(173,133,94,0.1);
+  --c-secondary-20: rgba(173,133,94,0.2);
+  --c-secondary-40: rgba(173,133,94,0.4);
+  --c-secondary-50: rgba(173,133,94,0.5);
+  --c-secondary-60: rgba(173,133,94,0.6);
+  --c-secondary-80: rgba(173,133,94,0.8);
+  --c-text: #E8E4E0;
+  --c-text-5: rgba(232,228,224,0.05);
+  --c-text-10: rgba(232,228,224,0.1);
+  --c-text-20: rgba(232,228,224,0.2);
+  --c-text-30: rgba(232,228,224,0.3);
+  --c-text-40: rgba(232,228,224,0.4);
+  --c-text-50: rgba(232,228,224,0.5);
+  --c-text-60: rgba(232,228,224,0.6);
+  --c-text-70: rgba(232,228,224,0.7);
+  --c-text-80: rgba(232,228,224,0.8);
+  --c-text-90: rgba(232,228,224,0.9);
+  --c-text-95: rgba(232,228,224,0.95);
+  --c-border: rgba(255,255,255,0.06);
+  --c-surface: rgba(255,255,255,0.08);
+  --c-surface-elevated: rgba(255,255,255,0.12);
+}
+
+/* ========== Тема: Сиреневый туман — Lilac Mist ========== */
+[data-theme="lilac-mist"] {
+  --c-bg: #121014;
+  --c-bg-60: rgba(18,16,20,0.6);
+  --c-bg-80: rgba(18,16,20,0.8);
+  --c-bg-85: rgba(18,16,20,0.85);
+  --c-bg-90: rgba(18,16,20,0.9);
+  --c-primary: #A5A5D4;
+  --c-primary-10: rgba(165,165,212,0.1);
+  --c-primary-20: rgba(165,165,212,0.2);
+  --c-primary-40: rgba(165,165,212,0.4);
+  --c-primary-50: rgba(165,165,212,0.5);
+  --c-primary-60: rgba(165,165,212,0.6);
+  --c-primary-80: rgba(165,165,212,0.8);
+  --c-secondary: #8484AD;
+  --c-secondary-10: rgba(132,132,173,0.1);
+  --c-secondary-20: rgba(132,132,173,0.2);
+  --c-secondary-40: rgba(132,132,173,0.4);
+  --c-secondary-50: rgba(132,132,173,0.5);
+  --c-secondary-60: rgba(132,132,173,0.6);
+  --c-secondary-80: rgba(132,132,173,0.8);
+  --c-text: #E4E0E8;
+  --c-text-5: rgba(228,224,232,0.05);
+  --c-text-10: rgba(228,224,232,0.1);
+  --c-text-20: rgba(228,224,232,0.2);
+  --c-text-30: rgba(228,224,232,0.3);
+  --c-text-40: rgba(228,224,232,0.4);
+  --c-text-50: rgba(228,224,232,0.5);
+  --c-text-60: rgba(228,224,232,0.6);
+  --c-text-70: rgba(228,224,232,0.7);
+  --c-text-80: rgba(228,224,232,0.8);
+  --c-text-90: rgba(228,224,232,0.9);
+  --c-text-95: rgba(228,224,232,0.95);
+  --c-border: rgba(255,255,255,0.04);
+  --c-surface: rgba(255,255,255,0.06);
+  --c-surface-elevated: rgba(255,255,255,0.1);
+}
+
+/* ========== Тема: Тень матчи — Matcha Shadow ========== */
+[data-theme="matcha-shadow"] {
+  --c-bg: #10120F;
+  --c-bg-60: rgba(16,18,15,0.6);
+  --c-bg-80: rgba(16,18,15,0.8);
+  --c-bg-85: rgba(16,18,15,0.85);
+  --c-bg-90: rgba(16,18,15,0.9);
+  --c-primary: #B8C28A;
+  --c-primary-10: rgba(184,194,138,0.1);
+  --c-primary-20: rgba(184,194,138,0.2);
+  --c-primary-40: rgba(184,194,138,0.4);
+  --c-primary-50: rgba(184,194,138,0.5);
+  --c-primary-60: rgba(184,194,138,0.6);
+  --c-primary-80: rgba(184,194,138,0.8);
+  --c-secondary: #969E6F;
+  --c-secondary-10: rgba(150,158,111,0.1);
+  --c-secondary-20: rgba(150,158,111,0.2);
+  --c-secondary-40: rgba(150,158,111,0.4);
+  --c-secondary-50: rgba(150,158,111,0.5);
+  --c-secondary-60: rgba(150,158,111,0.6);
+  --c-secondary-80: rgba(150,158,111,0.8);
+  --c-text: #E4E8E0;
+  --c-text-5: rgba(228,232,224,0.05);
+  --c-text-10: rgba(228,232,224,0.1);
+  --c-text-20: rgba(228,232,224,0.2);
+  --c-text-30: rgba(228,232,224,0.3);
+  --c-text-40: rgba(228,232,224,0.4);
+  --c-text-50: rgba(228,232,224,0.5);
+  --c-text-60: rgba(228,232,224,0.6);
+  --c-text-70: rgba(228,232,224,0.7);
+  --c-text-80: rgba(228,232,224,0.8);
+  --c-text-90: rgba(228,232,224,0.9);
+  --c-text-95: rgba(228,232,224,0.95);
+  --c-border: rgba(255,255,255,0.05);
+  --c-surface: rgba(255,255,255,0.07);
+  --c-surface-elevated: rgba(255,255,255,0.11);
+}
+
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
@@ -505,7 +1033,7 @@ html {
     color: var(--c-text, #2C2824);
     margin: 0;
     min-height: 100vh;
-    font-family: "Manrope", sans-serif;
+    font-family: "Max Sans", sans-serif;
 
     /* Улучшаем рендеринг шрифтов */
     -webkit-font-smoothing: antialiased;

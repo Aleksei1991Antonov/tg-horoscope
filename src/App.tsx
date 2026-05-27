@@ -22,7 +22,6 @@ type ScaleType = 'small' | 'medium' | 'large';
 
 const App: React.FC = () => {
     const [activeTab, setActiveTab] = useState('rhythm');
-    const [isOverlayVisible, setIsOverlayVisible] = useState(true);
     const [isStorageLoaded, setIsStorageLoaded] = useState(false);
     const isInitialMount = useRef(true);
 
@@ -52,14 +51,55 @@ const App: React.FC = () => {
 
     const [theme, setTheme] = useState<string>(() => {
         const saved = localStorage.getItem('user_theme') || 'morning-magic';
-        document.documentElement.dataset.theme = saved;
         return saved;
     });
 
+    const [darkTheme, setDarkTheme] = useState<string>(() => {
+        return localStorage.getItem('user_dark_theme') || 'velvety-midnight';
+    });
+
+    const [colorScheme, setColorScheme] = useState<'system' | 'light' | 'dark'>(() => {
+        return (localStorage.getItem('user_color_scheme') as 'system' | 'light' | 'dark') || 'system';
+    });
+
+    // Resolve current theme based on colorScheme
+    const getResolvedTheme = useCallback(() => {
+        if (colorScheme === 'light') return theme;
+        if (colorScheme === 'dark') return darkTheme;
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        return prefersDark ? darkTheme : theme;
+    }, [colorScheme, theme, darkTheme]);
+
     useEffect(() => {
-        document.documentElement.dataset.theme = theme;
+        const resolved = getResolvedTheme();
+        document.documentElement.dataset.theme = resolved;
+    }, [getResolvedTheme]);
+
+    // Listen for system color scheme changes
+    useEffect(() => {
+        const mq = window.matchMedia('(prefers-color-scheme: dark)');
+        const handler = () => {
+            if (colorScheme === 'system') {
+                const resolved = getResolvedTheme();
+                document.documentElement.dataset.theme = resolved;
+            }
+        };
+        mq.addEventListener('change', handler);
+        return () => mq.removeEventListener('change', handler);
+    }, [colorScheme, getResolvedTheme]);
+
+    // Persist
+    useEffect(() => {
         localStorage.setItem('user_theme', theme);
     }, [theme]);
+
+    useEffect(() => {
+        localStorage.setItem('user_dark_theme', darkTheme);
+    }, [darkTheme]);
+
+    useEffect(() => {
+        localStorage.setItem('user_color_scheme', colorScheme);
+    }, [colorScheme]);
 
     useEffect(() => {
         (window.WebApp as any)?.disableVerticalSwipes?.();
@@ -144,7 +184,6 @@ const App: React.FC = () => {
         const finalizeLoading = () => {
             if (isMounted) {
                 setIsStorageLoaded(true);
-                setTimeout(() => setIsOverlayVisible(false), 400);
             }
         };
 
@@ -233,6 +272,10 @@ const App: React.FC = () => {
                 setFontScale={setFontScale}
                 theme={theme}
                 setTheme={setTheme}
+                darkTheme={darkTheme}
+                setDarkTheme={setDarkTheme}
+                colorScheme={colorScheme}
+                setColorScheme={setColorScheme}
             />
         );
     }
@@ -279,7 +322,6 @@ const App: React.FC = () => {
 
     return (
         <div className="h-screen bg-[var(--c-bg)] text-[var(--c-text)] font-manrope flex flex-col overflow-hidden relative">
-            <div className={`fixed inset-0 z-[9999] bg-[var(--c-bg)] transition-opacity duration-1000 pointer-events-none ${isOverlayVisible ? 'opacity-100' : 'opacity-0'}`} />
 
             <Header
                 onZodiacChange={(newName: string) => {
