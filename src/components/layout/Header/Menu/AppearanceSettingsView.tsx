@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { Trash2, MoonStar, Sparkles, Sun, Moon } from 'lucide-react';
+import { Trash2, MoonStar, Sparkles, Sun, Moon, Monitor } from 'lucide-react';
 import { triggerSuccessHaptic } from '../../../../utils/haptics';
 
 const LIGHT_TO_DARK: Record<string, string> = {
@@ -19,24 +19,20 @@ interface AppearanceSettingsViewProps {
     setFontScale: (scale: 'small' | 'medium' | 'large') => void;
     theme: string;
     setTheme: (theme: string) => void;
+    appearanceMode: 'system' | 'light' | 'dark';
+    setAppearanceMode: (mode: 'system' | 'light' | 'dark') => void;
+    resolvedTheme: string;
 }
 
 export const AppearanceSettingsView: React.FC<AppearanceSettingsViewProps> = memo(({
     fontScale,
     setFontScale,
-    theme,
     setTheme,
+    appearanceMode,
+    setAppearanceMode,
+    resolvedTheme,
 }) => {
-    const isDark = ALL_DARK_KEYS.has(theme);
-
-    const handleToggleDark = (dark: boolean) => {
-        void triggerSuccessHaptic();
-        if (dark && !isDark) {
-            setTheme(LIGHT_TO_DARK[theme] || 'max-dark');
-        } else if (!dark && isDark) {
-            setTheme(DARK_TO_LIGHT[theme] || 'max-light');
-        }
-    };
+    const isDark = ALL_DARK_KEYS.has(resolvedTheme);
 
     const handleScaleChange = (newScale: 'small' | 'medium' | 'large') => {
         if (newScale === fontScale) return;
@@ -66,6 +62,14 @@ export const AppearanceSettingsView: React.FC<AppearanceSettingsViewProps> = mem
     const iconSize = fontScale === 'large' ? 32 : 24;
     const iconPadding = fontScale === 'large' ? 'p-4' : 'p-3';
 
+    const appearanceModes = [
+        { id: 'system' as const, label: 'Система', Icon: Monitor },
+        { id: 'light' as const, label: 'Светлая', Icon: Sun },
+        { id: 'dark' as const, label: 'Тёмная', Icon: Moon },
+    ];
+
+    const modeIndex = appearanceModes.findIndex(m => m.id === appearanceMode);
+
     return (
         <div className="absolute inset-0 z-[5000] bg-[var(--c-bg)] flex flex-col font-manrope overflow-hidden">
             {/* Header */}
@@ -87,7 +91,7 @@ export const AppearanceSettingsView: React.FC<AppearanceSettingsViewProps> = mem
                         </span>
                     </div>
 
-                    <div className="bg-[var(--c-surface)] p-1 rounded-2xl flex items-center relative border border-[var(--c-border)]">
+                    <div className="bg-[var(--c-surface-raise)] p-1 rounded-2xl flex items-center relative border border-[var(--c-border)]">
                         {scales.map((s) => (
                             <button
                                 key={s.id}
@@ -137,20 +141,17 @@ export const AppearanceSettingsView: React.FC<AppearanceSettingsViewProps> = mem
                     </div>
                 </div>
 
-                {/* Dark Mode Toggle */}
+                {/* Appearance Mode — 3-segment Apple-style */}
                 <div className="space-y-4">
-                    <div className="text-[0.6875rem] font-bold text-[var(--c-text-30)] uppercase tracking-[0.2em] px-1">Режим</div>
+                    <div className="text-[0.6875rem] font-bold text-[var(--c-text-30)] uppercase tracking-[0.2em] px-1">Оформление</div>
                     <div className="bg-[var(--c-surface)] p-1 rounded-2xl flex items-center relative border border-[var(--c-border)]">
-                        {[
-                            { id: false, label: 'Светлая', Icon: Sun },
-                            { id: true, label: 'Тёмная', Icon: Moon },
-                        ].map(mode => {
+                        {appearanceModes.map(mode => {
                             const Icon = mode.Icon;
-                            const active = isDark === mode.id;
+                            const active = appearanceMode === mode.id;
                             return (
                                 <button
-                                    key={String(mode.id)}
-                                    onClick={() => handleToggleDark(mode.id)}
+                                    key={mode.id}
+                                    onClick={() => { void triggerSuccessHaptic(); setAppearanceMode(mode.id); }}
                                     className="relative z-10 flex-1 py-3 flex items-center justify-center gap-2"
                                 >
                                     <Icon
@@ -166,8 +167,8 @@ export const AppearanceSettingsView: React.FC<AppearanceSettingsViewProps> = mem
                         <div
                             className="absolute top-1 bottom-1 transition-all duration-300 ease-out bg-[var(--c-surface-elevated)] rounded-xl border border-[var(--c-border)]"
                             style={{
-                                width: 'calc(50% - 4px)',
-                                left: isDark ? 'calc(50% + 2px)' : '4px'
+                                width: 'calc(33.33% - 4px)',
+                                left: `calc(${modeIndex} * (33.33%) + 4px)`
                             }}
                         />
                     </div>
@@ -180,8 +181,8 @@ export const AppearanceSettingsView: React.FC<AppearanceSettingsViewProps> = mem
                     </div>
                     <div className="grid grid-cols-4 gap-2">
                         {[
-                            { lightId: 'morning-magic', lightLabel: 'Тихая Роскошь', lightColor: '#C4756B', secondary: '#E8C4A0', darkId: 'night-ether', darkLabel: 'Ночной Эфир', darkColor: '#8E9AAF' },
                             { lightId: 'max-light', lightLabel: 'MAX Чистый', lightColor: '#471AFF', secondary: '#9500FF', darkId: 'max-dark', darkLabel: 'MAX Глубокий', darkColor: '#6E1AFF' },
+                            { lightId: 'morning-magic', lightLabel: 'Тихая Роскошь', lightColor: '#C4756B', secondary: '#E8C4A0', darkId: 'night-ether', darkLabel: 'Ночной Эфир', darkColor: '#8E9AAF' },
                         ].map(t => {
                             const item = isDark
                                 ? { id: t.darkId, label: t.darkLabel, color: t.darkColor, secondary: t.secondary }
@@ -190,13 +191,13 @@ export const AppearanceSettingsView: React.FC<AppearanceSettingsViewProps> = mem
                                 <button
                                     key={item.id}
                                     onClick={() => { void triggerSuccessHaptic(); setTheme(item.id); }}
-                                    className={`flex flex-col items-center gap-2 p-3 rounded-2xl ${theme === item.id ? 'bg-[var(--c-surface-elevated)] border border-[var(--c-border)]' : 'bg-[var(--c-surface)] border border-[var(--c-border)]'}`}
+                                    className={`flex flex-col items-center gap-2 p-3 rounded-2xl ${resolvedTheme === item.id ? 'bg-[var(--c-surface-elevated)] border border-[var(--c-border)]' : 'bg-[var(--c-surface)] border border-[var(--c-border)]'}`}
                                 >
                                     <div className="flex -space-x-1.5">
                                         <div className="w-7 h-7 rounded-full border-2 border-[var(--c-border)]" style={{ backgroundColor: item.color }} />
                                         <div className="w-7 h-7 rounded-full border-2 border-[var(--c-border)]" style={{ backgroundColor: item.secondary }} />
                                     </div>
-                                    <span className={`text-[0.5625rem] font-black uppercase tracking-wider ${theme === item.id ? 'text-[var(--c-text)]' : 'text-[var(--c-text-30)]'}`}>{item.label}</span>
+                                    <span className={`text-[0.5625rem] font-black uppercase tracking-wider ${resolvedTheme === item.id ? 'text-[var(--c-text)]' : 'text-[var(--c-text-30)]'}`}>{item.label}</span>
                                 </button>
                             );
                         })}

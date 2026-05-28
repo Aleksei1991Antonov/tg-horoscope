@@ -7,6 +7,7 @@ interface LoveContainerProps {
     zodiacName: string;
     fontScale: 'small' | 'medium' | 'large';
     onSetBackHandler: (handler: (() => void) | null) => void;
+    resolvedTheme: string;
 }
 
 const ALL_ZODIAC = [
@@ -21,7 +22,7 @@ const ZODIAC_EMOJI: Record<string, string> = {
     'Стрелец': '♐️', 'Козерог': '♑️', 'Водолей': '♒️', 'Рыбы': '♓️'
 };
 
-export const LoveContainer: React.FC<LoveContainerProps> = ({ zodiacName, fontScale, onSetBackHandler }) => {
+export const LoveContainer: React.FC<LoveContainerProps> = ({ zodiacName, fontScale, onSetBackHandler, resolvedTheme }) => {
     const [partnerName, setPartnerName] = useState<string | undefined>(() => {
         return localStorage.getItem('user_partner_choice') || undefined;
     });
@@ -86,6 +87,7 @@ export const LoveContainer: React.FC<LoveContainerProps> = ({ zodiacName, fontSc
                     setIsSelecting(true);
                 }}
                 fontScale={fontScale}
+                resolvedTheme={resolvedTheme}
             />
 
             {isSelecting && (

@@ -58,7 +58,7 @@ export const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange, 
 
                             {/* Текст */}
                             <span className={`relative z-10 uppercase tracking-[0.15em] transition-all duration-300 ${textSize} ${
-                                isActive ? 'text-[var(--c-text)] font-black opacity-100' : 'text-[var(--c-text-40)] font-bold opacity-60'
+                                isActive ? 'text-[var(--c-primary)] font-semibold opacity-100' : 'text-[var(--c-text-40)] font-bold opacity-60'
                             }`}>
                                 {item.label}
                             </span>

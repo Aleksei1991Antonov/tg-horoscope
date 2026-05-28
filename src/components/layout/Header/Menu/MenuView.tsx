@@ -36,7 +36,7 @@ export const MenuView: React.FC<MenuViewProps> = ({
     const ogrnip = "326760000001804";
     const address = "Россия, г. Ярославль";
 
-    const photoPath = "my-photo.webp?v5";
+    const photoPath = "my-photo.webp?v8";
 
     const menuTitleSize = fontScale === 'large' ? 'text-[2.2rem]' : 'text-[1.8rem]';
     const itemTitleSize = fontScale === 'large' ? 'text-[0.85rem]' : 'text-[0.7rem]';

@@ -12,9 +12,10 @@ interface RhythmContainerProps {
     zodiacName: string;
     fontScale: 'small' | 'medium' | 'large';
     onSetBackHandler: (handler: (() => void) | null) => void;
+    resolvedTheme: string;
 }
 
-export const RhythmContainer: React.FC<RhythmContainerProps> = ({ zodiacName, fontScale, onSetBackHandler }) => {
+export const RhythmContainer: React.FC<RhythmContainerProps> = ({ zodiacName, fontScale, onSetBackHandler, resolvedTheme }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isPowerModalOpen, setIsPowerModalOpen] = useState(false);
     const [isSynergyModalOpen, setIsSynergyModalOpen] = useState(false);
@@ -73,6 +74,7 @@ export const RhythmContainer: React.FC<RhythmContainerProps> = ({ zodiacName, fo
                 onOpenPowerInfo={handleOpenPower}
                 onOpenSynergyInfo={handleOpenSynergy}
                 fontScale={fontScale}
+                resolvedTheme={resolvedTheme}
             />
 
             <PredictionModal

@@ -34,7 +34,13 @@ export const HeaderView: React.FC<HeaderViewProps> = ({
     const emojiSize = fontScale === 'large' ? 'text-[1.8rem]' : 'text-[1.5rem]';
 
     return (
-        <header className="sticky top-0 z-50 w-full px-[1rem] pt-[1rem] pb-[0.5rem] bg-transparent">
+        <header className="sticky top-0 z-50 w-full px-[1rem] pt-[1rem] pb-[0.5rem]"
+                style={{
+                    borderBottom: '1px solid var(--c-border)',
+                    background: 'var(--c-bg-90)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    backdropFilter: 'blur(10px)'
+                }}>
             <div className="max-w-md mx-auto flex items-center bg-[var(--c-surface)]/80 backdrop-blur-3xl border border-[var(--c-border)] p-[0.5rem] rounded-[2rem] gap-[0.5rem]">
                 <button
                     onClick={onZodiacClick}
@@ -60,10 +66,8 @@ export const HeaderView: React.FC<HeaderViewProps> = ({
                     onClick={onMenuClick}
                     className="flex-shrink-0 outline-none active:scale-90 transition-all"
                 >
-                    <div className="w-11 h-11 flex items-center justify-center bg-gradient-to-br from-[var(--c-primary)] to-[var(--c-secondary)] p-[2px] rounded-full overflow-hidden">
-                        <div className="w-full h-full rounded-full bg-[var(--c-bg)] flex items-center justify-center">
-                            <Menu size="1.25rem" strokeWidth={2.5} className="text-[var(--c-text-50)]" />
-                        </div>
+                    <div className={`${iconSize} flex items-center justify-center`}>
+                        <Menu size="1.5rem" strokeWidth={1.5} className="text-[var(--c-text-30)]" />
                     </div>
                 </button>
             </div>

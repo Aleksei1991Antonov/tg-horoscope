@@ -89,7 +89,7 @@ export const PowerHourModal: React.FC<PowerHourModalProps> = ({
                 <div className="p-8 pt-2 flex-shrink-0">
                     <button
                         onClick={handleClose}
-                        className={`w-full bg-[var(--c-primary)] text-[var(--c-bg)] rounded-[24px] font-bold uppercase tracking-[0.2em] active:scale-95 transition-all shadow-lg ${
+                        className={`w-full bg-accent-cta text-white rounded-[24px] font-bold uppercase tracking-[0.2em] active:scale-95 transition-all shadow-lg ${
                             fontScale === 'large' ? 'py-6 text-[0.875rem]' : 'py-5 text-[0.6875rem]'
                         }`}
                     >

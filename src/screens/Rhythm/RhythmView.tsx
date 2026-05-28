@@ -15,17 +15,32 @@ interface RhythmViewProps {
     onOpenPowerInfo: () => void;
     onOpenSynergyInfo: () => void;
     fontScale: 'small' | 'medium' | 'large';
+    resolvedTheme: string;
 }
 
 export const RhythmView: React.FC<RhythmViewProps> = ({
-                                                          luckyHour,
-                                                          luckyPercent,
-                                                          onOpenPowerInfo,
-                                                          synergyZodiac,
-                                                          onOpenPrediction,
-                                                          onOpenSynergyInfo,
-                                                          fontScale
-                                                      }) => {
+                                                           luckyHour,
+                                                           luckyPercent,
+                                                           onOpenPowerInfo,
+                                                           synergyZodiac,
+                                                           onOpenPrediction,
+                                                           onOpenSynergyInfo,
+                                                           fontScale,
+                                                           resolvedTheme
+                                                       }) => {
+    const isMax = resolvedTheme === 'max-light' || resolvedTheme === 'max-dark';
+    const isMaxDark = resolvedTheme === 'max-dark';
+    const isLight = resolvedTheme === 'max-light' || resolvedTheme === 'morning-magic';
+
+    const progressGradient = 'linear-gradient(90deg, #00C2FF 0%, #4E3AFF 50%, #9D00FF 100%)';
+    const fillBorder = isMax ? '1px solid rgba(78,58,255,0.3)' : '1px solid rgba(255,255,255,0.2)';
+    const fillShadow = '0 2px 4px rgba(0,0,0,0.1)';
+    const glow = '0 0 15px rgba(78, 58, 255, 0.4)';
+    const trackShadow = 'inset 0 1px 3px rgba(0,0,0,0.1)';
+
+    const progressFill = isMax
+        ? { backgroundImage: progressGradient, backgroundSize: 'cover' as const, boxShadow: [fillShadow, isMaxDark ? glow : ''].filter(Boolean).join(', ') }
+        : { backgroundColor: 'var(--c-primary)' };
     const titleSize = fontScale === 'large' ? 'text-[2.4rem]' : 'text-[2rem]';
     const percentSize = fontScale === 'large' ? 'text-[1.8rem]' : 'text-[1.4rem]';
     const labelSize = fontScale === 'large' ? 'text-[0.8125rem]' : 'text-[0.625rem]';
@@ -61,7 +76,7 @@ export const RhythmView: React.FC<RhythmViewProps> = ({
                     <div className="flex items-start justify-between relative z-10 w-full mb-6">
                         <Crown size={fontScale === 'large' ? "2rem" : "1.5rem"} className="text-[var(--c-primary)]" />
                         <div className="text-right">
-                            <div className={`${percentSize} font-black tracking-tighter text-[var(--c-primary)] leading-[0.9] tabular-nums`}>{luckyPercent}%</div>
+                            <div className={`${percentSize} font-black tracking-tighter leading-[0.9] tabular-nums ${isMax ? 'text-gradient-accent' : 'text-[var(--c-primary)]'}`}>{luckyPercent}%</div>
                             <div className={`${labelSize} font-bold uppercase tracking-[1px] text-[var(--c-text-30)] mt-2`}>Интенсивность</div>
                         </div>
                     </div>
@@ -71,10 +86,15 @@ export const RhythmView: React.FC<RhythmViewProps> = ({
                             <span className={`${labelSize} font-bold text-[var(--c-text-30)] uppercase tracking-wider`}>Час силы</span>
                             <span className={`${subTitleSize} font-black text-[var(--c-text)] leading-tight tabular-nums`}>{luckyHour}</span>
                         </div>
-                        <div className="w-full h-2.5 bg-black/[0.05] rounded-full overflow-hidden">
+                        <div className={`w-full h-3 rounded-full overflow-hidden ${isLight ? 'bg-black/10' : 'bg-white/10'}`}
+                             style={{ boxShadow: trackShadow }}>
                             <div
-                                className="h-full bg-[var(--c-primary)] rounded-full transition-all duration-1000 ease-out"
-                                style={{ width: `${luckyPercent}%` }}
+                                className="h-full rounded-full transition-all duration-1000 ease-out relative"
+                                style={{
+                                    width: `${luckyPercent}%`,
+                                    border: fillBorder,
+                                    ...progressFill
+                                }}
                             />
                         </div>
                     </div>
@@ -88,9 +108,9 @@ export const RhythmView: React.FC<RhythmViewProps> = ({
                       active:scale-[0.98] transition-all card-shadow ${widgetPadding}`}
                 >
                     <div className="flex items-start justify-between relative z-10 w-full mb-6">
-                        <Gem size={fontScale === 'large' ? "2rem" : "1.5rem"} className="text-[var(--c-secondary)]" />
+                        <Gem size={fontScale === 'large' ? "2rem" : "1.5rem"} className="text-[var(--c-primary)]" />
                         <div className="text-right">
-                            <div className={`${percentSize} font-black tracking-tighter text-[var(--c-secondary)] leading-[0.9] tabular-nums`}>{synergyZodiac.percent}%</div>
+                            <div className={`${percentSize} font-black tracking-tighter leading-[0.9] tabular-nums ${isMax ? 'text-gradient-accent' : 'text-[var(--c-primary)]'}`}>{synergyZodiac.percent}%</div>
                             <div className={`${labelSize} font-bold uppercase tracking-[1px] text-[var(--c-text-30)] mt-2`}>Синергия</div>
                         </div>
                     </div>
@@ -100,10 +120,15 @@ export const RhythmView: React.FC<RhythmViewProps> = ({
                             <span className={`${labelSize} font-bold text-[var(--c-text-30)] uppercase tracking-wider`}>Лучший компаньон</span>
                             <span className={`${subTitleSize} font-black text-[var(--c-text)] leading-tight`}>{synergyZodiac.sign} {synergyZodiac.name}</span>
                         </div>
-                        <div className="w-full h-2.5 bg-black/[0.05] rounded-full overflow-hidden">
+                        <div className={`w-full h-3 rounded-full overflow-hidden ${isLight ? 'bg-black/10' : 'bg-white/10'}`}
+                             style={{ boxShadow: trackShadow }}>
                             <div
-                                className="h-full bg-[var(--c-secondary)] rounded-full transition-all duration-1000 ease-out"
-                                style={{ width: `${synergyZodiac.percent}%` }}
+                                className="h-full rounded-full transition-all duration-1000 ease-out relative"
+                                style={{
+                                    width: `${synergyZodiac.percent}%`,
+                                    border: fillBorder,
+                                    ...progressFill
+                                }}
                             />
                         </div>
                     </div>
@@ -112,7 +137,7 @@ export const RhythmView: React.FC<RhythmViewProps> = ({
                 {/* Кнопка: Прогноз */}
                 <button
                     onClick={() => handleAction(onOpenPrediction)}
-                    className={`group relative w-full bg-gradient-to-br from-[var(--c-primary)] to-[var(--c-primary-60)] backdrop-blur-3xl border border-[var(--c-border)]
+                    className={`group relative w-full bg-accent-cta backdrop-blur-3xl border border-[var(--c-border)]
                              rounded-[36px] flex flex-col justify-between overflow-hidden
                              hover:brightness-110 active:scale-[0.97] transition-all text-left ${fontScale === 'large' ? 'p-9 min-h-[190px]' : 'p-7 min-h-[150px]'}`}
                 >

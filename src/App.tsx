@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { Navigation } from './components/layout/Navigation';
 import { PageLayout } from './components/layout/PageLayout';
 import { HeaderContainer as Header } from './components/layout/Header/HeaderContainer';
@@ -6,7 +6,7 @@ import { WelcomeScreen } from './components/Welcome/WelcomeScreen';
 import { PrivacyPolicy } from './components/layout/Header/Menu/Legal/PrivacyPolicy';
 import { TermsOfService } from './components/layout/Header/Menu/Legal/TermsOfService';
 import { ZodiacModal } from './components/layout/Header/ZodiacModal';
-import { DesktopStub } from './components/DesktopStub';
+// import { DesktopStub } from './components/DesktopStub';
 import { AppearanceSettingsView } from './components/layout/Header/Menu/AppearanceSettingsView';
 
 import { RhythmContainer } from './screens/Rhythm/RhythmContainer';
@@ -20,6 +20,28 @@ import { triggerSuccessHaptic, triggerSelectionHaptic } from './utils/haptics';
 const ZODIAC_NAMES = ["Овен", "Телец", "Близнецы", "Рак", "Лев", "Дева", "Весы", "Скорпион", "Стрелец", "Козерог", "Водолей", "Рыбы"];
 type ScaleType = 'small' | 'medium' | 'large';
 
+const LIGHT_TO_DARK: Record<string, string> = {
+    'max-light': 'max-dark',
+    'morning-magic': 'night-ether',
+};
+const DARK_TO_LIGHT: Record<string, string> = {};
+for (const [k, v] of Object.entries(LIGHT_TO_DARK)) DARK_TO_LIGHT[v] = k;
+const ALL_DARK_KEYS = new Set(Object.values(LIGHT_TO_DARK));
+
+const computeResolvedTheme = (theme: string, mode: 'system' | 'light' | 'dark', systemDark: boolean): string => {
+    const wantsDark = mode === 'dark' || (mode === 'system' && systemDark);
+    const isDarkTheme = ALL_DARK_KEYS.has(theme);
+    if (wantsDark && !isDarkTheme) return LIGHT_TO_DARK[theme] || 'max-dark';
+    if (!wantsDark && isDarkTheme) return DARK_TO_LIGHT[theme] || 'max-light';
+    return theme;
+};
+
+// Синхронная установка data-theme ДО первого рендера — иначе Telegram/браузер принудительно инвертируют цвета
+const initTheme = localStorage.getItem('user_theme') || 'max-light';
+const initMode = (localStorage.getItem('app-appearance-mode') as 'system' | 'light' | 'dark') || 'system';
+const initSystemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+document.documentElement.dataset.theme = computeResolvedTheme(initTheme, initMode, initSystemDark);
+
 const App: React.FC = () => {
     const [activeTab, setActiveTab] = useState('rhythm');
     const [isStorageLoaded, setIsStorageLoaded] = useState(false);
@@ -27,11 +49,14 @@ const App: React.FC = () => {
 
     const webApp = window.WebApp;
 
-    const [isDesktop] = useState<boolean>(() => {
-        return webApp?.platform === 'desktop' || webApp?.platform === 'web';
-    });
+    // const [isDesktop] = useState<boolean>(() => {
+    //     return webApp?.platform === 'desktop' || webApp?.platform === 'web';
+    // });
 
-    const [selectedZodiac, setSelectedZodiac] = useState<string>("Скорпион");
+    const [selectedZodiac, setSelectedZodiac] = useState<string>(() => {
+        const saved = localStorage.getItem('user_zodiac_index');
+        return saved ? (ZODIAC_NAMES[parseInt(saved, 10)] || "Скорпион") : "Скорпион";
+    });
     const [isSetupDone, setIsSetupDone] = useState<boolean>(false);
     const [hasAccepted, setHasAccepted] = useState<boolean>(false);
     const [activeLegalDoc, setActiveLegalDoc] = useState<'privacy' | 'terms' | null>(null);
@@ -50,15 +75,43 @@ const App: React.FC = () => {
     });
 
     const [theme, setTheme] = useState<string>(() => {
-        const saved = localStorage.getItem('user_theme') || 'morning-magic';
-        document.documentElement.dataset.theme = saved;
-        return saved;
+        return localStorage.getItem('user_theme') || 'max-light';
+    });
+
+    const [appearanceMode, setAppearanceMode] = useState<'system' | 'light' | 'dark'>(() => {
+        const saved = localStorage.getItem('app-appearance-mode');
+        return (saved as 'system' | 'light' | 'dark') || 'system';
+    });
+
+    const [systemPrefersDark, setSystemPrefersDark] = useState<boolean>(() => {
+        return window.matchMedia('(prefers-color-scheme: dark)').matches;
     });
 
     useEffect(() => {
-        document.documentElement.dataset.theme = theme;
+        const mq = window.matchMedia('(prefers-color-scheme: dark)');
+        const handler = (e: MediaQueryListEvent) => setSystemPrefersDark(e.matches);
+        mq.addEventListener('change', handler);
+        return () => mq.removeEventListener('change', handler);
+    }, []);
+
+    const resolvedTheme = useMemo(() => {
+        return computeResolvedTheme(theme, appearanceMode, systemPrefersDark);
+    }, [appearanceMode, theme, systemPrefersDark]);
+
+    useEffect(() => {
+        document.documentElement.dataset.theme = resolvedTheme;
         localStorage.setItem('user_theme', theme);
-    }, [theme]);
+        if (webApp?.DeviceStorage) {
+            void webApp.DeviceStorage.setItem('user_theme', theme);
+        }
+    }, [resolvedTheme, theme, webApp]);
+
+    useEffect(() => {
+        localStorage.setItem('app-appearance-mode', appearanceMode);
+        if (webApp?.DeviceStorage) {
+            void webApp.DeviceStorage.setItem('app-appearance-mode', appearanceMode);
+        }
+    }, [appearanceMode, webApp]);
 
     useEffect(() => {
         (window.WebApp as any)?.disableVerticalSwipes?.();
@@ -157,10 +210,12 @@ const App: React.FC = () => {
 
             if (storage && typeof storage.getItem === 'function') {
                 try {
-                    const [zodiacRes, acceptedRes, scaleRes] = await Promise.all([
+                    const [zodiacRes, acceptedRes, scaleRes, themeRes, modeRes] = await Promise.all([
                         storage.getItem('user_zodiac_index'),
                         storage.getItem('love_rhythm_accepted_v1'),
-                        storage.getItem('app-font-scale')
+                        storage.getItem('app-font-scale'),
+                        storage.getItem('user_theme'),
+                        storage.getItem('app-appearance-mode')
                     ]);
 
                     if (isMounted) {
@@ -174,6 +229,15 @@ const App: React.FC = () => {
                         }
                         if (scaleRes?.value) {
                             setFontScale(scaleRes.value as ScaleType);
+                        }
+                        if (themeRes?.value) {
+                            setTheme(themeRes.value);
+                            localStorage.setItem('user_theme', themeRes.value);
+                        }
+                        if (modeRes?.value) {
+                            const mode = modeRes.value as 'system' | 'light' | 'dark';
+                            setAppearanceMode(mode);
+                            localStorage.setItem('app-appearance-mode', mode);
                         }
                     }
                     clearTimeout(timeoutId);
@@ -221,7 +285,7 @@ const App: React.FC = () => {
         }
     }, [activeTab]);
 
-    if (isDesktop && !window.location.search.includes('force=mobile')) return <DesktopStub />;
+    // if (isDesktop && !window.location.search.includes('force=mobile')) return <DesktopStub />;
     if (!isStorageLoaded) return <div className="h-screen bg-[var(--c-bg)]" />;
 
     if (isTextSettingsOpen) {
@@ -231,6 +295,9 @@ const App: React.FC = () => {
                 setFontScale={setFontScale}
                 theme={theme}
                 setTheme={setTheme}
+                appearanceMode={appearanceMode}
+                setAppearanceMode={setAppearanceMode}
+                resolvedTheme={resolvedTheme}
             />
         );
     }
@@ -295,8 +362,8 @@ const App: React.FC = () => {
             <div className="flex-1 relative overflow-hidden">
                 <PageLayout className="h-full">
                     <div className="pb-6 h-full">
-                        {activeTab === 'rhythm' && <RhythmContainer zodiacName={selectedZodiac} fontScale={fontScale} onSetBackHandler={setBackHandler} />}
-                        {activeTab === 'love' && <LoveContainer zodiacName={selectedZodiac} fontScale={fontScale} onSetBackHandler={setBackHandler} />}
+                        {activeTab === 'rhythm' && <RhythmContainer zodiacName={selectedZodiac} fontScale={fontScale} onSetBackHandler={setBackHandler} resolvedTheme={resolvedTheme} />}
+                        {activeTab === 'love' && <LoveContainer zodiacName={selectedZodiac} fontScale={fontScale} onSetBackHandler={setBackHandler} resolvedTheme={resolvedTheme} />}
                         {activeTab === 'core' && <CoreContainer zodiacName={selectedZodiac} fontScale={fontScale} />}
                     </div>
                 </PageLayout>

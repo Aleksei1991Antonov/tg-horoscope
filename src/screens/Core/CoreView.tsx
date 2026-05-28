@@ -23,6 +23,8 @@ export const CoreView: React.FC<CoreViewProps> = ({
     const m = fontScale === 'large' ? 'text-[0.9375rem]' : 'text-[0.8125rem]';
     const s = fontScale === 'large' ? 'text-[0.75rem]' : 'text-[0.625rem]';
 
+    const bottomPadding = fontScale === 'large' ? 'pb-40' : 'pb-32';
+
     const ElementIcon = {
         fire: Flame,
         earth: Mountain,
@@ -31,7 +33,7 @@ export const CoreView: React.FC<CoreViewProps> = ({
     }[profile.element];
 
     return (
-        <div className="w-full min-h-screen bg-[var(--c-bg)] text-[var(--c-text)] animate-in fade-in duration-700 pb-20">
+        <div className={`w-full bg-[var(--c-bg)] text-[var(--c-text)] animate-in fade-in duration-700 ${bottomPadding}`}>
             <header className="pt-8 pb-12 px-6 text-center">
                 <div className="inline-flex items-center justify-center gap-2 opacity-30 mb-4">
                     <div className="w-8 h-[1px] bg-[var(--c-text)]" />

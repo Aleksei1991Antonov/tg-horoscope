@@ -21,6 +21,7 @@ interface LoveViewProps {
     onYearNext?: () => void;
     onSelectPartner: () => void;
     fontScale: 'small' | 'medium' | 'large';
+    resolvedTheme: string;
 }
 
 export const LoveView: React.FC<LoveViewProps> = ({
@@ -36,7 +37,8 @@ export const LoveView: React.FC<LoveViewProps> = ({
                                                         onYearPrev,
                                                         onYearNext,
                                                         onSelectPartner,
-                                                        fontScale
+                                                        fontScale,
+                                                        resolvedTheme
                                                     }) => {
 
     const safeForecast = useMemo(() => {
@@ -63,6 +65,20 @@ export const LoveView: React.FC<LoveViewProps> = ({
         });
         return { bestIdx, worstIdx };
     }, [yearlyForecast]);
+
+    const isMax = resolvedTheme === 'max-light' || resolvedTheme === 'max-dark';
+    const isMaxDark = resolvedTheme === 'max-dark';
+    const isLight = resolvedTheme === 'max-light' || resolvedTheme === 'morning-magic';
+
+    const progressGradient = 'linear-gradient(90deg, #00C2FF 0%, #4E3AFF 50%, #9D00FF 100%)';
+    const fillBorder = isMax ? '1px solid rgba(78,58,255,0.3)' : '1px solid rgba(255,255,255,0.2)';
+    const fillShadow = '0 2px 4px rgba(0,0,0,0.1)';
+    const glow = '0 0 15px rgba(78, 58, 255, 0.4)';
+    const trackShadow = 'inset 0 1px 3px rgba(0,0,0,0.1)';
+
+    const progressFill = isMax
+        ? { backgroundImage: progressGradient, backgroundSize: 'cover' as const, boxShadow: [fillShadow, isMaxDark ? glow : ''].filter(Boolean).join(', ') }
+        : { backgroundColor: 'var(--c-primary)' };
 
     const labelSize = fontScale === 'large' ? 'text-[0.8125rem]' : 'text-[0.625rem]';
     const headerLabelSize = fontScale === 'large' ? 'text-[0.75rem]' : 'text-[0.625rem]';
@@ -110,10 +126,15 @@ export const LoveView: React.FC<LoveViewProps> = ({
                         </div>
                     </div>
 
-                    <div className="w-full h-2.5 bg-black/[0.05] rounded-full overflow-hidden">
+                    <div className={`w-full h-3 rounded-full overflow-hidden ${isLight ? 'bg-black/10' : 'bg-white/10'}`}
+                         style={{ boxShadow: trackShadow }}>
                         <div
-                            className="h-full bg-[var(--c-primary)] transition-all duration-1000"
-                            style={{ width: `${synergyPercent}%` }}
+                            className="h-full rounded-full transition-all duration-1000 ease-out relative"
+                            style={{
+                                width: `${synergyPercent}%`,
+                                border: fillBorder,
+                                ...progressFill
+                            }}
                         />
                     </div>
                 </div>

@@ -111,7 +111,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = memo(({
                             </span>
                         </div>
 
-                        <div className="bg-[var(--c-surface)] p-1 rounded-2xl flex items-center relative border border-[var(--c-border)]">
+                        <div className="bg-[var(--c-surface-raise)] p-1 rounded-2xl flex items-center relative border border-[var(--c-border)]">
                             {scales.map((s) => (
                                 <button
                                     key={s.id}
@@ -141,7 +141,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = memo(({
 
                     <button
                         onClick={handleAccept}
-                        className="w-full py-[1.25rem] rounded-[1.5rem] flex items-center justify-center gap-[0.75rem] font-black uppercase tracking-[0.2em] italic text-[0.875rem] bg-[var(--c-primary)] text-[var(--c-bg)] active:scale-95 mb-[1.25rem] shadow-xl"
+                        className="w-full py-[1.25rem] rounded-[1.5rem] flex items-center justify-center gap-[0.75rem] font-black uppercase tracking-[0.2em] italic text-[0.875rem] text-white bg-accent-cta active:scale-95 mb-[1.25rem] shadow-blue-500/10"
                     >
                         <span>Начать путь</span>
                         <ChevronRight size="1.1rem" className="animate-bounce-x" />
@@ -161,8 +161,8 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = memo(({
 
                 <div className="text-center flex flex-col items-center gap-[0.5rem]">
                     <div className="h-[1px] w-[3rem] bg-[var(--c-surface-elevated)]" />
-                    <span className="text-[0.55rem] font-black text-[var(--c-text-20)] uppercase tracking-[0.5em]">
-                        ИП Антонов Алексей Олегович
+                    <span className="text-[0.55rem] font-black text-[var(--c-text-20)] uppercase tracking-[0.6em]">
+                        © ANTONOVKA
                     </span>
                 </div>
             </div>
