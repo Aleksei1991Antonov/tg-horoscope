@@ -1,5 +1,5 @@
-import React from 'react';
-import { Zap, Users, ShieldCheck, Info, Sparkles, Heart, Code2, type LucideIcon } from 'lucide-react';
+import React, { useState } from 'react';
+import { Zap, Users, ShieldCheck, Info, Sparkles, Heart, Code2, Copy, Check, type LucideIcon } from 'lucide-react';
 
 interface Section {
     Icon: LucideIcon;
@@ -13,7 +13,11 @@ interface Props {
     fontScale?: 'small' | 'medium' | 'large';
 }
 
+const GITHUB_URL = 'https://github.com/Aleksei1991Antonov/horoscope';
+
 export const RhythmKnowledgeView: React.FC<Props> = ({ fontScale = 'medium' }) => {
+    const [copied, setCopied] = useState(false);
+
     const sections: Section[] = [
         {
             Icon: Zap,
@@ -55,7 +59,7 @@ export const RhythmKnowledgeView: React.FC<Props> = ({ fontScale = 'medium' }) =
             title: "Открытый код",
             color: "text-[var(--c-secondary)]",
             description: "Исходный код приложения полностью открыт и доступен на GitHub. Вы можете изучить алгоритмы, предложить улучшения или использовать проект в своих целях. Любой желающий может форкнуть репозиторий и запустить свою версию.",
-            fact: <span>Репозиторий: <a href="https://github.com/Aleksei1991Antonov/horoscope" target="_blank" rel="noopener noreferrer" className="underline decoration-dotted underline-offset-2 hover:text-[var(--c-primary)] transition-colors">github.com/Aleksei1991Antonov/horoscope</a>. Стек: React, TypeScript, Vite, Tailwind CSS, Telegram Mini Apps.</span>
+            fact: <span>Репозиторий: <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" className="underline decoration-dotted underline-offset-2 hover:text-[var(--c-primary)] transition-colors">github.com/Aleksei1991Antonov/horoscope</a> <button onClick={() => { navigator.clipboard.writeText(GITHUB_URL); setCopied(true); setTimeout(() => setCopied(false), 2000); }} className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-[var(--c-primary)]/10 hover:bg-[var(--c-primary)]/20 transition-colors text-[0.625rem] font-bold text-[var(--c-primary)]">{copied ? <><Check size={10} />Скопировано</> : <><Copy size={10} />Копировать</>}</button>. Стек: React, TypeScript, Vite, Tailwind CSS, Telegram Mini Apps.</span>
         }
     ];
 
