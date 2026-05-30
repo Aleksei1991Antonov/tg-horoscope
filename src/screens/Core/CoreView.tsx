@@ -22,6 +22,7 @@ export const CoreView: React.FC<CoreViewProps> = ({
                                                   }) => {
     const m = fontScale === 'large' ? 'text-[0.9375rem]' : 'text-[0.8125rem]';
     const s = fontScale === 'large' ? 'text-[0.75rem]' : 'text-[0.625rem]';
+    const h1 = fontScale === 'large' ? 'text-[2.75rem]' : fontScale === 'small' ? 'text-[3.25rem]' : 'text-[3.5rem]';
 
     const bottomPadding = fontScale === 'large' ? 'pb-40' : 'pb-32';
 
@@ -41,7 +42,7 @@ export const CoreView: React.FC<CoreViewProps> = ({
                     <div className="w-8 h-[1px] bg-[var(--c-text)]" />
                 </div>
 
-                <h1 className="text-[3.5rem] font-black tracking-tighter leading-none mb-8">
+                <h1 className={`${h1} font-black tracking-tighter leading-none mb-8`}>
                     {profile.zodiacName}
                 </h1>
 
