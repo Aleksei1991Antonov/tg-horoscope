@@ -5,7 +5,7 @@ interface Section {
     Icon: LucideIcon;
     title: string;
     description: string;
-    fact: string;
+    fact: string | React.ReactNode;
     color: string;
 }
 
@@ -55,7 +55,7 @@ export const RhythmKnowledgeView: React.FC<Props> = ({ fontScale = 'medium' }) =
             title: "Открытый код",
             color: "text-[var(--c-secondary)]",
             description: "Исходный код приложения полностью открыт и доступен на GitHub. Вы можете изучить алгоритмы, предложить улучшения или использовать проект в своих целях. Любой желающий может форкнуть репозиторий и запустить свою версию.",
-            fact: "Репозиторий: github.com/Aleksei1991Antonov/horoscope. Стек: React, TypeScript, Vite, Tailwind CSS, Telegram Mini Apps."
+            fact: <span>Репозиторий: <a href="https://github.com/Aleksei1991Antonov/horoscope" target="_blank" rel="noopener noreferrer" className="underline decoration-dotted underline-offset-2 hover:text-[var(--c-primary)] transition-colors">github.com/Aleksei1991Antonov/horoscope</a>. Стек: React, TypeScript, Vite, Tailwind CSS, Telegram Mini Apps.</span>
         }
     ];
 
