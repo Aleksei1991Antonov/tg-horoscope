@@ -136,7 +136,7 @@ export const AppearanceSettingsView: React.FC<AppearanceSettingsViewProps> = mem
                         </div>
 
                         <p className={`${predictionTextSize} text-[var(--c-text-90)] font-medium leading-relaxed transition-none`}>
-                            Звезды говорят, что выбранный масштаб идеально подходит для чтения ваших прогнозов.
+                            Звёзды говорят, что выбранный масштаб идеально подходит для чтения ваших прогнозов.
                         </p>
                     </div>
                 </div>

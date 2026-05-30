@@ -39,3 +39,8 @@
 - Единый `theme` key в localStorage, без `user_dark_theme` / `user_color_scheme`
 - `LIGHT_TO_DARK` / `DARK_TO_LIGHT` маппинг в AppearanceSettingsView
 - `document.documentElement.dataset.theme` устанавливается в одном useEffect
+
+### Женский род для ЦА «Карьеристка»
+- Все тексты гороскопа (signHoroscope.ts) — в женском роде (`ты способна`, `будь готова`, `ты построила`)
+- Унисекс-подход отменён: ЦА однородная (женщины 28–35), переключение пола не нужно
+- `lunarInterpretations.ts` уже был в женском — не тронут

@@ -94,7 +94,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = memo(({
                 <p className={`text-[var(--c-text-40)] leading-relaxed max-w-[18rem] font-medium px-4 transition-all duration-300 ${
                     fontScale === 'large' ? 'text-[1.1rem]' : fontScale === 'small' ? 'text-[0.85rem]' : 'text-[0.95rem]'
                 }`}>
-                    Ваша персональная карта звездных ритмов для гармонии в жизни и чувствах.
+                    Ваша персональная карта звёздных ритмов для гармонии в жизни и чувствах.
                 </p>
             </div>
 
