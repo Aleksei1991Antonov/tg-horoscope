@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import {
-    Shield, FileText, BookOpen, Apple,
+    Shield, FileText, BookOpen, Apple, Smartphone,
     ChevronDown, Copy, Check, Mail, Type, ChevronRight, ExternalLink
 } from 'lucide-react';
 
@@ -28,6 +28,7 @@ export const MenuView: React.FC<MenuViewProps> = ({
                                                   }) => {
     const [isLegalOpen, setIsLegalOpen] = useState(false);
     const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
+    const [isInstallModalOpen, setIsInstallModalOpen] = useState(false);
     const [copiedField, setCopiedField] = useState<string | null>(null);
     const creatorRef = useRef<HTMLDivElement>(null);
 
@@ -63,8 +64,11 @@ export const MenuView: React.FC<MenuViewProps> = ({
     };
 
     useEffect(() => {
-        onSetBackHandler(isPhotoModalOpen ? () => setIsPhotoModalOpen(false) : null);
-    }, [isPhotoModalOpen, onSetBackHandler]);
+        onSetBackHandler(isPhotoModalOpen || isInstallModalOpen ? () => {
+            if (isPhotoModalOpen) setIsPhotoModalOpen(false);
+            if (isInstallModalOpen) setIsInstallModalOpen(false);
+        } : null);
+    }, [isPhotoModalOpen, isInstallModalOpen, onSetBackHandler]);
 
     if (!isOpen) return null;
 
@@ -99,6 +103,21 @@ export const MenuView: React.FC<MenuViewProps> = ({
                                                 <div className={`${itemTitleSize} font-black text-[var(--c-text)] uppercase`}>Оформление</div>
                                                 <div className={`${itemSubtextSize} text-[var(--c-text-30)] uppercase font-bold tracking-tight`}>
                                                     Шрифт и тема
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <ChevronRight size={18} className="text-[var(--c-text-10)]" />
+                                    </button>
+                                    <button
+                                        onClick={() => { void triggerSuccessHaptic(); setIsInstallModalOpen(true); }}
+                                        className="w-full p-[1.25rem] rounded-[1.2rem] bg-[var(--c-surface)] border border-[var(--c-border)] flex items-center justify-between active:scale-[0.98] transition-all"
+                                    >
+                                        <div className="flex items-center gap-[0.75rem]">
+                                            <Smartphone size="1.25rem" className="text-[var(--c-primary)] shrink-0" />
+                                            <div className="text-left">
+                                                <div className={`${itemTitleSize} font-black text-[var(--c-text)] uppercase`}>На экран</div>
+                                                <div className={`${itemSubtextSize} text-[var(--c-text-30)] uppercase font-bold tracking-tight`}>
+                                                    Ярлык на телефоне
                                                 </div>
                                             </div>
                                         </div>
@@ -248,6 +267,50 @@ export const MenuView: React.FC<MenuViewProps> = ({
                             <div className="text-[0.875rem] font-black uppercase tracking-[0.3em] text-[var(--c-primary)]">Алексей Антонов</div>
                             <div className="text-[0.55rem] text-[var(--c-text-30)] uppercase mt-[0.25rem] tracking-widest font-bold">Автор</div>
                         </div>
+                    </div>
+                </div>
+            )}
+
+            {isInstallModalOpen && (
+                <div className="fixed inset-0 z-[2000] bg-black/40 backdrop-blur-sm flex items-center justify-center p-6" onClick={() => setIsInstallModalOpen(false)}>
+                    <div className="w-full max-w-[22rem] bg-[var(--c-surface)] rounded-[32px] p-6 border border-[var(--c-border)] shadow-2xl" onClick={(e) => e.stopPropagation()}>
+                        <div className="flex items-center gap-3 mb-5">
+                            <Smartphone size="1.25rem" className="text-[var(--c-primary)]" />
+                            <h2 className="text-lg font-black text-[var(--c-text)] uppercase tracking-wider">На экран дома</h2>
+                        </div>
+
+                        <p className="text-[0.75rem] text-[var(--c-text-60)] font-medium leading-relaxed mb-5">
+                            Добавьте приложение на главный экран телефона, чтобы открывать его в один клик без поиска в MAX.
+                        </p>
+
+                        <div className="space-y-3 mb-6">
+                            <div className="p-3 rounded-xl bg-[var(--c-surface)] border border-[var(--c-border)]">
+                                <div className="font-black text-[0.65rem] text-[var(--c-text)] uppercase mb-1">На Android</div>
+                                <p className="text-[0.6rem] text-[var(--c-text-40)] font-medium leading-relaxed">
+                                    Откройте в браузере → ⋮ → Добавить на главный экран
+                                </p>
+                            </div>
+                            <div className="p-3 rounded-xl bg-[var(--c-surface)] border border-[var(--c-border)]">
+                                <div className="font-black text-[0.65rem] text-[var(--c-text)] uppercase mb-1">На iPhone</div>
+                                <p className="text-[0.6rem] text-[var(--c-text-40)] font-medium leading-relaxed">
+                                    Откройте в Safari → ⎙ → На экран дома
+                                </p>
+                            </div>
+                        </div>
+
+                        <button
+                            onClick={() => { void triggerSuccessHaptic(); window.WebApp?.openLink('https://aleksei1991antonov.github.io/horoscope/'); }}
+                            className="w-full py-3 rounded-2xl bg-[var(--c-primary)] text-white font-black text-[0.75rem] uppercase tracking-wider active:scale-[0.98] transition-transform mb-2"
+                        >
+                            Открыть в браузере
+                        </button>
+
+                        <button
+                            onClick={() => { void triggerSuccessHaptic(); setIsInstallModalOpen(false); }}
+                            className="w-full py-2 text-[0.65rem] font-bold text-[var(--c-text-30)] uppercase tracking-wider active:opacity-60 transition-opacity"
+                        >
+                            Закрыть
+                        </button>
                     </div>
                 </div>
             )}

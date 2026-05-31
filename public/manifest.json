@@ -1,0 +1,17 @@
+{
+  "name": "Гороскоп — персональный астропрогноз",
+  "short_name": "Гороскоп",
+  "description": "Ежедневные прогнозы на основе астрологии. Фокус, состояние, опора.",
+  "start_url": "/horoscope/",
+  "display": "standalone",
+  "background_color": "#FAF7F0",
+  "theme_color": "#DD9686",
+  "icons": [
+    {
+      "src": "/horoscope/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
