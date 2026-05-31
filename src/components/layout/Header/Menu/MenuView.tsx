@@ -287,7 +287,7 @@ export const MenuView: React.FC<MenuViewProps> = ({
                             <div className="p-3 rounded-xl bg-[var(--c-surface)] border border-[var(--c-border)]">
                                 <div className="font-black text-[0.65rem] text-[var(--c-text)] uppercase mb-1">На Android</div>
                                 <p className="text-[0.6rem] text-[var(--c-text-40)] font-medium leading-relaxed">
-                                    Откройте в браузере → ⋮ → Добавить на главный экран
+                                    Откройте в Chrome → ⋮ → Добавить на главный экран
                                 </p>
                             </div>
                             <div className="p-3 rounded-xl bg-[var(--c-surface)] border border-[var(--c-border)]">
@@ -298,11 +298,15 @@ export const MenuView: React.FC<MenuViewProps> = ({
                             </div>
                         </div>
 
+                        <p className="text-[0.55rem] text-[var(--c-text-30)] font-medium leading-relaxed mb-5 text-center">
+                            При открытии ярлык сразу запустит MAX с приложением
+                        </p>
+
                         <button
-                            onClick={() => { void triggerSuccessHaptic(); window.WebApp?.openLink('https://aleksei1991antonov.github.io/horoscope/'); }}
+                            onClick={() => { void triggerSuccessHaptic(); window.WebApp?.openLink('https://aleksei1991antonov.github.io/horoscope/install.html'); }}
                             className="w-full py-3 rounded-2xl bg-[var(--c-primary)] text-white font-black text-[0.75rem] uppercase tracking-wider active:scale-[0.98] transition-transform mb-2"
                         >
-                            Открыть в браузере
+                            Добавить на экран
                         </button>
 
                         <button
