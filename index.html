@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta http-equiv="Content-Security-Policy" content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap: content:; script-src * 'self' 'unsafe-inline' 'unsafe-eval' https://mc.yandex.ru https://yastatic.net https://telegram.org https://yookassa.ru; connect-src * 'self' 'unsafe-inline' 'unsafe-eval' https://mc.yandex.ru https://yookassa.ru; img-src * 'self' data: https://mc.yandex.ru; style-src * 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; frame-src * https://yookassa.ru;">
+  <meta http-equiv="Content-Security-Policy" content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap: content:; script-src * 'self' 'unsafe-inline' 'unsafe-eval' https://mc.yandex.ru https://yastatic.net https://telegram.org https://yookassa.ru; connect-src * 'self' 'unsafe-inline' 'unsafe-eval' https://mc.yandex.ru https://yookassa.ru https://functions.yandexcloud.net; img-src * 'self' data: https://mc.yandex.ru; style-src * 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; frame-src * https://yookassa.ru;">
 
   <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,7 +13,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <script src="https://telegram.org/js/telegram-web-app.js?1"></script>
+  <script src="https://telegram.org/js/telegram-web-app.js?62"></script>
+  <script>
+    if (window.Telegram?.WebApp) {
+      window.Telegram.WebApp.ready();
+      window.Telegram.WebApp.expand();
+    }
+  </script>
   <script src="https://yookassa.ru/checkout-widget/v1/checkout-widget.js" async></script>
 
   <title>Гороскоп</title>
@@ -28,7 +34,7 @@
 
     ym(110472122, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
   </script>
-  <script type="module" crossorigin src="./assets/main-BTLL1TYb.js"></script>
+  <script type="module" crossorigin src="./assets/main-_ksxMTFj.js"></script>
   <link rel="stylesheet" crossorigin href="./assets/main-COtjx_rD.css">
 </head>
 <body>
