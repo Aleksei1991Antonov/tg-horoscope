@@ -51,7 +51,7 @@ const SUBSCRIPTION_CHANNEL_URL = 'https://t.me/horoscope_nova';
 const App: React.FC = () => {
     const [activeTab, setActiveTab] = useState('rhythm');
     const [isStorageLoaded, setIsStorageLoaded] = useState(false);
-    const [accessState, setAccessState] = useState<'loading' | 'granted' | 'denied'>('loading');
+    const [accessState, setAccessState] = useState<'granted' | 'denied'>('granted');
     const [isRetrying, setIsRetrying] = useState(false);
 
     const [selectedZodiac, setSelectedZodiac] = useState<string>(() => {
@@ -207,13 +207,11 @@ const App: React.FC = () => {
         }
 
         if (storage.getItem('has_astro_access') === 'true') {
-            setAccessState('granted');
             return;
         }
 
         const userId = tg?.initDataUnsafe?.user?.id;
         if (!userId) {
-            setAccessState('granted');
             return;
         }
 
@@ -222,12 +220,10 @@ const App: React.FC = () => {
             const data = await res.json();
             if (data.subscribed) {
                 storage.setItem('has_astro_access', 'true');
-                setAccessState('granted');
             } else {
                 setAccessState('denied');
             }
         } catch {
-            setAccessState('granted');
         }
     }, []);
 
@@ -316,7 +312,7 @@ const App: React.FC = () => {
         }
     }, [activeTab]);
 
-    if (!isStorageLoaded || accessState === 'loading') return <div className="h-screen bg-[var(--c-bg)]" />;
+    if (!isStorageLoaded) return <div className="h-screen bg-[var(--c-bg)]" />;
 
     if (accessState === 'denied') {
         return (
