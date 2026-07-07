@@ -37,7 +37,7 @@ document.documentElement.dataset.theme = initTheme;
 const metaCs = document.querySelector<HTMLMetaElement>('meta[name="color-scheme"]');
 if (metaCs) metaCs.content = isInitDark ? 'dark' : 'light';
 
-const SUBSCRIPTION_CHANNEL_URL = 'https://t.me/your_channel';
+const SUBSCRIPTION_CHANNEL_URL = 'https://t.me/horoscope_nova';
 
 const App: React.FC = () => {
     const [activeTab, setActiveTab] = useState('rhythm');
@@ -194,7 +194,7 @@ const App: React.FC = () => {
         }
 
         try {
-            const res = await fetch(`https://functions.yandexcloud.net/d4es9dsapgutf8p2k4m6?user_id=${userId}`);
+            const res = await fetch(`https://functions.yandexcloud.net/d4enor9kt9ttaemtlj0p?user_id=${userId}`);
             const data = await res.json();
             if (data.subscribed) {
                 storage.setItem('has_astro_access', 'true');
@@ -235,7 +235,7 @@ const App: React.FC = () => {
             }
 
             try {
-                const res = await fetch(`https://functions.yandexcloud.net/d4es9dsapgutf8p2k4m6?user_id=${userId}`);
+                const res = await fetch(`https://functions.yandexcloud.net/d4enor9kt9ttaemtlj0p?user_id=${userId}`);
                 const data = await res.json();
                 if (data.subscribed) {
                     storage.setItem('has_astro_access', 'true');

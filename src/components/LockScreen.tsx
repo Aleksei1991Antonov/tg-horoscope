@@ -60,7 +60,7 @@ const getCooldown = (): number => {
 
 const LockScreen: React.FC<LockScreenProps> = ({ channelUrl, fontScale, isRetrying, onRetry }) => {
     const handleSubscribe = () => {
-        window.Telegram?.WebApp?.openLink(channelUrl);
+        window.Telegram?.WebApp?.openTelegramLink(channelUrl);
     };
 
     const [cooldown, setCooldown] = useState(0);
