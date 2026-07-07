@@ -205,17 +205,6 @@ export const NOVAPremiumView: React.FC<NOVAPremiumViewProps> = ({ fontScale, res
         return data as { payment_id: string; confirmation_token?: string; confirmation_url?: string };
     };
 
-    const handlePurchase = () => {
-        if (paymentId) {
-            setPaymentId(null);
-            storage.removeItem('nova_pending_payment');
-        }
-        setPayMsg('');
-        setEmailDraft('');
-        setEmailError('');
-        setShowEmailInput(true);
-    };
-
     const startPayment = async (receipt: { phone?: string; email?: string }) => {
         setPaymentLoading(true);
         setPayMsg('');
@@ -505,8 +494,8 @@ export const NOVAPremiumView: React.FC<NOVAPremiumViewProps> = ({ fontScale, res
                             Доступно для смартфона
                         </button>
                     ) : (
-                        <button onClick={() => { void handlePurchase(); }} disabled={paymentLoading} className="w-full py-4 rounded-2xl bg-gradient-to-r from-[var(--c-primary)] to-[var(--c-secondary)] text-white font-black text-[0.75rem] uppercase tracking-widest shadow-lg disabled:opacity-50 cursor-not-allowed">
-                            Купить — {discountPrice || 199} ₽ за 30 дней
+                        <button disabled className="w-full py-4 rounded-2xl bg-[var(--c-fill)] border border-[var(--c-border)] text-[var(--c-text-30)] font-black text-[0.75rem] uppercase tracking-widest cursor-not-allowed">
+                            Скоро в продаже
                         </button>
                     )}
                     <div className="text-[0.4rem] text-center text-[var(--c-text)] opacity-40 leading-relaxed font-normal">Единоразовый платёж без автопродления<br/>По цене чашечки кофе</div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { Navigation } from './components/layout/Navigation';
 import { PageLayout } from './components/layout/PageLayout';
 import { HeaderContainer as Header } from './components/layout/Header/HeaderContainer';
@@ -31,11 +31,20 @@ const DARK_TO_LIGHT: Record<string, string> = {};
 for (const [k, v] of Object.entries(LIGHT_TO_DARK)) DARK_TO_LIGHT[v] = k;
 const ALL_DARK_KEYS = new Set(Object.values(LIGHT_TO_DARK));
 
-const initTheme = localStorage.getItem('user_theme') || (tg?.colorScheme === 'dark' ? 'max-dark' : 'max-light');
-const isInitDark = ALL_DARK_KEYS.has(initTheme);
-document.documentElement.dataset.theme = initTheme;
+const initMode = (localStorage.getItem('app-appearance-mode') as 'system' | 'light' | 'dark') || 'system';
+const initTheme = localStorage.getItem('user_theme') || 'max-light';
+const initSystemDark = tg?.colorScheme === 'dark';
+const computeResolvedTheme = (theme: string, mode: 'system' | 'light' | 'dark', systemDark: boolean): string => {
+    const wantsDark = mode === 'dark' || (mode === 'system' && systemDark);
+    const isDarkTheme = ALL_DARK_KEYS.has(theme);
+    if (wantsDark && !isDarkTheme) return LIGHT_TO_DARK[theme] || 'max-dark';
+    if (!wantsDark && isDarkTheme) return DARK_TO_LIGHT[theme] || 'max-light';
+    return theme;
+};
+const initResolved = computeResolvedTheme(initTheme, initMode, initSystemDark);
+document.documentElement.dataset.theme = initResolved;
 const metaCs = document.querySelector<HTMLMetaElement>('meta[name="color-scheme"]');
-if (metaCs) metaCs.content = isInitDark ? 'dark' : 'light';
+if (metaCs) metaCs.content = initSystemDark ? 'dark' : 'light';
 
 const SUBSCRIPTION_CHANNEL_URL = 'https://t.me/horoscope_nova';
 
@@ -96,10 +105,29 @@ const App: React.FC = () => {
     });
 
     const [theme, setTheme] = useState<string>(() => {
-        return localStorage.getItem('user_theme') || (tg?.colorScheme === 'dark' ? 'max-dark' : 'max-light');
+        return localStorage.getItem('user_theme') || 'max-light';
     });
 
-    const resolvedTheme = theme;
+    const [appearanceMode, setAppearanceMode] = useState<'system' | 'light' | 'dark'>(() => {
+        return (localStorage.getItem('app-appearance-mode') as 'system' | 'light' | 'dark') || 'system';
+    });
+
+    const [systemPrefersDark, setSystemPrefersDark] = useState<boolean>(() => {
+        return tg?.colorScheme === 'dark';
+    });
+
+    useEffect(() => {
+        const handler = () => {
+            setSystemPrefersDark(window.Telegram?.WebApp?.colorScheme === 'dark');
+        };
+        tg?.onEvent?.('themeChanged', handler);
+        return () => tg?.offEvent?.('themeChanged', handler);
+    }, []);
+
+    const resolvedTheme = useMemo(() => {
+        return computeResolvedTheme(theme, appearanceMode, systemPrefersDark);
+    }, [theme, appearanceMode, systemPrefersDark]);
+
     const isDarkTheme = ALL_DARK_KEYS.has(resolvedTheme);
 
     useEffect(() => {
@@ -107,7 +135,8 @@ const App: React.FC = () => {
         const metaCs = document.querySelector<HTMLMetaElement>('meta[name="color-scheme"]');
         if (metaCs) metaCs.content = isDarkTheme ? 'dark' : 'light';
         localStorage.setItem('user_theme', theme);
-    }, [resolvedTheme, theme]);
+        localStorage.setItem('app-appearance-mode', appearanceMode);
+    }, [resolvedTheme, theme, appearanceMode]);
 
     useEffect(() => {
         tg?.ready();
@@ -332,6 +361,8 @@ const App: React.FC = () => {
                 setFontScale={setFontScale}
                 theme={theme}
                 setTheme={setTheme}
+                appearanceMode={appearanceMode}
+                setAppearanceMode={setAppearanceMode}
                 resolvedTheme={resolvedTheme}
             />
         );

@@ -29,7 +29,7 @@ export const HeaderContainer: React.FC<HeaderContainerProps> = ({
     const [userName] = useState(() => {
         const user = window.Telegram?.WebApp?.initDataUnsafe?.user;
         if (user) {
-            return (user.username || user.first_name || "ГОСТЬ").toUpperCase();
+            return (user.first_name || user.username || "ГОСТЬ").toUpperCase();
         }
         return "ГОСТЬ";
     });

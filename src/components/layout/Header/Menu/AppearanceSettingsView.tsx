@@ -1,5 +1,5 @@
 import React, { memo, useState } from 'react';
-import { Trash2, MoonStar, Sparkles, Sun, Moon, Lock } from 'lucide-react';
+import { Trash2, MoonStar, Sparkles, Sun, Moon, Lock, Monitor } from 'lucide-react';
 import { triggerSuccessHaptic } from '../../../../utils/haptics';
 
 const LIGHT_TO_DARK: Record<string, string> = {
@@ -20,14 +20,17 @@ interface AppearanceSettingsViewProps {
     setFontScale: (scale: 'small' | 'medium' | 'large') => void;
     theme: string;
     setTheme: (theme: string) => void;
+    appearanceMode: 'system' | 'light' | 'dark';
+    setAppearanceMode: (mode: 'system' | 'light' | 'dark') => void;
     resolvedTheme: string;
 }
 
 export const AppearanceSettingsView: React.FC<AppearanceSettingsViewProps> = memo(({
     fontScale,
     setFontScale,
-    theme,
     setTheme,
+    appearanceMode,
+    setAppearanceMode,
     resolvedTheme,
 }) => {
     const isDark = ALL_DARK_KEYS.has(resolvedTheme);
@@ -73,10 +76,13 @@ export const AppearanceSettingsView: React.FC<AppearanceSettingsViewProps> = mem
     const iconSize = fontScale === 'large' ? 32 : 24;
     const iconPadding = fontScale === 'large' ? 'p-4' : 'p-3';
 
-    const toggleDark = () => {
-        const target = isDark ? DARK_TO_LIGHT[theme] || 'max-light' : LIGHT_TO_DARK[theme] || 'max-dark';
-        setTheme(target);
-    };
+    const appearanceModes = [
+        { id: 'system' as const, label: 'Система', Icon: Monitor },
+        { id: 'light' as const, label: 'Светлая', Icon: Sun },
+        { id: 'dark' as const, label: 'Тёмная', Icon: Moon },
+    ];
+
+    const modeIndex = appearanceModes.findIndex(m => m.id === appearanceMode);
 
     return (
         <div className="absolute inset-0 z-[5000] bg-[var(--c-bg)] flex flex-col font-manrope overflow-hidden">
@@ -149,21 +155,37 @@ export const AppearanceSettingsView: React.FC<AppearanceSettingsViewProps> = mem
                     </div>
                 </div>
 
-                {/* Dark/Light Toggle */}
+                {/* Appearance Mode */}
                 <div className="space-y-4">
                     <div className="text-[0.6875rem] font-bold text-[var(--c-text-30)] uppercase tracking-[0.2em] px-1">Оформление</div>
-                    <button
-                        onClick={() => { void triggerSuccessHaptic(); toggleDark(); }}
-                        className="w-full p-4 rounded-2xl bg-[var(--c-surface)] border border-[var(--c-border)] flex items-center justify-between active:scale-[0.98] transition-all"
-                    >
-                        <div className="flex items-center gap-3">
-                            {isDark ? <Moon size={16} className="text-[var(--c-primary)]" /> : <Sun size={16} className="text-[var(--c-primary)]" />}
-                            <span className="text-[0.625rem] font-black uppercase tracking-wider text-[var(--c-text)]">
-                                {isDark ? 'Тёмная тема' : 'Светлая тема'}
-                            </span>
-                        </div>
-                        <span className="text-[0.5rem] font-bold text-[var(--c-text-30)] uppercase tracking-wider">Нажмите для смены</span>
-                    </button>
+                    <div className="bg-[var(--c-surface)] p-1 rounded-2xl flex items-center relative border border-[var(--c-border)]">
+                        {appearanceModes.map(mode => {
+                            const Icon = mode.Icon;
+                            const active = appearanceMode === mode.id;
+                            return (
+                                <button
+                                    key={mode.id}
+                                    onClick={() => { void triggerSuccessHaptic(); setAppearanceMode(mode.id); }}
+                                    className="relative z-10 flex-1 py-3 flex items-center justify-center gap-2"
+                                >
+                                    <Icon
+                                        size={16}
+                                        className={active ? 'text-[var(--c-text)]' : 'text-[var(--c-text-20)]'}
+                                    />
+                                    <span className={`text-[0.625rem] font-black uppercase tracking-wider ${active ? 'text-[var(--c-text)]' : 'text-[var(--c-text-20)]'}`}>
+                                        {mode.label}
+                                    </span>
+                                </button>
+                            );
+                        })}
+                        <div
+                            className="absolute top-1 bottom-1 transition-all duration-300 ease-out bg-[var(--c-surface-elevated)] rounded-xl border border-[var(--c-border)]"
+                            style={{
+                                width: 'calc(33.33% - 4px)',
+                                left: `calc(${modeIndex} * (33.33%) + 4px)`
+                            }}
+                        />
+                    </div>
                 </div>
 
                 {/* Theme Selector */}
