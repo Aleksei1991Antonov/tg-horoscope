@@ -138,11 +138,6 @@ const App: React.FC = () => {
         localStorage.setItem('app-appearance-mode', appearanceMode);
     }, [resolvedTheme, theme, appearanceMode]);
 
-    useEffect(() => {
-        tg?.ready();
-        tg?.expand();
-    }, []);
-
     const backBtnRef = useRef<(() => void) | null>(null);
 
     useEffect(() => {
@@ -296,29 +291,9 @@ const App: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        let isMounted = true;
-        const finalizeLoading = () => {
-            if (isMounted) setIsStorageLoaded(true);
-        };
-
-        const loadAppData = async () => {
-            const timeoutId = setTimeout(() => {
-                if (!isStorageLoaded) {
-                    applyFallbackData();
-                    finalizeLoading();
-                }
-            }, 800);
-
-            if (isMounted) {
-                clearTimeout(timeoutId);
-                applyFallbackData();
-                finalizeLoading();
-            }
-        };
-
-        void loadAppData();
-        return () => { isMounted = false; };
-    }, [applyFallbackData, isStorageLoaded]);
+        applyFallbackData();
+        setIsStorageLoaded(true);
+    }, [applyFallbackData]);
 
     const handleZodiacSelect = (index: number) => {
         void triggerSuccessHaptic();

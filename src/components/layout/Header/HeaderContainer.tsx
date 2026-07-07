@@ -26,13 +26,26 @@ export const HeaderContainer: React.FC<HeaderContainerProps> = ({
                                                                          onOpenLegalDoc,
                                                                          onSetBackHandler
                                                                      }) => {
-    const [userName] = useState(() => {
-        const user = window.Telegram?.WebApp?.initDataUnsafe?.user;
-        if (user) {
-            return (user.first_name || user.username || "ГОСТЬ").toUpperCase();
+    const [userName, setUserName] = useState<string>("ГОСТЬ");
+
+    useEffect(() => {
+        const tryGetUser = () => {
+            const user = window.Telegram?.WebApp?.initDataUnsafe?.user;
+            if (user?.first_name) {
+                setUserName(user.first_name.toUpperCase());
+                return true;
+            }
+            if (user?.username) {
+                setUserName(user.username.toUpperCase());
+                return true;
+            }
+            return false;
+        };
+        if (!tryGetUser()) {
+            const id = setTimeout(tryGetUser, 100);
+            return () => clearTimeout(id);
         }
-        return "ГОСТЬ";
-    });
+    }, []);
 
     const [isZodiacModalOpen, setIsZodiacModalOpen] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
