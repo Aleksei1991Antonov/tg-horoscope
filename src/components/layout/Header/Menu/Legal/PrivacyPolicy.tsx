@@ -1,5 +1,5 @@
 import React from 'react';
-import { Shield, Lock, Database, Info, Scale, Mail, Users, BarChart3, CreditCard } from 'lucide-react';
+import { Shield, Lock, Database, Info, Scale, Mail, Users, BarChart3 } from 'lucide-react';
 
 interface PrivacyPolicyProps {
     onBack: () => void;
@@ -25,7 +25,7 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onBack, fontScale 
                     <h2 className={`${headerTitleSize} font-black text-[var(--c-text)] uppercase`}>
                         Политика конфиденциальности
                     </h2>
-                    <p className="text-[0.5rem] text-[var(--c-text-20)] uppercase font-bold tracking-widest">Типовая форма платформы MAX</p>
+                    <p className="text-[0.5rem] text-[var(--c-text-20)] uppercase font-bold tracking-widest">Политика конфиденциальности приложения «Гороскоп»</p>
                 </div>
             </div>
 
@@ -39,11 +39,11 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onBack, fontScale 
                         <h3 className={`${sectionTitleSize} font-black uppercase tracking-widest`}>1. Основные понятия</h3>
                     </div>
                     <div className={`${bodyTextSize} leading-relaxed text-[var(--c-text-60)] font-medium space-y-2`}>
-                        <p><span className="text-[var(--c-text)]">1.1. Сервис</span> – сервис «MAX», доступный по адресу <button onClick={() => window.WebApp?.openLink('https://web.max.ru')} className="text-[var(--c-primary)] underline">web.max.ru</button>.</p>
+                        <p><span className="text-[var(--c-text)]">1.1. Сервис</span> – сервис «MAX», доступный по адресу <button onClick={() => window.Telegram?.WebApp?.openLink('https://web.max.ru')} className="text-[var(--c-primary)] underline">web.max.ru</button>.</p>
                         <p><span className="text-[var(--c-text)]">1.2. Разработчик</span> – ИП Антонов Алексей Олегович (ОГРНИП 326760000001804), разместивший Приложение на Сервисе.</p>
                         <p><span className="text-[var(--c-text)]">1.3. Компания</span> – ООО «MAX» (ИНН: 9714058267, ОГРН: 1247700595230, г. Москва, Ленинградский пр-кт, д. 39, стр. 79).</p>
                         <p><span className="text-[var(--c-text)]">1.4. Приложение</span> – программное обеспечение «Гороскоп», размещенное на Сервисе.</p>
-                        <p><span className="text-[var(--c-text)]">1.6. Политика</span> – настоящая Типовая политика конфиденциальности.</p>
+                        <p><span className="text-[var(--c-text)]">1.5. Политика</span> – настоящая Политика конфиденциальности приложения «Гороскоп».</p>
                     </div>
                 </section>
 
@@ -53,9 +53,12 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onBack, fontScale 
                         <Scale size="1.25rem" className="shrink-0" />
                         <h3 className={`${sectionTitleSize} font-black uppercase tracking-widest`}>2. Общие положения</h3>
                     </div>
-                    <p className={`${bodyTextSize} leading-relaxed text-[var(--c-text-60)] font-medium`}>
-                        2.1. Настоящая Политика является официальным документом Разработчика. 2.2. Целью является обеспечение защиты информации о Пользователях от несанкционированного доступа. 2.4. Редакция доступна по ссылке: <button onClick={() => window.WebApp?.openLink('https://dev.max.ru/docs/legal/privacy')} className="text-[var(--c-primary)] underline">dev.max.ru/docs/legal/privacy</button>.
-                    </p>
+                    <div className={`${bodyTextSize} leading-relaxed text-[var(--c-text-60)] font-medium space-y-2`}>
+                        <p>2.1. Настоящая Политика является официальным документом Разработчика.</p>
+                        <p>2.2. Целью является обеспечение защиты информации о Пользователях от несанкционированного доступа.</p>
+                        <p>2.3. Пользователь, начиная использование Приложения, выражает согласие с настоящей Политикой.</p>
+                        <p>2.4. Редакция доступна по ссылке: <button onClick={() => window.Telegram?.WebApp?.openLink('https://dev.max.ru/docs/legal/privacy')} className="text-[var(--c-primary)] underline">dev.max.ru/docs/legal/privacy</button>.</p>
+                    </div>
                 </section>
 
                 {/* 3. Цели обработки */}
@@ -75,33 +78,24 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onBack, fontScale 
                         <Database size="1.25rem" className="shrink-0" />
                         <h3 className={`${sectionTitleSize} font-black uppercase tracking-widest`}>4. Состав обрабатываемой информации</h3>
                     </div>
-                    <div className={`${bodyTextSize} leading-relaxed text-[var(--c-text-60)] font-medium space-y-3`}>
-                        <p>4.1. <span className="text-[var(--c-text)]">Данные профиля:</span> имя, фамилия, аватар, ID пользователя в Сервисе.</p>
-                        <p>4.2. <span className="text-[var(--c-text)]">Дополнительно:</span> номер телефона (только при явном согласии).</p>
-                        <p>4.3. <span className="text-[var(--c-text)]">Иная информация:</span> дата рождения для расчетов, а также обезличенные данные аналитики.</p>
-                    </div>
-                </section>
-
-                {/* Дополнение: Аналитика и Платежи */}
-                <section className="space-y-4 border-l-2 border-[var(--c-primary)]/30 pl-4 py-1">
-                    <div className="space-y-4">
-                        <div className="flex items-center gap-3 text-[var(--c-primary)]">
-<BarChart3 size="1.25rem" className="shrink-0" />
-                            <h3 className={`${sectionTitleSize} font-black uppercase tracking-widest`}>Аналитические инструменты</h3>
-                        </div>
-                        <p className={`${bodyTextSize} leading-relaxed text-[var(--c-text-60)] font-medium`}>
-                            Для улучшения качества Сервиса Разработчик использует инструмент <span className="text-[var(--c-text)] font-bold">Яндекс Метрика</span>. Обработка данных через данный инструмент носит обезличенный характер и не позволяет идентифицировать личность Пользователя.
-                        </p>
-                    </div>
-
-                    <div className="space-y-4 pt-4">
-                        <div className="flex items-center gap-3 text-[var(--c-primary)]">
-<CreditCard size="1.25rem" className="shrink-0" />
-                            <h3 className={`${sectionTitleSize} font-black uppercase tracking-widest`}>Платежные операции</h3>
-                        </div>
-                        <p className={`${bodyTextSize} leading-relaxed text-[var(--c-text-60)] font-medium`}>
-                            Все финансовые операции (добровольные пожертвования) осуществляются через защищенный шлюз <span className="text-[var(--c-text)] font-bold">ЮMoney</span>. Разработчик не получает доступа к платежным реквизитам и данным банковских карт Пользователя.
-                        </p>
+                    <div className={`${bodyTextSize} leading-relaxed text-[var(--c-text-60)] font-medium space-y-2`}>
+                        <p>4.1. Разработчик может получать от платформы MAX следующие сведения о Пользователе:</p>
+                        <ul className="list-disc list-inside space-y-1 pl-2">
+                            <li>идентификатор пользователя;</li>
+                            <li>имя и фамилию;</li>
+                            <li>изображение профиля (аватар);</li>
+                            <li>иные данные, передаваемые платформой MAX в рамках предоставленных Пользователем разрешений.</li>
+                        </ul>
+                        <p>4.2. Для предоставления функциональности Приложения Пользователь может самостоятельно указывать:</p>
+                        <ul className="list-disc list-inside space-y-1 pl-2">
+                            <li>дату рождения;</li>
+                            <li>настройки отображения;</li>
+                            <li>иные сведения, необходимые для формирования персонализированного контента.</li>
+                        </ul>
+                        <p>4.3. Для обеспечения работы Приложения могут обрабатываться технические данные устройства и сведения о настройках Приложения.</p>
+                        <p>4.4. Для учёта приобретённой Подписки NOVA Premium могут обрабатываться сведения о факте оплаты, идентификаторе платежа, сроке действия Подписки и технический идентификатор устройства.</p>
+                        <p>4.5. Разработчик не получает и не хранит данные банковских карт Пользователей.</p>
+                        <p>4.6. При оплате Подписки NOVA Premium обработка платежа осуществляется платёжным сервисом ЮKassa либо иным указанным платёжным оператором. Разработчик может получать сведения о факте совершения платежа, идентификаторе платежа, его статусе и сумме платежа. Данные банковских карт Пользователей Разработчику не передаются.</p>
                     </div>
                 </section>
 
@@ -112,21 +106,40 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onBack, fontScale 
                         <h3 className={`${sectionTitleSize} font-black uppercase tracking-widest`}>5. Обработка персональных данных</h3>
                     </div>
                     <div className={`${bodyTextSize} leading-relaxed text-[var(--c-text-60)] font-medium space-y-2`}>
-                        <p>5.1.1. Сбор данных п. 4.1 осуществляется через конклюдентное действие при запуске Приложения.</p>
-                        <p>5.1.2. Передача данных третьим лицам не осуществляется, за исключением случаев, предусмотренных законом.</p>
-                        <p>5.1.3. Хранение Информации осуществляется до достижения цели обработки. Технические настройки сохраняются локально в браузере (LocalStorage).</p>
+                        <p>5.1. Обработка персональных данных осуществляется на основании:</p>
+                        <ul className="list-disc list-inside space-y-1 pl-2">
+                            <li>согласия Пользователя;</li>
+                            <li>необходимости исполнения Пользовательского соглашения;</li>
+                            <li>требований законодательства Российской Федерации.</li>
+                        </ul>
+                        <p>5.2. Передача данных третьим лицам не осуществляется, за исключением случаев, предусмотренных законом.</p>
+                        <p>5.3. Технические настройки сохраняются локально в браузере (LocalStorage). Для повышения надёжности хранения данных Приложение также использует механизмы хранения платформы MAX (DeviceStorage, SecureStorage).</p>
+                        <p>5.4. Персональные данные обрабатываются и хранятся до достижения целей обработки либо до получения от Пользователя требования об их удалении, если иной срок хранения не установлен законодательством Российской Федерации.</p>
                     </div>
                 </section>
 
-                {/* 6. Права Пользователей */}
+                {/* 6. Аналитические инструменты */}
+                <section className="space-y-4">
+                    <div className="flex items-center gap-3 text-[var(--c-primary)]">
+                        <BarChart3 size="1.25rem" className="shrink-0" />
+                        <h3 className={`${sectionTitleSize} font-black uppercase tracking-widest`}>6. Аналитические инструменты</h3>
+                    </div>
+                    <div className={`${bodyTextSize} leading-relaxed text-[var(--c-text-60)] font-medium space-y-2`}>
+                        <p>6.1. Для анализа использования Приложения Разработчик может использовать сервис Яндекс Метрика.</p>
+                        <p>6.2. Сервис может обрабатывать обезличенные статистические и технические данные Пользователей в соответствии с собственной политикой конфиденциальности.</p>
+                    </div>
+                </section>
+
+                {/* 7. Права Пользователей */}
                 <section className="space-y-4">
                     <div className="flex items-center gap-3 text-[var(--c-primary)]">
                         <Users size="1.25rem" className="shrink-0" />
-                        <h3 className={`${sectionTitleSize} font-black uppercase tracking-widest`}>6. Права и обязанности</h3>
+                        <h3 className={`${sectionTitleSize} font-black uppercase tracking-widest`}>7. Права и обязанности</h3>
                     </div>
-                    <p className={`${bodyTextSize} leading-relaxed text-[var(--c-text-60)] font-medium`}>
-                        6.1. Пользователи вправе требовать уточнения, блокирования или уничтожения своих персональных данных.
-                    </p>
+                    <div className={`${bodyTextSize} leading-relaxed text-[var(--c-text-60)] font-medium space-y-2`}>
+                        <p>7.1. Пользователи вправе требовать уточнения, блокирования или уничтожения своих персональных данных.</p>
+                        <p>7.2. В Приложении предусмотрена функция «Удалить аккаунт», доступная в настройках. Удаление аккаунта приводит к удалению пользовательских данных, хранящихся в Приложении и доступных Разработчику средствами платформы MAX. Удаление аккаунта может повлечь утрату доступа к данным о Подписке NOVA Premium и иным пользовательским данным, восстановление которых может оказаться невозможным.</p>
+                    </div>
                 </section>
 
                 {/* 8. Обращения */}
@@ -142,10 +155,11 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onBack, fontScale 
                 </section>
 
                 <div className={`pt-10 border-t border-[var(--c-border)] text-center ${footerTextSize} space-y-1 text-[var(--c-text-30)]`}>
-                    <p className="font-bold uppercase tracking-widest text-[var(--c-text-50)]">Редакция от 22.05.26</p>
+                    <p className="font-bold uppercase tracking-widest text-[var(--c-text-50)]">Редакция от 17.06.26</p>
                     <p className="pt-2">ИП Антонов Алексей Олегович</p>
                     <p>ИНН 760407796785</p>
                     <p>ОГРНИП 326760000001804</p>
+                    <p>E-mail: rabbithole.help@vk.com</p>
                 </div>
             </div>
         </div>

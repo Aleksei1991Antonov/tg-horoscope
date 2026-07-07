@@ -1,5 +1,5 @@
 {
-  "homepage": "https://aleksei1991antonov.github.io/horoscope/",
+  "homepage": "https://aleksei1991antonov.github.io/tg-horoscope/",
   "name": "horoscope",
   "private": true,
   "version": "0.0.0",
@@ -7,13 +7,13 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:love": "tsc -b && vite build --mode love",
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
-    "@maxhub/max-ui": "^0.1.14",
     "@tailwindcss/postcss": "^4.2.4",
     "autoprefixer": "^10.5.0",
     "lucide-react": "^1.11.0",

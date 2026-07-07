@@ -1,57 +1,49 @@
-import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Navigation } from './components/layout/Navigation';
 import { PageLayout } from './components/layout/PageLayout';
 import { HeaderContainer as Header } from './components/layout/Header/HeaderContainer';
+import { RhythmContainer } from './screens/Rhythm/RhythmContainer';
+import { LoveContainer } from './screens/Love/LoveContainer';
+import { CoreContainer } from './screens/Core/CoreContainer';
 import { WelcomeScreen } from './components/Welcome/WelcomeScreen';
 import { PrivacyPolicy } from './components/layout/Header/Menu/Legal/PrivacyPolicy';
 import { TermsOfService } from './components/layout/Header/Menu/Legal/TermsOfService';
 import { ZodiacModal } from './components/layout/Header/ZodiacModal';
-// import { DesktopStub } from './components/DesktopStub';
 import { AppearanceSettingsView } from './components/layout/Header/Menu/AppearanceSettingsView';
-
-import { RhythmContainer } from './screens/Rhythm/RhythmContainer';
-import { LoveContainer } from './screens/Love/LoveContainer';
-import { CoreContainer } from './screens/Core/CoreContainer';
+import { NOVAPremiumView } from './components/layout/Header/Menu/NOVAPremiumView';
+import LockScreen from './components/LockScreen';
 import { RhythmKnowledgeView } from './screens/Knowledge/RhythmKnowledgeView';
 
-// ИМПОРТИРУЕМ РАБОЧИЕ УТИЛИТЫ
 import { triggerSuccessHaptic, triggerSelectionHaptic } from './utils/haptics';
+import { storage } from './utils/storage';
 
 const ZODIAC_NAMES = ["Овен", "Телец", "Близнецы", "Рак", "Лев", "Дева", "Весы", "Скорпион", "Стрелец", "Козерог", "Водолей", "Рыбы"];
 type ScaleType = 'small' | 'medium' | 'large';
 
+const tg = window.Telegram?.WebApp;
+
 const LIGHT_TO_DARK: Record<string, string> = {
     'max-light': 'max-dark',
     'morning-magic': 'night-ether',
+    'nova-day': 'nova-night',
 };
 const DARK_TO_LIGHT: Record<string, string> = {};
 for (const [k, v] of Object.entries(LIGHT_TO_DARK)) DARK_TO_LIGHT[v] = k;
 const ALL_DARK_KEYS = new Set(Object.values(LIGHT_TO_DARK));
 
-const computeResolvedTheme = (theme: string, mode: 'system' | 'light' | 'dark', systemDark: boolean): string => {
-    const wantsDark = mode === 'dark' || (mode === 'system' && systemDark);
-    const isDarkTheme = ALL_DARK_KEYS.has(theme);
-    if (wantsDark && !isDarkTheme) return LIGHT_TO_DARK[theme] || 'max-dark';
-    if (!wantsDark && isDarkTheme) return DARK_TO_LIGHT[theme] || 'max-light';
-    return theme;
-};
+const initTheme = localStorage.getItem('user_theme') || (tg?.colorScheme === 'dark' ? 'max-dark' : 'max-light');
+const isInitDark = ALL_DARK_KEYS.has(initTheme);
+document.documentElement.dataset.theme = initTheme;
+const metaCs = document.querySelector<HTMLMetaElement>('meta[name="color-scheme"]');
+if (metaCs) metaCs.content = isInitDark ? 'dark' : 'light';
 
-// Синхронная установка data-theme ДО первого рендера — иначе Telegram/браузер принудительно инвертируют цвета
-const initTheme = localStorage.getItem('user_theme') || 'max-light';
-const initMode = (localStorage.getItem('app-appearance-mode') as 'system' | 'light' | 'dark') || 'system';
-const initSystemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-document.documentElement.dataset.theme = computeResolvedTheme(initTheme, initMode, initSystemDark);
+const SUBSCRIPTION_CHANNEL_URL = 'https://t.me/your_channel';
 
 const App: React.FC = () => {
     const [activeTab, setActiveTab] = useState('rhythm');
     const [isStorageLoaded, setIsStorageLoaded] = useState(false);
-    const isInitialMount = useRef(true);
-
-    const webApp = window.WebApp;
-
-    // const [isDesktop] = useState<boolean>(() => {
-    //     return webApp?.platform === 'desktop' || webApp?.platform === 'web';
-    // });
+    const [accessState, setAccessState] = useState<'loading' | 'granted' | 'denied'>('loading');
+    const [isRetrying, setIsRetrying] = useState(false);
 
     const [selectedZodiac, setSelectedZodiac] = useState<string>(() => {
         const saved = localStorage.getItem('user_zodiac_index');
@@ -68,6 +60,35 @@ const App: React.FC = () => {
         backHandlerRef.current = handler;
         setBackHandlerTick(t => t + 1);
     }, []);
+    const handleActivatePremium = useCallback(() => {
+        setTheme('nova-day');
+    }, []);
+
+    const resetNovaTheme = useCallback(() => {
+        const cur = storage.getItem('user_theme') || 'max-light';
+        if ((cur === 'nova-day' || cur === 'nova-night') && !storage.getItem('nova_premium_until')) {
+            storage.setItem('user_theme', 'max-light');
+            setTheme('max-light');
+        }
+    }, []);
+
+    useEffect(() => {
+        const check = () => {
+            const raw = storage.getItem('nova_premium_until');
+            if (raw && parseInt(raw, 10) <= Date.now()) {
+                storage.removeItem('nova_premium_until');
+                storage.setItem('nova_love_horoscope', 'false');
+                storage.setItem('nova_badge', 'false');
+                window.dispatchEvent(new CustomEvent('nova-toggle'));
+            }
+            resetNovaTheme();
+        };
+        check();
+        const interval = setInterval(check, 30000);
+        const onToggle = () => resetNovaTheme();
+        window.addEventListener('nova-toggle', onToggle);
+        return () => { clearInterval(interval); window.removeEventListener('nova-toggle', onToggle); };
+    }, [resetNovaTheme]);
 
     const [fontScale, setFontScale] = useState<ScaleType>(() => {
         const saved = localStorage.getItem('app-font-scale');
@@ -75,52 +96,28 @@ const App: React.FC = () => {
     });
 
     const [theme, setTheme] = useState<string>(() => {
-        return localStorage.getItem('user_theme') || 'max-light';
+        return localStorage.getItem('user_theme') || (tg?.colorScheme === 'dark' ? 'max-dark' : 'max-light');
     });
 
-    const [appearanceMode, setAppearanceMode] = useState<'system' | 'light' | 'dark'>(() => {
-        const saved = localStorage.getItem('app-appearance-mode');
-        return (saved as 'system' | 'light' | 'dark') || 'system';
-    });
-
-    const [systemPrefersDark, setSystemPrefersDark] = useState<boolean>(() => {
-        return window.matchMedia('(prefers-color-scheme: dark)').matches;
-    });
-
-    useEffect(() => {
-        const mq = window.matchMedia('(prefers-color-scheme: dark)');
-        const handler = (e: MediaQueryListEvent) => setSystemPrefersDark(e.matches);
-        mq.addEventListener('change', handler);
-        return () => mq.removeEventListener('change', handler);
-    }, []);
-
-    const resolvedTheme = useMemo(() => {
-        return computeResolvedTheme(theme, appearanceMode, systemPrefersDark);
-    }, [appearanceMode, theme, systemPrefersDark]);
+    const resolvedTheme = theme;
+    const isDarkTheme = ALL_DARK_KEYS.has(resolvedTheme);
 
     useEffect(() => {
         document.documentElement.dataset.theme = resolvedTheme;
+        const metaCs = document.querySelector<HTMLMetaElement>('meta[name="color-scheme"]');
+        if (metaCs) metaCs.content = isDarkTheme ? 'dark' : 'light';
         localStorage.setItem('user_theme', theme);
-        if (webApp?.DeviceStorage) {
-            void webApp.DeviceStorage.setItem('user_theme', theme);
-        }
-    }, [resolvedTheme, theme, webApp]);
+    }, [resolvedTheme, theme]);
 
     useEffect(() => {
-        localStorage.setItem('app-appearance-mode', appearanceMode);
-        if (webApp?.DeviceStorage) {
-            void webApp.DeviceStorage.setItem('app-appearance-mode', appearanceMode);
-        }
-    }, [appearanceMode, webApp]);
-
-    useEffect(() => {
-        (window.WebApp as any)?.disableVerticalSwipes?.();
+        tg?.ready();
+        tg?.expand();
     }, []);
 
     const backBtnRef = useRef<(() => void) | null>(null);
 
     useEffect(() => {
-        const bb = window.WebApp?.BackButton;
+        const bb = tg?.BackButton;
         if (!bb) return;
 
         if (backBtnRef.current) {
@@ -130,6 +127,11 @@ const App: React.FC = () => {
 
         if (isTextSettingsOpen) {
             const cb = () => setIsTextSettingsOpen(false);
+            backBtnRef.current = cb;
+            bb.show();
+            bb.onClick(cb);
+        } else if (activeTab === 'premium') {
+            const cb = () => handleTabChange('rhythm');
             backBtnRef.current = cb;
             bb.show();
             bb.onClick(cb);
@@ -159,26 +161,99 @@ const App: React.FC = () => {
             }
             bb.hide();
         };
-    }, [isTextSettingsOpen, activeLegalDoc, isKnowledgeOpen, backHandlerTick]);
+    }, [isTextSettingsOpen, activeTab, activeLegalDoc, isKnowledgeOpen, backHandlerTick]);
 
     useEffect(() => {
         const html = document.documentElement;
         const sizes = { small: '14px', medium: '16px', large: '18px' };
         html.style.fontSize = sizes[fontScale];
         localStorage.setItem('app-font-scale', fontScale);
+    }, [fontScale]);
 
-        if (isInitialMount.current) {
-            isInitialMount.current = false;
+    const checkSubscriptionAccess = useCallback(async () => {
+        if (typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('lock')) {
+            setAccessState('denied');
             return;
         }
 
-        const saveTimeout = setTimeout(() => {
-            if (webApp?.DeviceStorage) {
-                void webApp.DeviceStorage.setItem('app-font-scale', fontScale);
+        if (storage.getItem('force_lock_screen') === 'true') {
+            storage.removeItem('force_lock_screen');
+            setAccessState('denied');
+            return;
+        }
+
+        if (storage.getItem('has_astro_access') === 'true') {
+            setAccessState('granted');
+            return;
+        }
+
+        const userId = tg?.initDataUnsafe?.user?.id;
+        if (!userId) {
+            setAccessState('granted');
+            return;
+        }
+
+        try {
+            const res = await fetch(`https://functions.yandexcloud.net/d4es9dsapgutf8p2k4m6?user_id=${userId}`);
+            const data = await res.json();
+            if (data.subscribed) {
+                storage.setItem('has_astro_access', 'true');
+                setAccessState('granted');
+            } else {
+                setAccessState('denied');
             }
-        }, 300);
-        return () => clearTimeout(saveTimeout);
-    }, [fontScale, webApp]);
+        } catch {
+            setAccessState('granted');
+        }
+    }, []);
+
+    const retryTimestampsRef = useRef<number[]>([]);
+
+    const isRateLimited = (): boolean => {
+        const now = Date.now();
+        const recent = retryTimestampsRef.current.filter(t => now - t < 60000);
+        retryTimestampsRef.current = recent;
+        return recent.length >= 3;
+    };
+
+    const handleRetryAccess = useCallback(() => {
+        if (isRetrying) return;
+        if (isRateLimited()) return;
+
+        retryTimestampsRef.current.push(Date.now());
+
+        const doCheck = async () => {
+            setIsRetrying(true);
+            storage.removeItem('has_astro_access');
+            try { sessionStorage.removeItem('has_astro_access'); } catch {}
+
+            const userId = tg?.initDataUnsafe?.user?.id;
+            if (!userId) {
+                setAccessState('granted');
+                setIsRetrying(false);
+                return;
+            }
+
+            try {
+                const res = await fetch(`https://functions.yandexcloud.net/d4es9dsapgutf8p2k4m6?user_id=${userId}`);
+                const data = await res.json();
+                if (data.subscribed) {
+                    storage.setItem('has_astro_access', 'true');
+                    setAccessState('granted');
+                }
+            } catch {
+                setAccessState('granted');
+            }
+
+            setIsRetrying(false);
+        };
+
+        void doCheck();
+    }, [isRetrying]);
+
+    useEffect(() => {
+        void checkSubscriptionAccess();
+    }, [checkSubscriptionAccess]);
 
     const applyFallbackData = useCallback(() => {
         const localIdx = localStorage.getItem('user_zodiac_index');
@@ -194,60 +269,18 @@ const App: React.FC = () => {
     useEffect(() => {
         let isMounted = true;
         const finalizeLoading = () => {
-            if (isMounted) {
-                setIsStorageLoaded(true);
-            }
+            if (isMounted) setIsStorageLoaded(true);
         };
 
         const loadAppData = async () => {
-            const storage = webApp?.DeviceStorage;
             const timeoutId = setTimeout(() => {
                 if (!isStorageLoaded) {
                     applyFallbackData();
                     finalizeLoading();
                 }
-            }, 1200);
+            }, 800);
 
-            if (storage && typeof storage.getItem === 'function') {
-                try {
-                    const [zodiacRes, acceptedRes, scaleRes, themeRes, modeRes] = await Promise.all([
-                        storage.getItem('user_zodiac_index'),
-                        storage.getItem('love_rhythm_accepted_v1'),
-                        storage.getItem('app-font-scale'),
-                        storage.getItem('user_theme'),
-                        storage.getItem('app-appearance-mode')
-                    ]);
-
-                    if (isMounted) {
-                        if (zodiacRes?.value) {
-                            const idx = parseInt(zodiacRes.value, 10);
-                            setSelectedZodiac(ZODIAC_NAMES[idx] || "Скорпион");
-                            setIsSetupDone(true);
-                        }
-                        if (acceptedRes?.value === 'true' || localStorage.getItem('love_rhythm_accepted_v1') === 'true') {
-                            setHasAccepted(true);
-                        }
-                        if (scaleRes?.value) {
-                            setFontScale(scaleRes.value as ScaleType);
-                        }
-                        if (themeRes?.value) {
-                            setTheme(themeRes.value);
-                            localStorage.setItem('user_theme', themeRes.value);
-                        }
-                        if (modeRes?.value) {
-                            const mode = modeRes.value as 'system' | 'light' | 'dark';
-                            setAppearanceMode(mode);
-                            localStorage.setItem('app-appearance-mode', mode);
-                        }
-                    }
-                    clearTimeout(timeoutId);
-                    finalizeLoading();
-                } catch {
-                    clearTimeout(timeoutId);
-                    applyFallbackData();
-                    finalizeLoading();
-                }
-            } else {
+            if (isMounted) {
                 clearTimeout(timeoutId);
                 applyFallbackData();
                 finalizeLoading();
@@ -256,15 +289,12 @@ const App: React.FC = () => {
 
         void loadAppData();
         return () => { isMounted = false; };
-    }, [applyFallbackData, isStorageLoaded, webApp]);
+    }, [applyFallbackData, isStorageLoaded]);
 
     const handleZodiacSelect = (index: number) => {
         void triggerSuccessHaptic();
         const name = ZODIAC_NAMES[index];
         localStorage.setItem('user_zodiac_index', index.toString());
-        if (webApp?.DeviceStorage) {
-            void webApp.DeviceStorage.setItem('user_zodiac_index', index.toString());
-        }
         setSelectedZodiac(name);
         setIsSetupDone(true);
     };
@@ -272,9 +302,6 @@ const App: React.FC = () => {
     const handleAcceptConditions = () => {
         void triggerSuccessHaptic();
         localStorage.setItem('love_rhythm_accepted_v1', 'true');
-        if (webApp?.DeviceStorage) {
-            void webApp.DeviceStorage.setItem('love_rhythm_accepted_v1', 'true');
-        }
         setHasAccepted(true);
     };
 
@@ -285,8 +312,18 @@ const App: React.FC = () => {
         }
     }, [activeTab]);
 
-    // if (isDesktop && !window.location.search.includes('force=mobile')) return <DesktopStub />;
-    if (!isStorageLoaded) return <div className="h-screen bg-[var(--c-bg)]" />;
+    if (!isStorageLoaded || accessState === 'loading') return <div className="h-screen bg-[var(--c-bg)]" />;
+
+    if (accessState === 'denied') {
+        return (
+            <LockScreen
+                channelUrl={SUBSCRIPTION_CHANNEL_URL}
+                fontScale={fontScale}
+                isRetrying={isRetrying}
+                onRetry={handleRetryAccess}
+            />
+        );
+    }
 
     if (isTextSettingsOpen) {
         return (
@@ -295,8 +332,6 @@ const App: React.FC = () => {
                 setFontScale={setFontScale}
                 theme={theme}
                 setTheme={setTheme}
-                appearanceMode={appearanceMode}
-                setAppearanceMode={setAppearanceMode}
                 resolvedTheme={resolvedTheme}
             />
         );
@@ -364,7 +399,8 @@ const App: React.FC = () => {
                     <div className="pb-6 h-full">
                         {activeTab === 'rhythm' && <RhythmContainer zodiacName={selectedZodiac} fontScale={fontScale} onSetBackHandler={setBackHandler} resolvedTheme={resolvedTheme} />}
                         {activeTab === 'love' && <LoveContainer zodiacName={selectedZodiac} fontScale={fontScale} onSetBackHandler={setBackHandler} resolvedTheme={resolvedTheme} />}
-                        {activeTab === 'core' && <CoreContainer zodiacName={selectedZodiac} fontScale={fontScale} />}
+                        {activeTab === 'core' && <CoreContainer zodiacName={selectedZodiac} fontScale={fontScale} onSetBackHandler={setBackHandler} />}
+                        {activeTab === 'premium' && <NOVAPremiumView fontScale={fontScale} resolvedTheme={resolvedTheme} onActivatePremium={handleActivatePremium} />}
                     </div>
                 </PageLayout>
             </div>
@@ -373,6 +409,8 @@ const App: React.FC = () => {
                 activeTab={activeTab}
                 onTabChange={handleTabChange}
                 fontScale={fontScale}
+                theme={resolvedTheme}
+                onOpenPremium={() => handleTabChange('premium')}
             />
         </div>
     );

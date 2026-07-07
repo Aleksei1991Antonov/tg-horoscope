@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Гороскоп NOVA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * {
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        body {
+            background: #0a0a14;
+            background-image:
+                    radial-gradient(circle at 50% -20%, #3b2171 0%, transparent 50%),
+                    radial-gradient(circle at 0% 100%, #1a1a2e 0%, transparent 40%);
+            font-family: 'Inter', sans-serif;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .logo-box {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            padding: 2px;
+            background: linear-gradient(45deg, #007AFF, #8E2DE2);
+            box-shadow: 0 0 20px rgba(142, 45, 226, 0.4);
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+
+        .logo-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .banner-container {
+            width: 100%;
+            max-width: 260px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 15px;
+        }
+
+        .promo-text {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            max-width: 240px;
+            line-height: 1.4;
+        }
+
+        .promo-text span {
+            color: #60a5fa; /* Светло-голубой акцент на MAX */
+        }
+
+        .btn-nova {
+            background: linear-gradient(90deg, #007AFF 0%, #8E2DE2 100%);
+            box-shadow: 0 10px 30px rgba(0, 122, 255, 0.4);
+            text-decoration: none;
+            display: block;
+            width: 100%;
+            max-width: 280px;
+            text-align: center;
+            transition: transform 0.2s ease;
+        }
+
+        .btn-nova:active {
+            transform: scale(0.96);
+        }
+
+        .pulse-ring {
+            animation: pulse-shadow 2s infinite;
+        }
+
+        @keyframes pulse-shadow {
+            0% { box-shadow: 0 0 0 0 rgba(0, 122, 255, 0.6); }
+            70% { box-shadow: 0 0 0 15px rgba(0, 122, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 122, 255, 0); }
+        }
+
+        .legal-footer {
+            margin-top: auto;
+            padding-top: 30px;
+            padding-bottom: 15px;
+            text-align: center;
+            font-size: 9px;
+            color: rgba(255, 255, 255, 0.3);
+            line-height: 1.6;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Логотип -->
+<div class="logo-box">
+    <img src="38777.png" alt="NOVA">
+</div>
+
+<!-- Заголовок -->
+<h1 class="text-2xl font-black mb-6 uppercase tracking-tighter text-center">
+    Гороскоп <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Nova</span>
+</h1>
+
+<!-- Баннер -->
+<div class="banner-container">
+    <img src="banner.png" alt="Interface" class="w-full h-auto block">
+</div>
+
+<!-- Текст под баннером -->
+<p class="promo-text">
+    Бесплатный доступ на официальном канале в <span>MAX</span>
+</p>
+
+<!-- Кнопка -->
+<a href="https://max.ru/id760407796785_biz" class="btn-nova pulse-ring py-4 rounded-xl text-white font-black text-lg uppercase tracking-widest">
+    ОТКРЫТЬ В MAX
+</a>
+
+<!-- Юридический футер -->
+<footer class="legal-footer">
+    <p class="font-bold mb-1" style="color: rgba(255,255,255,0.5)">ANTONOVKA</p>
+    <p>ИП АНТОНОВ АЛЕКСЕЙ ОЛЕГОВИЧ</p>
+    <p>ИНН: 760407796785 | ОГРНИП: 326760000001804</p>
+    <p>Локация: Россия, г. Ярославль</p>
+</footer>
+
+</body>
+</html>

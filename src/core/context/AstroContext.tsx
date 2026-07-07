@@ -1,7 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
 
-// Интерфейс вынесен вверх
 export interface AstroContextType {
     userName: string;
     zodiacIndex: number | null;
@@ -26,41 +25,28 @@ export const AstroProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const [zodiacIndex, setZodiacIndexState] = useState<number | null>(null);
 
     useEffect(() => {
-        const app = window.WebApp;
-        if (!app) return;
+        const tg = window.Telegram?.WebApp;
+        if (!tg) return;
 
-        // Исправляем каскадный рендер через setTimeout(0)
-        // Это выносит обновление стейта из синхронного цикла эффекта
-        const firstName = app.initDataUnsafe?.user?.first_name?.toUpperCase();
+        const firstName = tg.initDataUnsafe?.user?.first_name?.toUpperCase();
         if (firstName) {
             setTimeout(() => {
                 setUserName(firstName);
             }, 0);
         }
 
-        const loadStorage = async () => {
-            if (app.DeviceStorage) {
-                try {
-                    const res = await app.DeviceStorage.getItem('user_zodiac_index');
-                    if (res && res.value) {
-                        const idx = parseInt(res.value, 10);
-                        if (!isNaN(idx)) {
-                            setTimeout(() => setZodiacIndexState(idx), 0);
-                        }
-                    }
-                } catch (e) {
-                    console.error('MAX Storage error:', e);
-                }
+        const localIdx = localStorage.getItem('user_zodiac_index');
+        if (localIdx) {
+            const idx = parseInt(localIdx, 10);
+            if (!isNaN(idx)) {
+                setTimeout(() => setZodiacIndexState(idx), 0);
             }
-        };
-        void loadStorage();
+        }
     }, []);
 
     const setZodiacIndex = (index: number) => {
         setZodiacIndexState(index);
-        if (window.WebApp?.DeviceStorage) {
-            void window.WebApp.DeviceStorage.setItem('user_zodiac_index', index.toString());
-        }
+        localStorage.setItem('user_zodiac_index', index.toString());
     };
 
     const currentZodiac = useMemo(() => {
@@ -69,23 +55,23 @@ export const AstroProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             : { sign: "✧", name: "ВЫБРАТЬ" };
     }, [zodiacIndex]);
 
+    const value = useMemo(() => ({
+        userName,
+        zodiacIndex,
+        setZodiacIndex,
+        zodiacName: currentZodiac.name,
+        zodiacSign: currentZodiac.sign,
+    }), [userName, zodiacIndex, setZodiacIndex, currentZodiac]);
+
     return (
-        <AstroContext.Provider value={{
-            userName,
-            zodiacIndex,
-            setZodiacIndex,
-            zodiacName: currentZodiac.name,
-            zodiacSign: currentZodiac.sign
-        }}>
+        <AstroContext.Provider value={value}>
             {children}
         </AstroContext.Provider>
     );
 };
 
-export const useAstro = () => {
-    const context = useContext(AstroContext);
-    if (!context) {
-        throw new Error('useAstro must be used within AstroProvider');
-    }
-    return context;
+export const useAstro = (): AstroContextType => {
+    const ctx = useContext(AstroContext);
+    if (!ctx) throw new Error('useAstro must be used within AstroProvider');
+    return ctx;
 };

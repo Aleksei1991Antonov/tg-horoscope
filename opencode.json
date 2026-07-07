@@ -1,0 +1,14 @@
+{
+  "agents": {
+    "horoscope-core": {
+      "description": "Гороскоп — MAX Mini App. Ежедневный ритуал заботы о себе. Тёплый, душевный, понятный. Для девушек и женщин, которым нравятся гороскопы.",
+      "instructions": "AGENTS.md"
+    }
+  },
+  "skills": [
+    ".opencode/skills/astrology-engines.md",
+    ".opencode/skills/design.md",
+    ".opencode/skills/max-bridge.md",
+    ".opencode/skills/max-ui.md"
+  ]
+}

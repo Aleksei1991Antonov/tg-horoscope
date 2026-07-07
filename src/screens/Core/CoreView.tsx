@@ -1,5 +1,6 @@
 import React from 'react';
-import { Wind, Droplets, Flame, Mountain, Orbit } from 'lucide-react';
+import { Wind, Droplets, Flame, Mountain, Orbit, GitFork, ChevronRight, Compass } from 'lucide-react';
+import { triggerSuccessHaptic } from '../../utils/haptics';
 
 interface CoreProfile {
     element: 'fire' | 'earth' | 'air' | 'water';
@@ -14,12 +15,16 @@ interface CoreProfile {
 interface CoreViewProps {
     profile: CoreProfile;
     fontScale: 'small' | 'medium' | 'large';
+    onOpenTalents?: () => void;
+    onOpenRecommendations?: () => void;
 }
 
 export const CoreView: React.FC<CoreViewProps> = ({
-                                                      profile,
-                                                      fontScale,
-                                                  }) => {
+                                                       profile,
+                                                       fontScale,
+                                                       onOpenTalents,
+                                                       onOpenRecommendations,
+                                                   }) => {
     const m = fontScale === 'large' ? 'text-[0.9375rem]' : 'text-[0.8125rem]';
     const s = fontScale === 'large' ? 'text-[0.75rem]' : 'text-[0.625rem]';
     const h1 = fontScale === 'large' ? 'text-[2.75rem]' : fontScale === 'small' ? 'text-[3.25rem]' : 'text-[3.5rem]';
@@ -94,6 +99,44 @@ export const CoreView: React.FC<CoreViewProps> = ({
                         </div>
                     </div>
                 </div>
+
+                <button
+                    onClick={() => {
+                        void triggerSuccessHaptic();
+                        onOpenTalents?.();
+                    }}
+                    className="w-full bg-[var(--c-surface)] rounded-[32px] border border-[var(--c-border)] p-6 text-left active:scale-[0.98] transition-all"
+                >
+                    <div className="flex items-start gap-4">
+                        <GitFork size={24} className="text-[var(--c-primary)] shrink-0 mt-0.5" strokeWidth={1.5} />
+                        <div className="flex-1 min-w-0">
+                            <div className="font-black text-[0.9375rem] tracking-tight mb-1">Древо талантов</div>
+                            <p className={`${s} text-[var(--c-text-50)] font-medium leading-relaxed`}>
+                                Твои природные дары и скрытые способности, данные звёздами.
+                            </p>
+                        </div>
+                        <ChevronRight size={16} className="text-[var(--c-text-30)] shrink-0 mt-1" />
+                    </div>
+                </button>
+
+                <button
+                    onClick={() => {
+                        void triggerSuccessHaptic();
+                        onOpenRecommendations?.();
+                    }}
+                    className="w-full bg-[var(--c-surface)] rounded-[32px] border border-[var(--c-border)] p-6 text-left active:scale-[0.98] transition-all"
+                >
+                    <div className="flex items-start gap-4">
+                        <Compass size={24} className="text-[var(--c-primary)] shrink-0 mt-0.5" strokeWidth={1.5} />
+                        <div className="flex-1 min-w-0">
+                            <div className="font-black text-[0.9375rem] tracking-tight mb-1">Путь сердца</div>
+                            <p className={`${s} text-[var(--c-text-50)] font-medium leading-relaxed`}>
+                                Хобби, призвание и места силы, которые зовут твою душу.
+                            </p>
+                        </div>
+                        <ChevronRight size={16} className="text-[var(--c-text-30)] shrink-0 mt-1" />
+                    </div>
+                </button>
             </div>
         </div>
     );

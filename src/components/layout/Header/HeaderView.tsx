@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Menu } from 'lucide-react';
 
 interface HeaderViewProps {
@@ -18,7 +18,14 @@ export const HeaderView: React.FC<HeaderViewProps> = ({
                                                           onMenuClick,
                                                           onZodiacClick,
                                                           fontScale
-                                                      }) => {
+                                                        }) => {
+    const [badgeOn, setBadgeOn] = useState(() => localStorage.getItem('nova_badge') === 'true');
+
+    useEffect(() => {
+        const handler = () => setBadgeOn(localStorage.getItem('nova_badge') === 'true');
+        window.addEventListener('nova-toggle', handler);
+        return () => window.removeEventListener('nova-toggle', handler);
+    }, []);
 
     const getFontSizeClass = (name: string) => {
         const len = name.length;
@@ -32,6 +39,7 @@ export const HeaderView: React.FC<HeaderViewProps> = ({
     const dateSize = fontScale === 'large' ? 'text-[0.65rem]' : 'text-[0.55rem]';
     const iconSize = fontScale === 'large' ? 'w-14 h-14' : 'w-12 h-12';
     const emojiSize = fontScale === 'large' ? 'text-[1.8rem]' : 'text-[1.5rem]';
+    const nameSizeClass = getFontSizeClass(userName);
 
     return (
         <header className="sticky top-0 z-50 w-full px-[1rem] pt-[1rem] pb-[0.5rem]"
@@ -50,10 +58,13 @@ export const HeaderView: React.FC<HeaderViewProps> = ({
                 </button>
 
                 <div className="flex flex-col min-w-0 flex-1 text-left">
-                    <div className="flex items-center gap-[0.4rem] w-full">
-                        <span className={`font-black tracking-tight text-[var(--c-text)] uppercase truncate ${getFontSizeClass(userName)}`}>
+                    <div className="flex items-baseline gap-[0.25rem] w-full">
+                        <span className={`font-black tracking-tight text-[var(--c-text)] uppercase truncate ${nameSizeClass}`}>
                             {userName}
                         </span>
+                        {badgeOn && (
+                            <span className={`font-black leading-none tracking-widest text-gradient-accent shrink-0 ${nameSizeClass}`}>NOVA</span>
+                        )}
                     </div>
                     <div className="flex items-center gap-[0.25rem] opacity-40">
                         <span className={`${dateSize} font-bold uppercase tracking-widest leading-none`}>

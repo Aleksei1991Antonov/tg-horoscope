@@ -19,19 +19,68 @@ export const RhythmContainer: React.FC<RhythmContainerProps> = ({ zodiacName, fo
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isPowerModalOpen, setIsPowerModalOpen] = useState(false);
     const [isSynergyModalOpen, setIsSynergyModalOpen] = useState(false);
+    const [dayOffset, setDayOffset] = useState(0);
+    const [loveTick, setLoveTick] = useState(0);
+
+    useEffect(() => {
+        const handler = () => setLoveTick(t => t + 1);
+        window.addEventListener('nova-toggle', handler);
+        return () => window.removeEventListener('nova-toggle', handler);
+    }, []);
 
     const anyModalOpen = isModalOpen || isPowerModalOpen || isSynergyModalOpen;
 
     const astroData = useMemo(() => {
         const power = PowerHourEngine.calculate(zodiacName);
         const synergy = SynergyEngine.calculateDailyMatch(zodiacName);
-        const dailyPrediction = HoroscopeEngine.generateDailyForecast(zodiacName);
+        return { power, synergy };
+    }, [zodiacName]);
 
-        return { power, synergy, dailyPrediction };
+    const prediction = useMemo(() => {
+        const date = new Date();
+        date.setDate(date.getDate() + dayOffset);
+        return HoroscopeEngine.generateDailyForecast(zodiacName, date);
+    }, [zodiacName, dayOffset, loveTick]);
+
+    const luckyNumber = useMemo(() => {
+        const date = new Date();
+        date.setDate(date.getDate() + dayOffset);
+        return HoroscopeEngine.getLuckyNumber(zodiacName, date);
+    }, [zodiacName, dayOffset]);
+
+    const tomorrowBand = useMemo(() => {
+        const date = new Date();
+        date.setDate(date.getDate() + 1);
+        return HoroscopeEngine.getDayBand(zodiacName, date);
+    }, [zodiacName]);
+
+    const tomorrowStatus = useMemo(() => {
+        const isLove = localStorage.getItem('nova_love_horoscope') === 'true';
+        if (isLove) return tomorrowBand.band === 'high' ? 'Сияние чувств' : 'Тёплые моменты';
+        return tomorrowBand.status;
+    }, [tomorrowBand, loveTick]);
+
+    const tomorrowPower = useMemo(() => {
+        const date = new Date();
+        date.setDate(date.getDate() + 1);
+        return PowerHourEngine.calculate(zodiacName, date);
+    }, [zodiacName]);
+
+    const tomorrowPeakIntensity = useMemo(() => {
+        const date = new Date();
+        date.setDate(date.getDate() + 1);
+        return PowerHourEngine.getDayPeakPercent(zodiacName, date);
+    }, [zodiacName]);
+
+    const tomorrowSynergy = useMemo(() => {
+        const date = new Date();
+        date.setDate(date.getDate() + 1);
+        return SynergyEngine.calculateDailyMatch(zodiacName, date);
     }, [zodiacName]);
 
     const handleOpenPrediction = useCallback(() => {
         void triggerSuccessHaptic();
+        setDayOffset(0);
         setIsModalOpen(true);
     }, []);
 
@@ -62,7 +111,7 @@ export const RhythmContainer: React.FC<RhythmContainerProps> = ({ zodiacName, fo
     return (
         <>
             <RhythmView
-                prediction={astroData.dailyPrediction}
+                prediction={prediction}
                 luckyHour={astroData.power.luckyHour}
                 luckyPercent={astroData.power.luckyPercent}
                 synergyZodiac={{
@@ -80,9 +129,21 @@ export const RhythmContainer: React.FC<RhythmContainerProps> = ({ zodiacName, fo
             <PredictionModal
                 isOpen={isModalOpen}
                 onClose={handleCloseAll}
-                prediction={astroData.dailyPrediction}
+                prediction={prediction}
                 zodiacName={zodiacName}
                 fontScale={fontScale}
+                dayOffset={dayOffset}
+                onDayChange={setDayOffset}
+                luckyNumber={luckyNumber}
+                todayLuckyHour={astroData.power.luckyHour}
+                todayLuckyPercent={astroData.power.luckyPercent}
+                todayAllPowerHours={astroData.power.allPowerHours}
+                tomorrowStatus={tomorrowStatus}
+                tomorrowLuckyPercent={tomorrowPeakIntensity}
+                tomorrowAllPowerHours={tomorrowPower.allPowerHours}
+                tomorrowSynergyIcon={tomorrowSynergy.icon}
+                tomorrowSynergyName={tomorrowSynergy.sign}
+                tomorrowSynergyPercent={tomorrowSynergy.percent}
             />
 
             <PowerHourModal

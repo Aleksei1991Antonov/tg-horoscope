@@ -11,8 +11,8 @@ export const DebugHaptics: React.FC<DebugHapticsProps> = ({ onBack }) => {
     const triggerImpact = async (style: 'light' | 'medium' | 'heavy' | 'rigid' | 'soft') => {
         try {
             setLastStatus(`Вызов impact: ${style}...`);
-            if (window.WebApp?.HapticFeedback) {
-                const res = await window.WebApp.HapticFeedback.impactOccurred(style);
+            if (window.Telegram?.WebApp?.HapticFeedback) {
+                const res = await window.Telegram.WebApp.HapticFeedback.impactOccurred(style);
                 setLastStatus(`Impact ${style}: ${JSON.stringify(res)}`);
             } else {
                 setLastStatus('Ошибка: WebApp.HapticFeedback не найден');
@@ -26,8 +26,8 @@ export const DebugHaptics: React.FC<DebugHapticsProps> = ({ onBack }) => {
     const triggerNotification = async (type: 'success' | 'warning' | 'error') => {
         try {
             setLastStatus(`Вызов notification: ${type}...`);
-            if (window.WebApp?.HapticFeedback) {
-                const res = await window.WebApp.HapticFeedback.notificationOccurred(type);
+            if (window.Telegram?.WebApp?.HapticFeedback) {
+                const res = await window.Telegram.WebApp.HapticFeedback.notificationOccurred(type);
                 setLastStatus(`Notification ${type}: ${JSON.stringify(res)}`);
             } else {
                 setLastStatus('Ошибка: WebApp.HapticFeedback не найден');
@@ -41,8 +41,8 @@ export const DebugHaptics: React.FC<DebugHapticsProps> = ({ onBack }) => {
     const triggerSelection = async () => {
         try {
             setLastStatus('Вызов selectionChanged...');
-            if (window.WebApp?.HapticFeedback) {
-                const res = await window.WebApp.HapticFeedback.selectionChanged();
+            if (window.Telegram?.WebApp?.HapticFeedback) {
+                const res = await window.Telegram.WebApp.HapticFeedback.selectionChanged();
                 setLastStatus(`Selection: ${JSON.stringify(res)}`);
             }
         } catch (e: unknown) {

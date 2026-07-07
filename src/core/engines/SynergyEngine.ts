@@ -26,10 +26,11 @@ export const SynergyEngine = {
     /**
      * Генерирует стабильный seed для пары знаков на текущие сутки
      */
-    getPairSeed(sign1: string, sign2: string): number {
-        const date = new Date().toISOString().slice(0, 10);
+    getPairSeed(sign1: string, sign2: string, date?: Date): number {
+        const d = date || new Date();
+        const dateStr = d.toISOString().slice(0, 10);
         const pair = [sign1, sign2].sort().join("");
-        const str = date + pair;
+        const str = dateStr + pair;
         let hash = 0;
         for (let i = 0; i < str.length; i++) {
             hash = ((hash << 5) - hash) + str.charCodeAt(i);
@@ -53,13 +54,13 @@ export const SynergyEngine = {
     /**
      * Рассчитывает совместимость, объединяя натальную карту и транзит Луны
      */
-    calculateAllMatches(userSign: string): SynergyResult[] {
+    calculateAllMatches(userSign: string, date?: Date): SynergyResult[] {
         const userElement = ZODIAC_ELEMENTS[userSign];
         const userQuality = ZODIAC_QUALITIES[userSign];
 
         // Данные из LunarEngine
-        const today = new Date();
-        const moonData = LunarEngine.getMoonZodiac(today);
+        const targetDate = date || new Date();
+        const moonData = LunarEngine.getMoonZodiac(targetDate);
         const moonSign = moonData.name;
         const moonElement = ZODIAC_ELEMENTS[moonSign];
 
@@ -68,7 +69,7 @@ export const SynergyEngine = {
             .map(targetSign => {
                 const targetElement = ZODIAC_ELEMENTS[targetSign];
                 const targetQuality = ZODIAC_QUALITIES[targetSign];
-                const pairSeed = this.getPairSeed(userSign, targetSign);
+                const pairSeed = this.getPairSeed(userSign, targetSign, targetDate);
 
                 let score = 50;
 
@@ -126,7 +127,7 @@ export const SynergyEngine = {
     /**
      * Возвращает лучший мэтч дня
      */
-    calculateDailyMatch(userSign: string): SynergyResult {
-        return this.calculateAllMatches(userSign)[0];
+    calculateDailyMatch(userSign: string, date?: Date): SynergyResult {
+        return this.calculateAllMatches(userSign, date)[0];
     }
 };

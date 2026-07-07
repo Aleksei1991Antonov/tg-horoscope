@@ -16,14 +16,14 @@ echo Deploying to gh-pages...
 
 if exist "%TEMP%\gh-pages-deploy" rmdir /s /q "%TEMP%\gh-pages-deploy"
 
-git clone --depth 1 --branch gh-pages https://github.com/aleksei1991antonov/horoscope.git "%TEMP%\gh-pages-deploy" 2>nul
+git clone --depth 1 --branch gh-pages https://github.com/Aleksei1991Antonov/tg-horoscope.git "%TEMP%\gh-pages-deploy" 2>nul
 if %errorlevel% neq 0 (
     echo No gh-pages branch yet, creating orphan...
     mkdir "%TEMP%\gh-pages-deploy"
     cd "%TEMP%\gh-pages-deploy"
     git init
     git checkout --orphan gh-pages
-    git remote add origin https://github.com/aleksei1991antonov/horoscope.git
+    git remote add origin https://github.com/Aleksei1991Antonov/tg-horoscope.git
 )
 
 xcopy /e /y "%CD%\dist\*" "%TEMP%\gh-pages-deploy\"

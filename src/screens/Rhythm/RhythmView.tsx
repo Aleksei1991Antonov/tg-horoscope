@@ -29,18 +29,18 @@ export const RhythmView: React.FC<RhythmViewProps> = ({
                                                            resolvedTheme
                                                        }) => {
     const isMax = resolvedTheme === 'max-light' || resolvedTheme === 'max-dark';
-    const isMaxDark = resolvedTheme === 'max-dark';
     const isLight = resolvedTheme === 'max-light' || resolvedTheme === 'morning-magic';
 
-    const progressGradient = 'linear-gradient(90deg, #00C2FF 0%, #4E3AFF 50%, #9D00FF 100%)';
-    const fillBorder = isMax ? '1px solid rgba(78,58,255,0.3)' : '1px solid rgba(255,255,255,0.2)';
+    const progressGradient = 'var(--c-gradient-progress, linear-gradient(90deg, var(--c-secondary) 0%, var(--c-accent, var(--c-primary)) 50%, var(--c-primary) 100%))';
+    const fillBorder = '1px solid var(--c-primary-20)';
     const fillShadow = '0 2px 4px rgba(0,0,0,0.1)';
-    const glow = '0 0 15px rgba(78, 58, 255, 0.4)';
     const trackShadow = 'inset 0 1px 3px rgba(0,0,0,0.1)';
 
-    const progressFill = isMax
-        ? { backgroundImage: progressGradient, backgroundSize: 'cover' as const, boxShadow: [fillShadow, isMaxDark ? glow : ''].filter(Boolean).join(', ') }
-        : { backgroundColor: 'var(--c-primary)' };
+    const progressFill = {
+        backgroundImage: progressGradient,
+        backgroundSize: 'cover' as const,
+        boxShadow: fillShadow
+    };
     const titleSize = fontScale === 'large' ? 'text-[2.4rem]' : 'text-[2rem]';
     const percentSize = fontScale === 'large' ? 'text-[1.8rem]' : 'text-[1.4rem]';
     const labelSize = fontScale === 'large' ? 'text-[0.8125rem]' : 'text-[0.625rem]';
@@ -144,7 +144,7 @@ export const RhythmView: React.FC<RhythmViewProps> = ({
                     <div className="relative z-10 flex items-start justify-between gap-4">
                         <Sparkles size={fontScale === 'large' ? "2rem" : "1.5rem"} className="text-white group-hover:rotate-12 transition-transform shrink-0" />
                         <div className={`${labelSize} font-black uppercase tracking-[2px] text-white/50 text-right mt-1 max-w-[65%] leading-tight`}>
-                            Индивидуальный расчет
+                            Рассчитано для тебя
                         </div>
                     </div>
 

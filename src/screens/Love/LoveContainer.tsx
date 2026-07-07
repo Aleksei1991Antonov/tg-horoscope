@@ -23,46 +23,59 @@ const ZODIAC_EMOJI: Record<string, string> = {
 };
 
 export const LoveContainer: React.FC<LoveContainerProps> = ({ zodiacName, fontScale, onSetBackHandler, resolvedTheme }) => {
+    const [loveZodiacName, setLoveZodiacName] = useState<string>(() => {
+        return localStorage.getItem('user_love_zodiac_name') || zodiacName;
+    });
+
     const [partnerName, setPartnerName] = useState<string | undefined>(() => {
         return localStorage.getItem('user_partner_choice') || undefined;
     });
 
-    const [isSelecting, setIsSelecting] = useState(false);
+    const [selectingRole, setSelectingRole] = useState<'user' | 'partner' | null>(null);
 
     const [yearOffset, setYearOffset] = useState(0);
 
     useEffect(() => {
+        localStorage.setItem('user_love_zodiac_name', loveZodiacName);
+    }, [loveZodiacName]);
+
+    useEffect(() => {
         if (partnerName) {
             localStorage.setItem('user_partner_choice', partnerName);
-            window.WebApp?.DeviceStorage?.setItem('user_partner_choice', partnerName);
         }
     }, [partnerName]);
 
     useEffect(() => {
-        onSetBackHandler(isSelecting ? () => setIsSelecting(false) : null);
-    }, [isSelecting, onSetBackHandler]);
+        onSetBackHandler(selectingRole ? () => setSelectingRole(null) : null);
+    }, [selectingRole, onSetBackHandler]);
 
     const currentYear = new Date().getFullYear() + yearOffset;
 
     const data = useMemo(() => {
-        const weeklyForecast = LoveEngine.getWeeklyForecast(zodiacName, partnerName);
-        const monthlyForecast = LoveEngine.getMonthlyForecast(zodiacName, partnerName);
-        const yearlyForecast = LoveEngine.getYearlyForecast(zodiacName, partnerName, yearOffset);
+        const weeklyForecast = LoveEngine.getWeeklyForecast(loveZodiacName, partnerName);
+        const monthlyForecast = LoveEngine.getMonthlyForecast(loveZodiacName, partnerName);
+        const yearlyForecast = LoveEngine.getYearlyForecast(loveZodiacName, partnerName, yearOffset);
         const synergyPercent = partnerName
-            ? LoveEngine.getBaseSynergy(zodiacName, partnerName)
+            ? LoveEngine.getBaseSynergy(loveZodiacName, partnerName)
             : 0;
 
         return { weeklyForecast, monthlyForecast, yearlyForecast, synergyPercent };
-    }, [zodiacName, partnerName, yearOffset]);
+    }, [loveZodiacName, partnerName, yearOffset]);
 
     const handleYearPrev = () => setYearOffset(o => o - 1);
     const handleYearNext = () => setYearOffset(o => o + 1);
 
-    const handleSelectPartner = (name: string) => {
+    const handleSelectZodiac = (name: string) => {
         void triggerSuccessHaptic();
-        setPartnerName(name);
-        setIsSelecting(false);
+        if (selectingRole === 'user') {
+            setLoveZodiacName(name);
+        } else {
+            setPartnerName(name);
+        }
+        setSelectingRole(null);
     };
+
+    const selectedName = selectingRole === 'user' ? loveZodiacName : (partnerName || '');
 
     const zodiacLabelSize = fontScale === 'large' ? 'text-[0.6875rem]' : 'text-[0.5625rem]';
     const emojiSize = fontScale === 'large' ? 'text-4xl' : 'text-3xl';
@@ -71,8 +84,8 @@ export const LoveContainer: React.FC<LoveContainerProps> = ({ zodiacName, fontSc
     return (
         <div className="relative w-full h-full">
             <LoveView
-                zodiacName={zodiacName}
-                zodiacEmoji={ZODIAC_EMOJI[zodiacName] || '✦'}
+                zodiacName={loveZodiacName}
+                zodiacEmoji={ZODIAC_EMOJI[loveZodiacName] || '✦'}
                 partnerZodiac={partnerName ? ZODIAC_EMOJI[partnerName] : undefined}
                 partnerZodiacName={partnerName || undefined}
                 synergyPercent={data.synergyPercent}
@@ -82,21 +95,25 @@ export const LoveContainer: React.FC<LoveContainerProps> = ({ zodiacName, fontSc
                 currentYear={currentYear}
                 onYearPrev={handleYearPrev}
                 onYearNext={handleYearNext}
+                onSelectUser={() => {
+                    void triggerSuccessHaptic();
+                    setSelectingRole('user');
+                }}
                 onSelectPartner={() => {
                     void triggerSuccessHaptic();
-                    setIsSelecting(true);
+                    setSelectingRole('partner');
                 }}
                 fontScale={fontScale}
                 resolvedTheme={resolvedTheme}
             />
 
-            {isSelecting && (
+            {selectingRole && (
                 <div className="fixed inset-0 z-[1000] flex items-end justify-center px-4 pb-10">
                     <div
                         className="absolute inset-0 bg-black/20 backdrop-blur-sm animate-in fade-in duration-300"
                         onClick={() => {
                             void triggerSuccessHaptic();
-                            setIsSelecting(false);
+                            setSelectingRole(null);
                         }}
                     />
 
@@ -105,18 +122,18 @@ export const LoveContainer: React.FC<LoveContainerProps> = ({ zodiacName, fontSc
                             {ALL_ZODIAC.map((name) => (
                                 <button
                                     key={name}
-                                    onClick={() => handleSelectPartner(name)}
+                                    onClick={() => handleSelectZodiac(name)}
                                     className={`
                                         flex flex-col items-center py-5 rounded-[24px] transition-all active:scale-95
-                                        ${name === partnerName
+                                        ${name === selectedName
                                         ? 'bg-[var(--c-primary-10)] shadow-inner'
                                         : 'hover:bg-[var(--c-surface)]'}
                                     `}
                                 >
-                                    <span className={`${emojiSize} mb-2 transition-transform ${name === partnerName ? 'scale-110' : ''}`}>
+                                    <span className={`${emojiSize} mb-2 transition-transform ${name === selectedName ? 'scale-110' : ''}`}>
                                         {ZODIAC_EMOJI[name]}
                                     </span>
-                                    <span className={`${zodiacLabelSize} font-bold uppercase tracking-tight ${name === partnerName ? 'text-[var(--c-text)]' : 'text-[var(--c-text-40)]'}`}>
+                                    <span className={`${zodiacLabelSize} font-bold uppercase tracking-tight ${name === selectedName ? 'text-[var(--c-text)]' : 'text-[var(--c-text-40)]'}`}>
                                         {name}
                                     </span>
                                 </button>

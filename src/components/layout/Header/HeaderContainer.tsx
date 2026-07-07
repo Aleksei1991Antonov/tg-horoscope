@@ -6,28 +6,28 @@ import { ZODIAC_LIST } from './constants';
 import { triggerSuccessHaptic } from '../../../utils/haptics';
 
 interface HeaderContainerProps {
-    onZodiacChange: (name: string) => void;
+    onZodiacChange: (zodiac: string) => void;
     currentZodiacName: string;
     fontScale: 'small' | 'medium' | 'large';
     setFontScale: (scale: 'small' | 'medium' | 'large') => void;
     onOpenTextSettings: () => void;
     onOpenKnowledge: () => void;
     onOpenLegalDoc: (doc: 'privacy' | 'terms') => void;
-    onSetBackHandler: (handler: (() => void) | null) => void;
+    onSetBackHandler: (handler: ((...args: never[]) => void) | null) => void;
 }
 
 export const HeaderContainer: React.FC<HeaderContainerProps> = ({
-                                                                    onZodiacChange,
-                                                                    currentZodiacName,
-                                                                    fontScale,
-                                                                    setFontScale,
-                                                                    onOpenTextSettings,
-                                                                    onOpenKnowledge,
-                                                                    onOpenLegalDoc,
-                                                                    onSetBackHandler
-                                                                }) => {
+                                                                         onZodiacChange,
+                                                                         currentZodiacName,
+                                                                         fontScale,
+                                                                         setFontScale,
+                                                                         onOpenTextSettings,
+                                                                         onOpenKnowledge,
+                                                                         onOpenLegalDoc,
+                                                                         onSetBackHandler
+                                                                     }) => {
     const [userName] = useState(() => {
-        const user = window.WebApp?.initDataUnsafe?.user;
+        const user = window.Telegram?.WebApp?.initDataUnsafe?.user;
         if (user) {
             return (user.username || user.first_name || "ГОСТЬ").toUpperCase();
         }

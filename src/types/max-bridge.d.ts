@@ -25,9 +25,17 @@ export interface WebAppBackButton {
 }
 
 export interface WebAppDeviceStorage {
-    // Изменяем на Promise-style, чтобы работал await и возвращался объект с value
     setItem: (key: string, value: string) => Promise<{ status: string }>;
     getItem: (key: string) => Promise<{ status: string; value: string | null }>;
+    removeItem: (key: string) => Promise<{ status: string }>;
+    clear: () => Promise<{ status: string }>;
+}
+
+export interface WebAppSecureStorage {
+    setItem: (key: string, value: string) => Promise<{ status: string }>;
+    getItem: (key: string) => Promise<{ status: string; value: string | null }>;
+    removeItem: (key: string) => Promise<{ status: string }>;
+    clear: () => Promise<{ status: string }>;
 }
 
 declare global {
@@ -52,6 +60,7 @@ declare global {
             HapticFeedback: WebAppHapticFeedback;
             BackButton: WebAppBackButton;
             DeviceStorage?: WebAppDeviceStorage;
+            SecureStorage?: WebAppSecureStorage;
             openLink: (url: string) => void;
             shareContent: (params: { text?: string; link?: string }) => Promise<{ status: string }>;
         };

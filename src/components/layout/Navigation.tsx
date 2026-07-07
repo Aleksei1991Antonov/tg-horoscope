@@ -1,21 +1,27 @@
 import React from 'react';
-import { Activity, Heart, CircleDot } from 'lucide-react';
+import { Activity, Heart, CircleDot, Star } from 'lucide-react';
 import { triggerSelectionHaptic } from '../../utils/haptics';
 
+const LOVE_TAB_ACCENT = '#FF1CAA';
+const LOVE_TAB_OPACITY = 0.8;
 const NAV_ITEMS = [
     { id: 'rhythm', label: 'Ритм', icon: Activity },
     { id: 'love', label: 'Любовь', icon: Heart },
+    { id: 'premium', label: 'Premium', icon: Star },
     { id: 'core', label: 'Core', icon: CircleDot },
 ];
 
 interface NavigationProps {
     activeTab: string;
     onTabChange: (id: string) => void;
-    // Добавляем пропс для контроля размера
     fontScale: 'small' | 'medium' | 'large';
+    theme: string;
+    onOpenPremium?: () => void;
 }
 
-export const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange, fontScale }) => {
+const isNova = (t: string) => t === 'nova-day' || t === 'nova-night';
+
+export const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange, fontScale, theme, onOpenPremium }) => {
 
     // Вычисляем высоту и размеры на основе масштаба
     const navHeight = fontScale === 'large' ? 'h-20' : 'h-16';
@@ -32,24 +38,36 @@ export const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange, 
                     const Icon = item.icon;
                     const isActive = activeTab === item.id;
 
+                    const isPremium = item.id === 'premium';
+
                     return (
                         <button
                             key={item.id}
                             onClick={() => {
                                 void triggerSelectionHaptic();
-                                onTabChange(item.id);
+                                if (isPremium) {
+                                    onOpenPremium?.();
+                                } else {
+                                    onTabChange(item.id);
+                                }
                             }}
                             className="relative flex flex-col items-center justify-center flex-1 transition-all duration-300 outline-none border-none bg-transparent cursor-pointer group"
                         >
                             {/* Эффект свечения */}
                             {isActive && (
-                                <div className="absolute -top-2 w-12 h-12 bg-[var(--c-primary-10)] blur-xl rounded-full" />
+                                <div className="absolute -top-2 w-12 h-12 blur-xl rounded-full"
+                                     style={{ backgroundColor: isPremium ? 'rgba(255,28,170,0.08)' : (item.id === 'love' ? (isNova(theme) ? 'var(--c-primary-10)' : 'rgba(255,28,170,0.08)') : 'var(--c-primary-10)') }} />
                             )}
 
                             {/* Иконка */}
-                            <div className={`relative z-10 mb-1 transition-all duration-300 ${
-                                isActive ? 'text-[var(--c-primary)] scale-110' : 'text-[var(--c-text-30)] group-hover:text-[var(--c-text-50)]'
-                            }`}>
+                            <div className="relative z-10 mb-1 transition-all duration-300"
+                                 style={{
+                                     color: isActive
+                                          ? (isPremium || item.id === 'love' ? (isNova(theme) ? 'var(--c-primary)' : LOVE_TAB_ACCENT) : 'var(--c-primary)')
+                                          : 'var(--c-text-30)',
+                                     transform: isActive ? 'scale(1.1)' : 'scale(1)',
+                                     opacity: isActive && (isPremium || item.id === 'love') ? (isNova(theme) ? 1 : LOVE_TAB_OPACITY) : 1
+                                 }}>
                                 <Icon
                                     size={iconSize}
                                     strokeWidth={isActive ? 2.5 : 2}
@@ -58,15 +76,23 @@ export const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange, 
 
                             {/* Текст */}
                             <span className={`relative z-10 uppercase tracking-[0.15em] transition-all duration-300 ${textSize} ${
-                                isActive ? 'text-[var(--c-primary)] font-semibold opacity-100' : 'text-[var(--c-text-40)] font-bold opacity-60'
-                            }`}>
+                                isActive ? 'font-semibold' : 'text-[var(--c-text-40)] font-bold opacity-60'
+                            }`}
+                                  style={isActive ? {
+                                      color: isPremium || item.id === 'love' ? (isNova(theme) ? 'var(--c-primary)' : LOVE_TAB_ACCENT) : 'var(--c-primary)',
+                                      opacity: isPremium || item.id === 'love' ? (isNova(theme) ? 1 : LOVE_TAB_OPACITY) : 1
+                                  } : {}}>
                                 {item.label}
                             </span>
 
                             {/* Индикатор-полоска */}
-                            <div className={`absolute -bottom-1 w-5 h-0.5 rounded-full transition-all duration-300 ${
-                                isActive ? 'bg-[var(--c-primary)] opacity-100' : 'bg-transparent opacity-0'
-                            }`} />
+                            <div className="absolute -bottom-1 w-5 h-0.5 rounded-full transition-all duration-300"
+                                 style={{
+                                     backgroundColor: isActive
+                                          ? (isPremium || item.id === 'love' ? (isNova(theme) ? 'var(--c-primary)' : LOVE_TAB_ACCENT) : 'var(--c-primary)')
+                                         : 'transparent',
+                                     opacity: isActive ? (isPremium || item.id === 'love' ? (isNova(theme) ? 1 : LOVE_TAB_OPACITY) : 1) : 0
+                                 }} />
                         </button>
                     );
                 })}

@@ -5,7 +5,7 @@
     src: url("./assets/fonts/Max_Sans_Light.woff2") format("woff2");
     font-weight: 300;
     font-style: normal;
-    font-display: swap;
+    font-display: optional;
 }
 
 @font-face {
@@ -13,7 +13,7 @@
     src: url("./assets/fonts/Max_Sans_Light_Italic.woff2") format("woff2");
     font-weight: 300;
     font-style: italic;
-    font-display: swap;
+    font-display: optional;
 }
 
 @font-face {
@@ -21,7 +21,7 @@
     src: url("./assets/fonts/Max_Sans_Regular.woff2") format("woff2");
     font-weight: 400;
     font-style: normal;
-    font-display: swap;
+    font-display: optional;
 }
 
 @font-face {
@@ -29,7 +29,7 @@
     src: url("./assets/fonts/Max_Sans_Italic.woff2") format("woff2");
     font-weight: 400;
     font-style: italic;
-    font-display: swap;
+    font-display: optional;
 }
 
 @font-face {
@@ -37,7 +37,7 @@
     src: url("./assets/fonts/Max_Sans_Medium.woff2") format("woff2");
     font-weight: 500;
     font-style: normal;
-    font-display: swap;
+    font-display: optional;
 }
 
 @font-face {
@@ -45,7 +45,7 @@
     src: url("./assets/fonts/Max_Sans_Medium_Italic.woff2") format("woff2");
     font-weight: 500;
     font-style: italic;
-    font-display: swap;
+    font-display: optional;
 }
 
 @font-face {
@@ -53,7 +53,7 @@
     src: url("./assets/fonts/Max_Sans_DemiBold.woff2") format("woff2");
     font-weight: 600;
     font-style: normal;
-    font-display: swap;
+    font-display: optional;
 }
 
 @font-face {
@@ -61,7 +61,7 @@
     src: url("./assets/fonts/Max_Sans_DemiBold_Italic.woff2") format("woff2");
     font-weight: 600;
     font-style: italic;
-    font-display: swap;
+    font-display: optional;
 }
 
 @font-face {
@@ -69,7 +69,7 @@
     src: url("./assets/fonts/Max_Sans_Bold.woff2") format("woff2");
     font-weight: 700;
     font-style: normal;
-    font-display: swap;
+    font-display: optional;
 }
 
 @font-face {
@@ -77,7 +77,7 @@
     src: url("./assets/fonts/Max_Sans_Bold_Italic.woff2") format("woff2");
     font-weight: 700;
     font-style: italic;
-    font-display: swap;
+    font-display: optional;
 }
 
 @theme {
@@ -189,6 +189,7 @@ html {
   --c-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
 
   --c-gradient-brand: linear-gradient(90deg, #00C2FF 0%, #4E3AFF 50%, #9D00FF 100%);
+  --c-gradient-progress: linear-gradient(90deg, #00C2FF 0%, #4E3AFF 50%, #9D00FF 100%);
   --bg-accent-cta: linear-gradient(90deg, #00C2FF 0%, #4E3AFF 50%, #9D00FF 100%);
   --text-gradient-accent: linear-gradient(90deg, #00BFFF, #471AFF);
 
@@ -357,10 +358,145 @@ html {
   --c-shadow: 0 25px 50px -12px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.03);
 
   --c-gradient-brand: linear-gradient(90deg, #00C2FF 0%, #4E3AFF 50%, #9D00FF 100%);
+  --c-gradient-progress: linear-gradient(90deg, #00C2FF 0%, #4E3AFF 50%, #9D00FF 100%);
   --bg-accent-cta: linear-gradient(90deg, #00C2FF 0%, #4E3AFF 50%, #9D00FF 100%);
   --text-gradient-accent: linear-gradient(90deg, #00BFFF, #9500FF);
 
   color-scheme: light dark;
+}
+
+/* ========== NOVA: Светлая (NOVA День) ========== */
+[data-theme="nova-day"] {
+  --c-bg: #FFF5F9;
+  --c-bg-60: rgba(255,245,249,0.6);
+  --c-bg-80: rgba(255,245,249,0.8);
+  --c-bg-85: rgba(255,245,249,0.85);
+  --c-bg-90: rgba(255,245,249,0.9);
+
+  --c-primary: #FF1CAA;
+  --c-primary-10: rgba(255,28,170,0.1);
+  --c-primary-20: rgba(255,28,170,0.2);
+  --c-primary-40: rgba(255,28,170,0.4);
+  --c-primary-50: rgba(255,28,170,0.5);
+  --c-primary-60: rgba(255,28,170,0.6);
+  --c-primary-80: rgba(255,28,170,0.8);
+
+  --c-secondary: #FF8DCC;
+  --c-secondary-10: rgba(255,141,204,0.1);
+  --c-secondary-20: rgba(255,141,204,0.2);
+  --c-secondary-40: rgba(255,141,204,0.4);
+  --c-secondary-50: rgba(255,141,204,0.5);
+  --c-secondary-60: rgba(255,141,204,0.6);
+  --c-secondary-80: rgba(255,141,204,0.8);
+
+  --c-accent: #FF4DB8;
+  --c-accent-10: rgba(255,77,184,0.1);
+  --c-accent-20: rgba(255,77,184,0.2);
+  --c-accent-40: rgba(255,77,184,0.4);
+  --c-accent-50: rgba(255,77,184,0.5);
+  --c-accent-60: rgba(255,77,184,0.6);
+  --c-accent-80: rgba(255,77,184,0.8);
+
+  --c-gradient-brand: linear-gradient(90deg, #FF1CAA 0%, #FF4DB8 50%, #FF8DCC 100%);
+  --c-gradient-main: radial-gradient(circle at 50% 0%, rgba(255,28,170,0.10) 0%, transparent 60%),
+                     linear-gradient(145deg, #FFF5F9 0%, #FFEAF4 50%, #FFDFEF 100%);
+  --c-gradient-surface: linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(255,234,244,0.4) 100%);
+
+  --c-text: #2C1220;
+  --c-text-5: rgba(44,18,32,0.05);
+  --c-text-10: rgba(44,18,32,0.1);
+  --c-text-20: rgba(44,18,32,0.2);
+  --c-text-30: rgba(44,18,32,0.3);
+  --c-text-40: rgba(44,18,32,0.4);
+  --c-text-45: rgba(44,18,32,0.45);
+  --c-text-50: rgba(44,18,32,0.5);
+  --c-text-60: rgba(44,18,32,0.6);
+  --c-text-70: rgba(44,18,32,0.7);
+  --c-text-80: rgba(44,18,32,0.8);
+  --c-text-90: rgba(44,18,32,0.9);
+  --c-text-95: rgba(44,18,32,0.95);
+
+  --c-border: rgba(255,28,170,0.08);
+  --c-surface: rgba(255,255,255,0.75);
+  --c-surface-elevated: rgba(255,255,255,0.92);
+  --c-surface-glass: rgba(255,245,249,0.85);
+  --c-surface-raise: rgba(255,28,170,0.04);
+  --c-fill: rgba(255,28,170,0.05);
+  --c-overlay: rgba(44,18,32,0.25);
+  --c-shadow: 0 25px 60px -12px rgba(255,28,170,0.12);
+
+  --bg-accent-cta: linear-gradient(135deg, #FF1CAA 0%, #FF4DB8 50%, #FF8DCC 100%);
+  --text-gradient-accent: linear-gradient(90deg, #FF1CAA, #FF4DB8);
+
+  color-scheme: light dark;
+}
+
+/* ========== NOVA: Тёмная (NOVA Ночь) ========== */
+[data-theme="nova-night"] {
+  --c-bg: #140A12;
+  --c-bg-60: rgba(20,10,18,0.6);
+  --c-bg-80: rgba(20,10,18,0.8);
+  --c-bg-85: rgba(20,10,18,0.85);
+  --c-bg-90: rgba(20,10,18,0.9);
+
+  --c-primary: #FF4DB8;
+  --c-primary-10: rgba(255,77,184,0.1);
+  --c-primary-20: rgba(255,77,184,0.2);
+  --c-primary-40: rgba(255,77,184,0.4);
+  --c-primary-50: rgba(255,77,184,0.5);
+  --c-primary-60: rgba(255,77,184,0.6);
+  --c-primary-80: rgba(255,77,184,0.8);
+
+  --c-secondary: #FF8DCC;
+  --c-secondary-10: rgba(255,141,204,0.1);
+  --c-secondary-20: rgba(255,141,204,0.2);
+  --c-secondary-40: rgba(255,141,204,0.4);
+  --c-secondary-50: rgba(255,141,204,0.5);
+  --c-secondary-60: rgba(255,141,204,0.6);
+  --c-secondary-80: rgba(255,141,204,0.8);
+
+  --c-accent: #FF1CAA;
+  --c-accent-10: rgba(255,28,170,0.1);
+  --c-accent-20: rgba(255,28,170,0.2);
+  --c-accent-40: rgba(255,28,170,0.4);
+  --c-accent-50: rgba(255,28,170,0.5);
+  --c-accent-60: rgba(255,28,170,0.6);
+  --c-accent-80: rgba(255,28,170,0.8);
+
+  --c-gradient-brand: linear-gradient(90deg, #FF1CAA 0%, #FF4DB8 50%, #FF8DCC 100%);
+  --c-gradient-main: radial-gradient(circle at 50% 0%, rgba(255,77,184,0.12) 0%, transparent 60%),
+                     radial-gradient(circle at 100% 0%, rgba(255,28,170,0.15) 0%, transparent 50%),
+                     radial-gradient(circle at 0% 100%, rgba(255,77,184,0.10) 0%, transparent 50%),
+                     linear-gradient(180deg, #140A12 0%, #1C0E18 100%);
+  --c-gradient-surface: linear-gradient(180deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%);
+
+  --c-text: #F5EDED;
+  --c-text-5: rgba(245,237,237,0.05);
+  --c-text-10: rgba(245,237,237,0.1);
+  --c-text-20: rgba(245,237,237,0.2);
+  --c-text-30: rgba(245,237,237,0.3);
+  --c-text-40: rgba(245,237,237,0.4);
+  --c-text-45: rgba(245,237,237,0.45);
+  --c-text-50: rgba(245,237,237,0.5);
+  --c-text-60: rgba(245,237,237,0.6);
+  --c-text-70: rgba(245,237,237,0.7);
+  --c-text-80: rgba(245,237,237,0.8);
+  --c-text-90: rgba(245,237,237,0.9);
+  --c-text-95: rgba(245,237,237,0.95);
+
+  --c-border: rgba(255,255,255,0.04);
+  --c-surface: rgba(255,255,255,0.04);
+  --c-surface-elevated: rgba(255,255,255,0.06);
+  --c-surface-glass: rgba(20,10,18,0.5);
+  --c-surface-raise: rgba(255,77,184,0.04);
+  --c-fill: rgba(255,77,184,0.05);
+  --c-overlay: rgba(0,0,0,0.6);
+  --c-shadow: 0 25px 50px -12px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.02);
+
+  --bg-accent-cta: linear-gradient(135deg, #FF1CAA 0%, #FF4DB8 50%, #FF8DCC 100%);
+  --text-gradient-accent: linear-gradient(90deg, #FF4DB8, #FF1CAA);
+
+  color-scheme: dark;
 }
 
 @layer base {

@@ -4,7 +4,7 @@ const fs = require('fs');
 
 const root = __dirname;
 const dist = path.join(root, 'dist');
-const repoUrl = 'https://github.com/Aleksei1991Antonov/horoscope.git';
+const repoUrl = 'https://github.com/Aleksei1991Antonov/tg-horoscope.git';
 const tmpDir = path.join(root, '__gh_pages_tmp');
 
 // Clean temp
