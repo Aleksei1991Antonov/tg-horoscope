@@ -506,7 +506,7 @@ export const NOVAPremiumView: React.FC<NOVAPremiumViewProps> = ({ fontScale, res
                 </div>
 
                 <div className="text-center pb-4">
-                    <a href="https://max.ru/u/f9LHodD0cOK4fmx7VhB9N-SnVgUtXp7eSCDpfv4JBwDGVVxz2TUc5SaRQ08" target="_blank" rel="noopener noreferrer" className={`${ls_} font-medium text-[var(--c-primary)] opacity-50 hover:opacity-100 transition-opacity`}>Помощь и поддержка</a>
+                    <a href="https://t.me/antonovka38" target="_blank" rel="noopener noreferrer" className={`${ls_} font-medium text-[var(--c-primary)] opacity-50 hover:opacity-100 transition-opacity`}>Помощь и поддержка</a>
                 </div>
             </div>
 
