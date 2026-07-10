@@ -1,5 +1,5 @@
 import React, { memo, useState } from 'react';
-import { Trash2, MoonStar, Sparkles, Sun, Moon, Lock, Monitor } from 'lucide-react';
+import { Trash2, MoonStar, Sparkles, Sun, Moon, Monitor } from 'lucide-react';
 import { triggerSuccessHaptic } from '../../../../utils/haptics';
 
 const LIGHT_TO_DARK: Record<string, string> = {
@@ -230,13 +230,6 @@ export const AppearanceSettingsView: React.FC<AppearanceSettingsViewProps> = mem
                     >
                         <Trash2 size={16} />
                         <span className="text-[0.75rem] font-black uppercase tracking-widest">Удалить аккаунт</span>
-                    </button>
-                    <button
-                        onClick={() => { localStorage.setItem('force_lock_screen', 'true'); window.location.reload(); }}
-                        className="w-full p-4 rounded-2xl bg-[var(--c-fill)] border border-[var(--c-border)] flex items-center justify-center gap-2 text-[var(--c-text-50)] active:opacity-60 transition-colors"
-                    >
-                        <Lock size={16} />
-                        <span className="text-[0.75rem] font-black uppercase tracking-widest">Тест блокировки</span>
                     </button>
                 </div>
 
