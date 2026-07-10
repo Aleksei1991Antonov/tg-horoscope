@@ -11,7 +11,6 @@ import { TermsOfService } from './components/layout/Header/Menu/Legal/TermsOfSer
 import { ZodiacModal } from './components/layout/Header/ZodiacModal';
 import { AppearanceSettingsView } from './components/layout/Header/Menu/AppearanceSettingsView';
 import { NOVAPremiumView } from './components/layout/Header/Menu/NOVAPremiumView';
-import LockScreen from './components/LockScreen';
 import { RhythmKnowledgeView } from './screens/Knowledge/RhythmKnowledgeView';
 
 import { triggerSuccessHaptic, triggerSelectionHaptic } from './utils/haptics';
@@ -46,13 +45,9 @@ document.documentElement.dataset.theme = initResolved;
 const metaCs = document.querySelector<HTMLMetaElement>('meta[name="color-scheme"]');
 if (metaCs) metaCs.content = initSystemDark ? 'dark' : 'light';
 
-const SUBSCRIPTION_CHANNEL_URL = 'https://t.me/horoscope_nova';
-
 const App: React.FC = () => {
     const [activeTab, setActiveTab] = useState('rhythm');
     const [isStorageLoaded, setIsStorageLoaded] = useState(false);
-    const [accessState, setAccessState] = useState<'granted' | 'denied'>('granted');
-    const [isRetrying, setIsRetrying] = useState(false);
 
     const [selectedZodiac, setSelectedZodiac] = useState<string>(() => {
         const saved = localStorage.getItem('user_zodiac_index');
@@ -194,87 +189,6 @@ const App: React.FC = () => {
         localStorage.setItem('app-font-scale', fontScale);
     }, [fontScale]);
 
-    const checkSubscriptionAccess = useCallback(async () => {
-        if (typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('lock')) {
-            setAccessState('denied');
-            return;
-        }
-
-        if (storage.getItem('force_lock_screen') === 'true') {
-            storage.removeItem('force_lock_screen');
-            setAccessState('denied');
-            return;
-        }
-
-        if (storage.getItem('has_astro_access') === 'true') {
-            return;
-        }
-
-        const userId = tg?.initDataUnsafe?.user?.id;
-        if (!userId) {
-            return;
-        }
-
-        try {
-            const res = await fetch(`https://functions.yandexcloud.net/d4enor9kt9ttaemtlj0p?user_id=${userId}`);
-            const data = await res.json();
-            if (data.subscribed) {
-                storage.setItem('has_astro_access', 'true');
-            } else {
-                setAccessState('denied');
-            }
-        } catch {
-        }
-    }, []);
-
-    const retryTimestampsRef = useRef<number[]>([]);
-
-    const isRateLimited = (): boolean => {
-        const now = Date.now();
-        const recent = retryTimestampsRef.current.filter(t => now - t < 60000);
-        retryTimestampsRef.current = recent;
-        return recent.length >= 3;
-    };
-
-    const handleRetryAccess = useCallback(() => {
-        if (isRetrying) return;
-        if (isRateLimited()) return;
-
-        retryTimestampsRef.current.push(Date.now());
-
-        const doCheck = async () => {
-            setIsRetrying(true);
-            storage.removeItem('has_astro_access');
-            try { sessionStorage.removeItem('has_astro_access'); } catch {}
-
-            const userId = tg?.initDataUnsafe?.user?.id;
-            if (!userId) {
-                setAccessState('granted');
-                setIsRetrying(false);
-                return;
-            }
-
-            try {
-                const res = await fetch(`https://functions.yandexcloud.net/d4enor9kt9ttaemtlj0p?user_id=${userId}`);
-                const data = await res.json();
-                if (data.subscribed) {
-                    storage.setItem('has_astro_access', 'true');
-                    setAccessState('granted');
-                }
-            } catch {
-                setAccessState('granted');
-            }
-
-            setIsRetrying(false);
-        };
-
-        void doCheck();
-    }, [isRetrying]);
-
-    useEffect(() => {
-        void checkSubscriptionAccess();
-    }, [checkSubscriptionAccess]);
-
     const applyFallbackData = useCallback(() => {
         const localIdx = localStorage.getItem('user_zodiac_index');
         if (localIdx) {
@@ -313,17 +227,6 @@ const App: React.FC = () => {
     }, [activeTab]);
 
     if (!isStorageLoaded) return <div className="h-screen bg-[var(--c-bg)]" />;
-
-    if (accessState === 'denied') {
-        return (
-            <LockScreen
-                channelUrl={SUBSCRIPTION_CHANNEL_URL}
-                fontScale={fontScale}
-                isRetrying={isRetrying}
-                onRetry={handleRetryAccess}
-            />
-        );
-    }
 
     if (isTextSettingsOpen) {
         return (
